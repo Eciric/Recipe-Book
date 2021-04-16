@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.card {
+  box-shadow: 5px 5px 15px rgba(0,0,0, 0.5);
+}
+
+.form-control {
+  width: 70%;
+  margin: 0 auto;
+  text-indent:25px;
+}
+
+#inputEmail {
+  background-image:url(./images/envelope.png); 
+  background-repeat: no-repeat; 
+  background-size: 21px 21px;
+  background-position: 8px 16px;
+}
+
+#inputUsername {
+  background-image:url(./images/user.png); 
+  background-repeat: no-repeat; 
+  background-size: 21px 21px;
+  background-position: 8px 16px;
+}
+
+#inputPassword {
+  background-image:url(./images/password.png); 
+  background-repeat: no-repeat; 
+  background-size: 21px 21px;
+  background-position: 8px 16px;
+}
