@@ -2,7 +2,7 @@ package res.recipebook.Security.JWT;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import res.recipebook.Security.Services.UserDetailsImpl;
@@ -12,7 +12,9 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
+    @Value("${RecipeBook.app.jwtSecret}")
     private String jwtSecret;
+    @Value("${RecipeBook.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
