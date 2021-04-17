@@ -13,17 +13,17 @@ const Register = () => {
                         <input type="email" className="form-control" id="inputEmail" placeholder="email@email.com..."/>
                     </div>
      
-                    <div className="form-group">
+                    <div className="form-group my-2">
                         <label className="my-1">Username</label>
                         <input type="text" className="form-control" id="inputUsername" placeholder="A nice username..."/>
                     </div>
      
-                    <div className="form-group">
+                    <div className="form-group my-2">
                         <label className="my-1">Password</label>
                         <input type="password" className="form-control" id="inputPassword" placeholder="A secure password..."/>
                     </div>
                     <br></br>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Create account!</button>
                     </form>
                 </div>
             </div>
