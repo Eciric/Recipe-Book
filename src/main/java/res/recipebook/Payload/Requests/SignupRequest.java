@@ -3,11 +3,12 @@ package res.recipebook.Payload.Requests;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+import java.util.Set;
+
+@Getter @Setter
 public class SignupRequest {
     private String username;
     private String email;
-    private String role;
+    private Set<String> role;
     private String password;
 }

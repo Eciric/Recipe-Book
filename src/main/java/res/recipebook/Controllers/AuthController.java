@@ -8,17 +8,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import res.recipebook.Models.ERole;
+import res.recipebook.Models.Role;
 import res.recipebook.Models.User;
 import res.recipebook.Payload.Requests.LoginRequest;
 import res.recipebook.Payload.Requests.SignupRequest;
 import res.recipebook.Payload.Responses.JwtResponse;
 import res.recipebook.Payload.Responses.MessageResponse;
+import res.recipebook.Repositories.RoleRepository;
 import res.recipebook.Repositories.UserRepository;
 import res.recipebook.Security.JWT.JwtUtils;
 import res.recipebook.Security.Services.UserDetailsImpl;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @CrossOrigin(origins="*")
@@ -30,6 +37,9 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -46,14 +56,16 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String role = "ROLE_USER";
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(
                 jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                role
+                roles
         ));
     }
 
@@ -68,9 +80,33 @@ public class AuthController {
         }
 
         Timestamp date_created = Timestamp.from(Instant.now());
-        String role = "ROLE_USER";
-        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), signupRequest.getPassword(), date_created ,role);
 
+        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), signupRequest.getPassword(), date_created);
+        Set<String> strRoles = signupRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    default:
+                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                }
+            });
+        }
+
+        user.setRoles(roles);
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("Success: User registered successfully!"));
     }
