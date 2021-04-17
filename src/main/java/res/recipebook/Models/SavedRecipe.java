@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Table(name="Saved Recipes")
+@Table(name="Saved_Recipes")
 public class SavedRecipe {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
