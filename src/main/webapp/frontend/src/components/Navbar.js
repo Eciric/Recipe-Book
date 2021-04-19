@@ -1,7 +1,16 @@
 import {Link} from 'react-router-dom';
 import logo from '../images/book.png';
+import {logout} from '../services/authService';
 
-const Navbar = () => {
+const Navbar = ({user}) => {
+    // const [showAdminBoard, setShowAdminBoard] = useState(false);
+
+    // useEffect(() => {
+    //     if (user) {
+    //         setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+    //     }
+    //   }, []);
+
     return (
         <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -16,12 +25,29 @@ const Navbar = () => {
                         <li className="nav-item me-2">
                             <Link className="nav-link" to='/'>Home</Link>
                         </li>
-                        <li className="nav-item me-2">
-                            <Link className="nav-link" to='/login'>Login</Link>
-                        </li>
-                        <li className="nav-item me-2">
-                            <Link className="nav-link" to='/register'>Sign up</Link>
-                        </li>
+                        {!user && ( 
+                            <li className="nav-item me-2">
+                                <Link className="nav-link" to='/login'>Login</Link>
+                            </li>
+                        )}
+
+                        {!user && (
+                            <li className="nav-item me-2">
+                                <Link className="nav-link" to='/register'>Sign up</Link>
+                            </li>
+                        )}
+
+                        {user && (
+                            <li className="nav-item me-2">
+                                <Link className="nav-link" to='/profile'>Profile</Link>
+                            </li>
+                        )}
+
+                        {user && (
+                            <li className="nav-item me-2">
+                                <a className="nav-link" href='/' onClick={logout}>Logout</a>
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>
