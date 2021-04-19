@@ -34,10 +34,16 @@ code {
   margin: 0 auto;
 }
 
+.card-header {
+  border-bottom-color: #683ed1;
+}
+
 .form-control {
   max-width: 50%;
   margin: 0 auto;
-  text-indent:25px;
+  padding-left: 40px;
+  border-color: #683ed1;
+  border-width: 1px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -48,9 +54,9 @@ code {
   }
   
   .form-control {
-    max-width: 85%;
+    max-width: 93% !important;
     margin: 0 auto;
-    text-indent:25px;
+    padding-left: 40px;
   }
 }
 
@@ -64,14 +70,16 @@ code {
   .form-control {
     max-width: 75%;
     margin: 0 auto;
-    text-indent:25px;
+    padding-left: 40px;
   }
 }
+
 #inputEmail {
   background-image:url(./images/envelope.png); 
   background-repeat: no-repeat; 
   background-size: 21px 21px;
   background-position: 8px 16px;
+
 }
 
 #inputUsername {
@@ -95,4 +103,15 @@ code {
 .logo {
   width: 60px;
   margin-top: -5px;
+}
+
+.error {
+  color: red;
+  font-size: 0.75rem;
+  text-align: left;
+}
+
+.alert {
+  max-width: 65%;
+  margin: 0 auto;
 }
