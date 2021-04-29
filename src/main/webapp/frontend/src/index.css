@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -16,8 +17,8 @@ code {
 .navbar {
   background-color: rgba(255, 255, 255, 0.5) !important;
 	box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .nav-link {
@@ -32,6 +33,8 @@ code {
   box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
   max-width: 70%;
   margin: 0 auto;
+  background-color: white;
+  margin-top: 6rem !important;
 }
 
 .card-header {
@@ -78,24 +81,30 @@ code {
   background-image:url(./images/envelope.png); 
   background-repeat: no-repeat; 
   background-size: 21px 21px;
-  background-position: 8px 16px;
+  background-position: 2% 55%;
 
 }
 
 #inputUsername {
-  background-image:url(./images/user.png); 
+  background-image:url(./images/usericon.png); 
   background-repeat: no-repeat; 
   background-size: 21px 21px;
-  background-position: 8px 16px;
+  background-position: 2% 55%;
 }
 
 #inputPassword {
   background-image:url(./images/password.png); 
   background-repeat: no-repeat; 
   background-size: 21px 21px;
-  background-position: 8px 16px;
+  background-position: 2% 55%;
 }
 
+#searchBar {
+  background-image:url(./images/search.png); 
+  background-repeat: no-repeat; 
+  background-size: 21px 21px;
+  background-position: 1.2% 55%;
+}
 .btn-primary {
   background-color: #683ed1;
 }
@@ -114,4 +123,118 @@ code {
 .alert {
   max-width: 65%;
   margin: 0 auto;
+}
+
+#profileContainer {
+  background-color: white;
+  box-shadow: 5px 5px 15px #683ed1;
+  text-align:center;
+}
+
+#profilePicture {
+  width: 200px;
+  height: 200px;
+  border: 2px solid rgba(104, 62, 209, 0.5) !important;
+  border-radius: 50%;
+  box-shadow: 2px 2px 15px #683ed1;
+}
+
+.profilePictureContainer {
+  position: relative;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.addProfilePictureContainer {
+  position: absolute;
+  top: 70%;
+  right: 10%;
+}
+
+#addProfilePictureIcon {
+  font-size: 2rem;
+  color: #a17ef8;
+}
+
+#backgroundIcon {
+  color:white;
+  font-size: 2rem;
+}
+
+#addProfilePictureIcon:hover {
+  color: darkviolet;
+  cursor: pointer;
+}
+
+
+.recipeList {
+  margin-top: 5rem;
+}
+
+.recipeTile img {
+  width: 350px;
+  height: 250px;
+  object-fit: cover;
+  filter: brightness(80%);
+  transition: 0.5s;
+}
+
+.recipeTile {
+  width: 350px;
+  height: 250px;
+  margin: 20px;
+  box-shadow: 2px 2px 15px #683ed1;;
+  border: 1px solid #683ed1;
+  position: relative;
+  transition: 0.5s;
+}
+
+.recipeTile:hover img {
+  filter:brightness(100%);
+}
+
+.recipeTile:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+
+}
+
+.recipeTile h1 {
+  color:white;
+  position: absolute;
+  z-index: 1;
+  vertical-align: center;
+  text-align: center;
+  top:50%;
+  left:50%;
+  transform: translateY(-50%) translateX(-50%);
+  text-shadow: 1px 1px 10px #a17ef8;
+  font-weight: 400;
+}
+
+.recipeTileCaption {
+  top:50%;
+  transform: translateY(-50%);
+}
+
+.row > * {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+footer {
+  background-color: #fafafa;
+  color: #683ed1;
+  bottom: 0 !important;
+  margin: 0 auto;
+  width: 100%;
+  position: absolute;
+  box-shadow: 0px -5px 15px #a17ef8;
+  height: 75px;
+}
+
+#root {
+  min-height: calc(100vh - 2px);
+  position: relative;
+  padding-bottom: 120px;
 }
