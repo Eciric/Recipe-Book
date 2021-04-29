@@ -16,6 +16,12 @@ const Login = () => {
         setUsername(e.target.value)
         if (e.target.value) {
             setUsernameError('');
+            e.target.style.border='1px solid #683ed1';
+        }
+
+        if (!e.target.value) {
+            setUsernameError('Username can\'t be empty!');
+            e.target.style.border='2px solid red';
         }
     };
 
@@ -23,7 +29,14 @@ const Login = () => {
         setPassword(e.target.value)
         if (e.target.value) {
             setPasswordError('');
+            e.target.style.border='1px solid #683ed1';
         }
+
+        if (!e.target.value) {
+            setPasswordError('Password can\'t be empty!');
+            e.target.style.border='2px solid red';
+        }
+
     };
 
     const handleLogin = (e) => {
