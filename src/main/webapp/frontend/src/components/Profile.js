@@ -2,6 +2,7 @@ import defaultImage from '../images/user.png';
 import {useEffect, useRef, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import logo from '../images/book.png';
+import authHeader from '../services/authHeader';
 
 const API_URL = 'http://localhost:8080/api/files/testUpload';
 
@@ -27,7 +28,8 @@ const Profile = () => {
             formData.append('file', file);
             fetch(API_URL, {
                 method: 'post',
-                body: formData
+                body: formData,
+                headers: authHeader()
             }).then(res => {
                 if (res.ok) {
                     const reader = new FileReader();
