@@ -3,14 +3,6 @@ import logo from '../images/book.png';
 import {logout} from '../services/authService';
 
 const Navbar = ({user}) => {
-    // const [showAdminBoard, setShowAdminBoard] = useState(false);
-
-    // useEffect(() => {
-    //     if (user) {
-    //         setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
-    //     }
-    //   }, []);
-
     return (
         <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -39,7 +31,7 @@ const Navbar = ({user}) => {
 
                         {user && (
                             <li className="nav-item me-2">
-                                <Link className="nav-link" to='/profile'>Profile</Link>
+                                <Link className="nav-link" to={'/profile/' + user.username}>Profile</Link>
                             </li>
                         )}
 
