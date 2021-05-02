@@ -26,13 +26,13 @@ function App() {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route exact path="/login">
+            <Route path="/login">
               <Login />
             </Route>
-            <Route exact path="/register">
+            <Route path="/register">
               <Register />
             </Route>
-            <Route exact path="/profile/:username">
+            <Route path="/profile/:username">
               <Profile />
             </Route>
           </Switch>

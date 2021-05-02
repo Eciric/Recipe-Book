@@ -3,15 +3,17 @@ package res.recipebook.Payload.Responses;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.File;
-
 @Getter @Setter
 public class FileResponse {
-    public File file;
-    public byte[] bytes;
+    private String filename;
+    private String fileDownloadUri;
+    private String fileType;
+    private Long size;
 
-    public FileResponse(File file, byte[] bytes) {
-        this.file = file;
-        this.bytes = bytes;
+    public FileResponse(String filename, String fileDownloadUri, String fileType, Long size) {
+        this.filename = filename;
+        this.fileDownloadUri = fileDownloadUri;
+        this.fileType = fileType;
+        this.size = size;
     }
 }
