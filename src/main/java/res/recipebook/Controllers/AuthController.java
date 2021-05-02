@@ -89,7 +89,7 @@ public class AuthController {
 
         Timestamp date_created = Timestamp.from(Instant.now());
 
-        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), passwordEncoder.encode(signupRequest.getPassword()), date_created);
+        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), passwordEncoder.encode(signupRequest.getPassword()), date_created, null);
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
