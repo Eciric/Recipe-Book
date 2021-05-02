@@ -21,6 +21,7 @@ public class User {
     private String email;
     private String password;
     private Timestamp date_created;
+    private String path_to_profile_pic;
 
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="user_roles",
@@ -28,10 +29,11 @@ public class User {
     inverseJoinColumns = @JoinColumn(name="role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String email, String password, Timestamp date_created) {
+    public User(String username, String email, String password, Timestamp date_created, String path_to_profile_pic) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.date_created = date_created;
+        this.path_to_profile_pic = path_to_profile_pic;
     }
 }
