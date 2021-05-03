@@ -82,7 +82,7 @@ const Login = () => {
                         <label className="my-1">Username</label>
                         <input 
                             type="text" 
-                            className="form-control" 
+                            className="form-control auth-control" 
                             id="inputUsername" 
                             placeholder="Your cool username..."
                             onChange={handleUsernameChange}
@@ -97,7 +97,7 @@ const Login = () => {
                         <label className="my-1">Password</label>
                         <input 
                             type="password" 
-                            className="form-control"
+                            className="form-control auth-control"
                             id="inputPassword" 
                             placeholder="Your secure password..."
                             onChange={handlePasswordChange}

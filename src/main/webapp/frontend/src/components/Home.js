@@ -81,7 +81,7 @@ const Home = () => {
         <div className='home'>
             <div className='searchBar'>
                 <form className="form-inline my-5">
-                    <input id='searchBar' className="form-control form-control-lg" type="search" placeholder="What are you looking for?" aria-label="Search"/>
+                    <input id='searchBar' className="form-control auth-control form-control-lg" type="search" placeholder="What are you looking for?" aria-label="Search"/>
                 </form>
             </div>
             <section className='recipeList'>

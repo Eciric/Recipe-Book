@@ -122,7 +122,7 @@ const Register = () => {
                         <label className="my-1">Email address</label>
                         <input 
                             type="email" 
-                            className="form-control" 
+                            className="form-control auth-control" 
                             id="inputEmail" 
                             placeholder="email@email.com..."
                             onChange={handleEmailChange}
@@ -137,7 +137,7 @@ const Register = () => {
                         <label className="my-1">Username</label>
                         <input 
                             type="text" 
-                            className="form-control" 
+                            className="form-control auth-control" 
                             id="inputUsername" 
                             placeholder="A nice username..."
                             onChange={handleUsernameChange}
@@ -153,7 +153,7 @@ const Register = () => {
                         <label className="my-1">Password</label>
                         <input 
                             type="password" 
-                            className="form-control" 
+                            className="form-control auth-control" 
                             id="inputPassword" 
                             placeholder="A secure password..."
                             onChange={handlePasswordChange}
