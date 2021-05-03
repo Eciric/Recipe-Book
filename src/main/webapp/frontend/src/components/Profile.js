@@ -101,7 +101,7 @@ const Profile = () => {
                }
                 
             </div>
-            <h1 className="display-4">{username}</h1>
+            <h1 className="display-4" style={{color:'#683ed1'}}>{username}</h1>
             <p>
                 Recipes shared: {0}
                 <br></br>
@@ -111,7 +111,7 @@ const Profile = () => {
 
             <hr className="my-5"></hr>
             <div className="container ">
-                <h1 className="display-4 text-center my-5">My recipes</h1>
+                <h1 className="display-4 text-center my-5" style={{color:'#683ed1'}}>My recipes</h1>
                 {userRecipes.length ? 
                     <div className="row justify-content-center mx-5 text-center padding">
                     <div className="col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4 my-2">
@@ -152,7 +152,12 @@ const Profile = () => {
                     </div>
                     </div>
                     :
-                    (<div>No recipes? Add some now!</div>)
+                    (<div className="mb-5">
+                        <p>No recipes? Add some now!</p>
+                        <a href='/recipecreator' className='my-1'>
+                            <button type="button" className="btn btn-primary">Create your first recipe!</button>
+                        </a>
+                    </div>)
                 }
                 
             </div>
