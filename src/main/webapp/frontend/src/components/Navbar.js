@@ -31,6 +31,12 @@ const Navbar = ({user}) => {
 
                         {user && (
                             <li className="nav-item me-2">
+                                <Link className="nav-link" to='/recipecreator'>Recipe Creator</Link>
+                            </li>
+                        )}
+                        
+                        {user && (
+                            <li className="nav-item me-2">
                                 <Link className="nav-link" to={'/profile/' + user.username}>Profile</Link>
                             </li>
                         )}
@@ -40,6 +46,7 @@ const Navbar = ({user}) => {
                                 <a className="nav-link" href='/' onClick={logout}>Logout</a>
                             </li>
                         )}
+
                     </ul>
                 </div>
             </div>
