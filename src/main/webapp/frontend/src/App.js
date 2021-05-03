@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Profile from './components/Profile';
 import Footer from './components/Footer';
+import RecipeCreator from './components/RecipeCreator';
 import {getCurrentUser} from './services/authService';
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
             </Route>
             <Route path="/profile/:username">
               <Profile />
+            </Route>
+            <Route path="/recipecreator">
+              <RecipeCreator />
             </Route>
           </Switch>
         </div>
