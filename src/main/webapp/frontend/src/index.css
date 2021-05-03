@@ -14,6 +14,10 @@ code {
     monospace;
 }
 
+.container {
+  padding: 0;
+}
+
 .navbar {
   background-color: rgba(255, 255, 255, 0.5) !important;
 	box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
@@ -41,10 +45,16 @@ code {
   border-bottom-color: #683ed1;
 }
 
-.form-control {
+.auth-control {
   max-width: 50%;
   margin: 0 auto;
   padding-left: 40px;
+  border-color: #683ed1;
+  border-width: 1px;
+}
+
+.form-control {
+  margin: 0 auto;
   border-color: #683ed1;
   border-width: 1px;
 }
@@ -56,7 +66,7 @@ code {
     margin: 0 auto;
   }
   
-  .form-control {
+  .auth-control {
     max-width: 93% !important;
     margin: 0 auto;
     padding-left: 40px;
@@ -70,7 +80,7 @@ code {
     margin: 0 auto;
   }
   
-  .form-control {
+  .auth-control {
     max-width: 75%;
     margin: 0 auto;
     padding-left: 40px;
@@ -82,7 +92,6 @@ code {
   background-repeat: no-repeat; 
   background-size: 21px 21px;
   background-position: 2% 55%;
-
 }
 
 #inputUsername {
@@ -237,4 +246,15 @@ footer {
   min-height: calc(100vh - 2px);
   position: relative;
   padding-bottom: 120px;
+}
+
+.recipeCreator {
+  background-color: white;
+  box-shadow: 5px 5px 15px #683ed1;
+  text-align:center;
+}
+
+#recipeName {
+  max-width: 40%;
+  margin: 0 auto;
 }
