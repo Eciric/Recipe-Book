@@ -258,3 +258,71 @@ footer {
   max-width: 40%;
   margin: 0 auto;
 }
+
+#recipeContent {
+  max-width: 75%;
+}
+
+.recipePictureContainer {
+  position: relative;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.addRecipePictureContainer {
+  position: absolute;
+  top: 87%;
+  right: 2%;
+}
+
+#recipePicture {
+  width: 400px;
+  height: 400px;
+  border: 2px dashed rgba(104, 62, 209) !important;
+}
+
+#addRecipePictureIcon {
+  font-size: 4rem;
+  color: #a17ef8;
+}
+
+#recipeBackgroundIcon {
+  color:white;
+  font-size: 4rem;
+}
+
+#addRecipePictureIcon:hover {
+  color: darkviolet;
+  cursor: pointer;
+}
+
+#recipeContent {
+  max-height: 500px;
+}
+
+label {
+  font-size: 1.2rem;
+  color: #683ed1;
+}
+
+.card-header {
+  color: #683ed1;
+}
+
+.btn-primary {
+  position: relative;
+  background-color: white;
+  font-size: 1em;
+  color:#683ed1;
+  padding: 0.75em 1.75em;
+  box-shadow: 0 0 0.75em 0 #683ed1;
+  transition: 0.5s;
+  text-shadow: 0 0 0.45em #a17ef8;
+}
+
+.btn-primary:hover {
+  background-color: #683ed1;
+  color:white;
+  padding: 0.75em 1.75em;
+  box-shadow: 0 0 1.5em 0 #683ed1;
+}
