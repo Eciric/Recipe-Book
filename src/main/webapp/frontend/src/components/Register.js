@@ -164,7 +164,7 @@ const Register = () => {
                         }
                     </div>
                     <br></br>
-                    <button type="submit" className="btn btn-primary" disabled={loading}>Create account!</button>
+                    <button type="submit" className="btn btn-primary my-3" disabled={loading}>Create account!</button>
                     </form>
 
                     {message.length > 0 && ( successful

@@ -108,7 +108,7 @@ const Login = () => {
                         }
                     </div>
                     <br></br>
-                    <button type="submit" className="btn btn-primary" disabled={loading}>Login!</button>
+                    <button type="submit" className="btn btn-primary my-3" disabled={loading}>Login!</button>
                     </form>
 
                     {message.length > 0 && ( successful
