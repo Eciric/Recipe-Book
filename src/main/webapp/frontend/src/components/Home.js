@@ -1,102 +1,63 @@
-import RecipeTile from './RecipeTile';
-import pancakes from '../images/pancakes.jpg';
-import brownies from '../images/brownies.jpg';
-import cookies from '../images/cookies.jpg';
-import opera from '../images/opera.jpg';
-import croissants from '../images/croissants.jpg';
-import lasagna from '../images/lasagna.jpg';
-import lemoncustard from '../images/lemoncustard.jpg';
-import pbchocolate from '../images/pbchocolate.jpg';
-import pizza from '../images/pizza.jpg';
-import poppyseedcake from '../images/poppyseedcake.jpg';
-import shawarma from '../images/shawarma.jpg';
-import walnutcake from '../images/walnutcake.jpg';
-
-//Temporary for designing, will be fetched from api later
-const recipes = [
-    {
-        id: 1,
-        title: 'Pancakes',
-        img: pancakes
-    },
-    {
-        id: 2,
-        title: 'Brownies',
-        img: brownies
-    },
-    {
-        id: 3,
-        title: 'Chocolate Cookies',
-        img: cookies
-    },
-    {
-        id: 4,
-        title: 'Opera Cake',
-        img: opera
-    },
-    {
-        id: 5,
-        title: 'Croissants',
-        img: croissants
-    },
-    {
-        id: 6,
-        title: 'Lasagna',
-        img: lasagna
-    },
-    {
-        id: 7,
-        title: 'Lemon Custard Pie',
-        img: lemoncustard
-    },
-    {
-        id: 8,
-        title: 'PB Chocolate Bars',
-        img: pbchocolate
-    },
-    {
-        id: 9,
-        title: 'Pizza',
-        img: pizza
-    },
-    {
-        id: 10,
-        title: 'Poppyseed Cake',
-        img: poppyseedcake
-    },
-    {
-        id: 11,
-        title: 'Shawarma',
-        img: shawarma
-    },
-    {
-        id: 12,
-        title: 'Walnut Cake',
-        img: walnutcake
-    }
-]
+import { useState, useEffect } from "react";
+import RecipeTile from "./RecipeTile";
+import { base64toBlob } from "../services/base64ToBlob";
+import { getAllRecipes } from "../services/recipeService";
 
 const Home = () => {
+    const [testRecipes, setTestRecipes] = useState([]);
+    useEffect(() => {
+        getAllRecipes()
+            .then((res) => {
+                return res.json();
+            })
+            .then((json) => {
+                const recipes = json.recipes;
+                let newRecipes = [];
+                recipes.forEach((recipe) => {
+                    newRecipes.push({
+                        id: recipe.recipeData.recipe_id,
+                        user_id: recipe.recipeData.user_id,
+                        title: recipe.recipeData.title,
+                        contents: recipe.recipeData.recipe_text,
+                        likes: recipe.recipeData.likes,
+                        date: recipe.recipeData.date_created,
+                        img: URL.createObjectURL(
+                            base64toBlob(recipe.image, "image/png")
+                        ),
+                    });
+                });
+                setTestRecipes(newRecipes);
+            });
+    }, []);
+
     return (
-        <div className='home'>
-            <div className='searchBar'>
+        <div className="home">
+            <div className="searchBar">
                 <form className="form-inline my-5">
-                    <input id='searchBar' className="form-control auth-control form-control-lg" type="search" placeholder="What are you looking for?" aria-label="Search"/>
+                    <input
+                        id="searchBar"
+                        className="form-control auth-control form-control-lg"
+                        type="search"
+                        placeholder="What are you looking for?"
+                        aria-label="Search"
+                    />
                 </form>
             </div>
-            <section className='recipeList'>
-                <div className='row justify-content-around'>
-                {
-                    recipes.map(recipe => {
-                    return (
-                        <RecipeTile title={recipe.title} img={recipe.img} key={recipe.id}/>
-                        )
-                    })
-                }
+            <section className="recipeList">
+                <div className="row justify-content-around">
+                    {testRecipes.map((recipe) => {
+                        return (
+                            <RecipeTile
+                                title={recipe.title}
+                                img={recipe.img}
+                                key={recipe.id}
+                            />
+                        );
+                    })}
                 </div>
-            </section>   
+            </section>
         </div>
     );
-}
+};
 
 export default Home;
