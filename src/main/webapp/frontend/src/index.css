@@ -34,11 +34,11 @@ code {
 }
 
 .card {
-  box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
-  max-width: 70%;
+  box-shadow: 0px 0px 15px 1px rgba(104, 62, 209, 0.9);
+  max-width: 63%;
   margin: 0 auto;
   background-color: white;
-  margin-top: 6rem !important;
+  margin-top: 3rem !important;
 }
 
 .card-header {
@@ -46,7 +46,7 @@ code {
 }
 
 .auth-control {
-  max-width: 50%;
+  max-width: 60%;
   margin: 0 auto;
   padding-left: 40px;
   border-color: #683ed1;
@@ -57,6 +57,7 @@ code {
   margin: 0 auto;
   border-color: #683ed1;
   border-width: 1px;
+  box-shadow: 0 0 5px 0 #683ed1;
 }
 
 @media only screen and (max-width: 768px) {
@@ -231,6 +232,12 @@ code {
   padding-right: 0;
 }
 
+.row {
+  width: 100% !important;
+  padding: 0;
+  margin: 0;
+}
+
 footer {
   background-color: #fafafa;
   color: #683ed1;
@@ -307,6 +314,11 @@ label {
 
 .card-header {
   color: #683ed1;
+  font-size: 1.25em;
+}
+
+.card-body {
+  padding: 0;
 }
 
 .btn-primary {
@@ -325,4 +337,8 @@ label {
   color:white;
   padding: 0.75em 1.75em;
   box-shadow: 0 0 1.5em 0 #683ed1;
+}
+
+.login-image {
+  border-right: 2px solid #683ed1;
 }
