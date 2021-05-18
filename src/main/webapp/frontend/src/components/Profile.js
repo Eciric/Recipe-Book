@@ -25,23 +25,7 @@ const Profile = () => {
 
     useEffect(() => {
         setLoading(true);
-        setUserRecipes([
-            {
-                id: 1,
-                title: "Pancakes",
-                img: pancakes,
-            },
-            {
-                id: 2,
-                title: "Brownies",
-                img: brownies,
-            },
-            {
-                id: 3,
-                title: "Chocolate Cookies",
-                img: cookies,
-            },
-        ]);
+        setUserRecipes([]);
         downloadProfilePicture()
             .then((res) => {
                 if (res.status === 200) {
