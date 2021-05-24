@@ -179,6 +179,10 @@ code {
 
 .recipeList {
   margin-top: 5rem;
+  flex: 1;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
 }
 
 .recipeTile img {
@@ -285,6 +289,7 @@ footer {
 #recipePicture {
   width: 400px;
   height: 400px;
+  object-fit: cover;
   border: 2px dashed rgba(104, 62, 209) !important;
 }
 
@@ -339,6 +344,20 @@ label {
   box-shadow: 0 0 1.5em 0 #683ed1;
 }
 
+.btn-primary:focus {
+  background-color: #6C2DC7 !important;
+  box-shadow: 0 0 2.5em 0 #6C2DC7 !important; 
+}
+
 .login-image {
   border-right: 2px solid #683ed1;
+}
+
+.spinnerContainer {
+  margin: 0 auto;
+  width: 100px;
+}
+
+.noRecipes {
+ text-align: center;
 }
