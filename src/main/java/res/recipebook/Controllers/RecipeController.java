@@ -46,4 +46,9 @@ public class RecipeController {
     public RecipeResponse getAllRecipes() {
         return recipeService.getAllRecipes();
     }
+
+    @PostMapping(value="/getAllUserRecipes", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public RecipeResponse getUserRecipes(@RequestParam(value="id") int id) {
+        return recipeService.getRecipesOfUser(id);
+    }
 }
