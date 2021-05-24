@@ -6,15 +6,15 @@ import {
     downloadProfilePicture,
     uploadProfilePicture,
 } from "../services/fileService";
+import { getAllUserRecipes } from "../services/recipeService";
 import Loader from "react-loader-spinner";
-import RecipeTile from "./RecipeTile";
-import pancakes from "../images/pancakes.jpg";
-import brownies from "../images/brownies.jpg";
-import cookies from "../images/cookies.jpg";
+import { RecipeList } from "./RecipeList";
+import { NoRecipes } from "./NoRecipes";
 
 const Profile = () => {
     const [errorMessage, setErrorMessage] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loadingProfile, setLoadingProfile] = useState(false);
+    const [loadingRecipes, setLoadingRecipes] = useState(false);
     const [profileUri, setProfileUri] = useState(defaultImage);
     const [userRecipes, setUserRecipes] = useState([]);
     const { username } = useParams();
@@ -24,8 +24,7 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        setLoading(true);
-        setUserRecipes([]);
+        setLoadingProfile(true);
         downloadProfilePicture()
             .then((res) => {
                 if (res.status === 200) {
@@ -35,11 +34,43 @@ const Profile = () => {
                 } else {
                     setProfileUri(defaultImage);
                 }
-                setLoading(false);
+                setLoadingProfile(false);
             })
             .catch((err) => {
                 setErrorMessage(err);
-                setLoading(false);
+                setLoadingProfile(false);
+            });
+    }, []);
+
+    useEffect(() => {
+        // setLoadingRecipes(true);
+        const user = JSON.parse(localStorage.getItem("user"));
+        setUserRecipes([]);
+        setLoadingRecipes(true);
+        let id = user.id;
+        getAllUserRecipes(id)
+            .then((res) => res.json())
+            .then((json) => {
+                const recipes = json.recipes;
+                let newRecipes = [];
+                recipes.forEach((recipe) => {
+                    newRecipes.push({
+                        id: recipe.recipeData.recipe_id,
+                        user_id: recipe.recipeData.user_id,
+                        title: recipe.recipeData.title,
+                        likes: recipe.recipeData.likes,
+                        date: recipe.recipeData.date_created,
+                        img: URL.createObjectURL(
+                            base64toBlob(recipe.image, "image/png")
+                        ),
+                    });
+                });
+                setLoadingRecipes(false);
+                setUserRecipes(newRecipes);
+            })
+            .catch((err) => {
+                setLoadingRecipes(false);
+                console.log(err);
             });
     }, []);
 
@@ -48,7 +79,7 @@ const Profile = () => {
         event.preventDefault();
         var file = event.target.files[0];
         if (file) {
-            setLoading(true);
+            setLoadingProfile(true);
             uploadProfilePicture(file)
                 .then((res) => {
                     if (res.ok) {
@@ -57,7 +88,7 @@ const Profile = () => {
                             "load",
                             function () {
                                 setProfileUri(reader.result);
-                                setLoading(false);
+                                setLoadingProfile(false);
                             },
                             false
                         );
@@ -69,7 +100,7 @@ const Profile = () => {
                 })
                 .catch((err) => {
                     setErrorMessage(err);
-                    setLoading(false);
+                    setLoadingProfile(false);
                 });
         }
     };
@@ -77,7 +108,7 @@ const Profile = () => {
     return (
         <div id="profileContainer" className="container my-5">
             <div className="profilePictureContainer ">
-                {loading ? (
+                {loadingProfile ? (
                     <Loader
                         type="ThreeDots"
                         color="#683ED1"
@@ -141,27 +172,11 @@ const Profile = () => {
                 >
                     My recipes
                 </h1>
-                {userRecipes.length ? (
-                    <div className="row justify-content-around">
-                        {userRecipes.map((recipe) => {
-                            let title = recipe.title;
-                            let img = recipe.img;
-                            return <RecipeTile title={title} img={img} />;
-                        })}
-                    </div>
-                ) : (
-                    <div className="mb-5">
-                        <p>No recipes? Add some now!</p>
-                        <a href="/recipecreator" className="my-1">
-                            <button
-                                type="button"
-                                className="btn btn-primary my-3"
-                            >
-                                Create your first recipe!
-                            </button>
-                        </a>
-                    </div>
-                )}
+                <RecipeList
+                    loading={loadingRecipes}
+                    recipes={userRecipes}
+                    noRecipesComponent={<NoRecipes />}
+                />
             </div>
 
             <br></br>
