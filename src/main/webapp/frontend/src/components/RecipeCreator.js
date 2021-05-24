@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { storeRecipe } from "../services/recipeService";
 import { useHistory } from "react-router-dom";
+import { isLoggedIn } from "../services/userService";
 
 const validateName = (name) => {
     return name.length > 2 && name.length < 25;
@@ -27,6 +28,13 @@ const RecipeCreator = () => {
     const [loading, setLoading] = useState(false);
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if (!isLoggedIn()) {
+            history.push("/login");
+            window.location.reload();
+        }
+    }, [history]);
 
     const onButtonClick = () => {
         inputFile.current.click();
