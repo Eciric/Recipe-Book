@@ -2,6 +2,8 @@ import authHeader from "../services/authHeader";
 
 const API_UPLOAD_URL = "http://localhost:8080/api/recipes/storeRecipe";
 const API_DOWNLOAD_ALL_URL = "http://localhost:8080/api/recipes/getAllRecipes";
+const API_GET_USER_RECIPES_URL =
+    "http://localhost:8080/api/recipes/getAllUserRecipes";
 
 export const storeRecipe = async (title, contents, image) => {
     let header = authHeader();
@@ -21,6 +23,16 @@ export const storeRecipe = async (title, contents, image) => {
 export const getAllRecipes = async () => {
     const res = await fetch(API_DOWNLOAD_ALL_URL, {
         method: "get",
+    });
+    return res;
+};
+
+export const getAllUserRecipes = async (id) => {
+    const formData = new FormData();
+    formData.append("id", id);
+    const res = await fetch(API_GET_USER_RECIPES_URL, {
+        method: "post",
+        body: formData,
     });
     return res;
 };
