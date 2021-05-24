@@ -1,8 +1,4 @@
-import axios from 'axios';
-import authHeader from './authHeader';
-
-const API_URL = 'http://localhost:8080/api/users/';
-
-
-
-export default new UserService();
+export const isLoggedIn = () => {
+    const user = localStorage.getItem("user");
+    return user !== null && user !== undefined;
+};
