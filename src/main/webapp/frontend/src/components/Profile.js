@@ -10,13 +10,18 @@ import { getAllUserRecipes } from "../services/recipeService";
 import Loader from "react-loader-spinner";
 import { RecipeList } from "./RecipeList";
 import { NoRecipes } from "./NoRecipes";
+import { Pagination } from "./Pagination";
+import { SearchBar } from "./SearchBar";
 
 const Profile = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [loadingProfile, setLoadingProfile] = useState(false);
     const [loadingRecipes, setLoadingRecipes] = useState(false);
     const [profileUri, setProfileUri] = useState(defaultImage);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recipesPerPage] = useState(6);
     const [userRecipes, setUserRecipes] = useState([]);
+    const [displayRecipes, setDisplayRecipes] = useState([]);
     const { username } = useParams();
     const inputFile = useRef(null);
     const onButtonClick = () => {
@@ -67,6 +72,7 @@ const Profile = () => {
                 });
                 setLoadingRecipes(false);
                 setUserRecipes(newRecipes);
+                setDisplayRecipes(newRecipes);
             })
             .catch((err) => {
                 setLoadingRecipes(false);
@@ -104,6 +110,19 @@ const Profile = () => {
                 });
         }
     };
+
+    const updateSearch = (filteredRecipes) => {
+        setDisplayRecipes(filteredRecipes);
+    };
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const indexOfLastRecipe = currentPage * recipesPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+    const currentRecipes = displayRecipes.slice(
+        indexOfFirstRecipe,
+        indexOfLastRecipe
+    );
 
     return (
         <div id="profileContainer" className="container my-5">
@@ -159,9 +178,13 @@ const Profile = () => {
                 {username}
             </h1>
             <p>
-                Recipes shared: {0}
+                Recipes shared: {userRecipes.length}
                 <br></br>
-                All recipe likes: {0}
+                All recipe likes:{" "}
+                {userRecipes.reduce(
+                    (total, recipe) => (total += recipe.likes),
+                    0
+                )}
             </p>
 
             <hr className="my-5"></hr>
@@ -172,10 +195,20 @@ const Profile = () => {
                 >
                     My recipes
                 </h1>
+                <SearchBar
+                    text="Search through your recipes!"
+                    recipes={userRecipes}
+                    callback={updateSearch}
+                />
                 <RecipeList
                     loading={loadingRecipes}
-                    recipes={userRecipes}
+                    recipes={currentRecipes}
                     noRecipesComponent={<NoRecipes />}
+                />
+                <Pagination
+                    recipesPerPage={recipesPerPage}
+                    totalRecipes={displayRecipes.length}
+                    callback={paginate}
                 />
             </div>
 
