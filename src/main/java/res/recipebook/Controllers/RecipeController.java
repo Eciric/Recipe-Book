@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import res.recipebook.Payload.Requests.RecipeRequest;
 import res.recipebook.Payload.Responses.RecipeResponse;
 import res.recipebook.Repositories.UserRepository;
 import res.recipebook.Security.Services.UserDetailsImpl;
@@ -48,7 +49,13 @@ public class RecipeController {
     }
 
     @PostMapping(value="/getAllUserRecipes", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public RecipeResponse getUserRecipes(@RequestParam(value="id") int id) {
-        return recipeService.getRecipesOfUser(id);
+    public RecipeResponse getUserRecipes(@RequestBody RecipeRequest request) {
+        return recipeService.getRecipesOfUser(request.getId());
+    }
+
+    @PostMapping(value="/getRecipeById", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public RecipeResponse getRecipe(@RequestBody RecipeRequest request) {
+        System.out.println(request.getId());
+        return new RecipeResponse();
     }
 }
