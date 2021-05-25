@@ -22,6 +22,7 @@ export const RecipeList = ({ loading, recipes, noRecipesComponent }) => {
                             <RecipeTile
                                 title={recipe.title}
                                 img={recipe.img}
+                                id={recipe.id}
                                 key={recipe.id}
                             />
                         );
