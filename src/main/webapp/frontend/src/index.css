@@ -361,3 +361,31 @@ label {
 .noRecipes {
  text-align: center;
 }
+
+.pagination {
+  margin-top: 45px;
+  text-align: center;
+  justify-content: center;
+}
+
+.page-link {
+  color: #a17ef8;
+}
+
+.page-item {
+  box-shadow: 0.1em 0.1em 1em 0.1em #683ed1;
+
+}
+
+.page-link:hover {
+  background-color: #af8ef8 !important;
+  color: white !important;
+}
+
+.page-item:hover {
+  box-shadow: 0 0 1em 0 #683ed1;
+}
+
+.page-item:focus {
+  box-shadow: 0 0 1em 0 #683ed1;
+}
