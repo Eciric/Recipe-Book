@@ -4,10 +4,13 @@ import { getAllRecipes } from "../services/recipeService";
 import { RecipeList } from "./RecipeList";
 import { SearchBar } from "./SearchBar";
 import { NoRecipes } from "./NoRecipes";
+import { Pagination } from "./Pagination";
 
 const Home = () => {
     const [recipes, setRecipes] = useState([]);
     const [displayRecipes, setDisplayRecipes] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recipesPerPage] = useState(12);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -41,26 +44,35 @@ const Home = () => {
             });
     }, []);
 
-    const handleSearchPhraseChange = (e) => {
-        if (e.target.value === "") {
-            setDisplayRecipes(recipes);
-        } else {
-            let filteredRecipes = recipes.filter((recipe) =>
-                recipe.title
-                    .toLowerCase()
-                    .includes(e.target.value.toLowerCase())
-            );
-            setDisplayRecipes(filteredRecipes);
-        }
+    const updateSearch = (filteredRecipes) => {
+        setDisplayRecipes(filteredRecipes);
     };
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const indexOfLastRecipe = currentPage * recipesPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+    const currentRecipes = displayRecipes.slice(
+        indexOfFirstRecipe,
+        indexOfLastRecipe
+    );
 
     return (
         <div className="home">
-            <SearchBar callback={handleSearchPhraseChange} />
+            <SearchBar
+                text="What are you looking for?"
+                recipes={recipes}
+                callback={updateSearch}
+            />
             <RecipeList
                 loading={loading}
-                recipes={displayRecipes}
+                recipes={currentRecipes}
                 noRecipesComponent={<NoRecipes />}
+            />
+            <Pagination
+                recipesPerPage={recipesPerPage}
+                totalRecipes={displayRecipes.length}
+                callback={paginate}
             />
         </div>
     );
