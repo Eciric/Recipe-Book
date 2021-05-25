@@ -48,7 +48,6 @@ const Profile = () => {
     }, []);
 
     useEffect(() => {
-        // setLoadingRecipes(true);
         const user = JSON.parse(localStorage.getItem("user"));
         setUserRecipes([]);
         setLoadingRecipes(true);
@@ -112,6 +111,7 @@ const Profile = () => {
     };
 
     const updateSearch = (filteredRecipes) => {
+        setCurrentPage(1);
         setDisplayRecipes(filteredRecipes);
     };
 

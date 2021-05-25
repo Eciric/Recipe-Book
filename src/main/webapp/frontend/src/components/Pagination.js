@@ -6,18 +6,17 @@ export const Pagination = ({ recipesPerPage, totalRecipes, callback }) => {
     for (let i = 1; i <= upperBound; i++) {
         pageNumbers.push(i);
     }
-    console.log(pageNumbers);
     return (
         <nav>
             <ul className="pagination">
                 {pageNumbers.map((number) => (
                     <li key={number} className="page-item">
-                        <a
+                        <button
                             onClick={() => callback(number)}
                             className="page-link"
                         >
                             {number}
-                        </a>
+                        </button>
                     </li>
                 ))}
             </ul>

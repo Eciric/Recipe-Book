@@ -45,6 +45,7 @@ const Home = () => {
     }, []);
 
     const updateSearch = (filteredRecipes) => {
+        setCurrentPage(1);
         setDisplayRecipes(filteredRecipes);
     };
 
