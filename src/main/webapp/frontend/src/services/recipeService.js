@@ -28,7 +28,7 @@ export const getAllRecipes = async () => {
     return res;
 };
 
-export const getAllUserRecipes = async (username) => {
+export const getAllUserRecipes = async (id) => {
     const res = await fetch(API_GET_USER_RECIPES_URL, {
         method: "post",
         body: JSON.stringify({
