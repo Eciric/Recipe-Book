@@ -29,6 +29,11 @@ code {
   color: #683ed1 !important;
 }
 
+.nav-link:hover {
+  color: hotpink !important;
+  text-shadow: 0px 0px 10px hotpink;
+}
+
 .navbar-brand {
   color: #683ed1 !important;
 }
@@ -115,6 +120,7 @@ code {
   background-size: 21px 21px;
   background-position: 1.2% 55%;
 }
+
 .btn-primary {
   background-color: #683ed1;
 }
@@ -388,4 +394,16 @@ label {
 
 .page-item:focus {
   box-shadow: 0 0 1em 0 #683ed1;
+}
+
+#recipeUserPicture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+#recipeImage {
+  padding: 0 50px;
+  border-radius: 15px;
+  object-fit: cover;
 }
