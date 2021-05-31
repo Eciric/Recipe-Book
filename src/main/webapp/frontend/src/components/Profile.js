@@ -2,19 +2,19 @@ import defaultImage from "../images/user.png";
 import { base64toBlob } from "../services/base64ToBlob";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-    downloadProfilePicture,
-    uploadProfilePicture,
-} from "../services/fileService";
+import { uploadProfilePicture } from "../services/fileService";
 import { getAllUserRecipes } from "../services/recipeService";
 import Loader from "react-loader-spinner";
 import { RecipeList } from "./RecipeList";
 import { NoRecipes } from "./NoRecipes";
 import { Pagination } from "./Pagination";
 import { SearchBar } from "./SearchBar";
+import { getUserData } from "../services/userService";
 
 const Profile = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const [userData, setUserData] = useState({});
+    const [otherUser, setOtherUser] = useState(true);
     const [loadingProfile, setLoadingProfile] = useState(false);
     const [loadingRecipes, setLoadingRecipes] = useState(false);
     const [profileUri, setProfileUri] = useState(defaultImage);
@@ -30,54 +30,56 @@ const Profile = () => {
 
     useEffect(() => {
         setLoadingProfile(true);
-        downloadProfilePicture()
+        getUserData(username, null)
             .then((res) => {
-                if (res.status === 200) {
-                    let blob = base64toBlob(res.data.bytes, "image/png");
+                console.log(res);
+                const user = JSON.parse(localStorage.getItem("user"));
+                if (user) {
+                    if (res.user_id === user.id) setOtherUser(false);
+                }
+                setUserData(res);
+                if (res.profile_picture) {
+                    let blob = base64toBlob(res.profile_picture, "image/png");
                     const objectURL = URL.createObjectURL(blob);
                     setProfileUri(objectURL);
                 } else {
                     setProfileUri(defaultImage);
                 }
                 setLoadingProfile(false);
+
+                setUserRecipes([]);
+                setLoadingRecipes(true);
+                getAllUserRecipes(res.user_id)
+                    .then((res) => res.json())
+                    .then((json) => {
+                        const recipes = json.recipes;
+                        let newRecipes = [];
+                        recipes.forEach((recipe) => {
+                            newRecipes.push({
+                                id: recipe.recipeData.recipe_id,
+                                user_id: recipe.recipeData.user_id,
+                                title: recipe.recipeData.title,
+                                likes: recipe.recipeData.likes,
+                                date: recipe.recipeData.date_created,
+                                img: URL.createObjectURL(
+                                    base64toBlob(recipe.image, "image/png")
+                                ),
+                            });
+                        });
+                        setLoadingRecipes(false);
+                        setUserRecipes(newRecipes);
+                        setDisplayRecipes(newRecipes);
+                    })
+                    .catch((err) => {
+                        setLoadingRecipes(false);
+                        console.log(err);
+                    });
             })
             .catch((err) => {
-                setErrorMessage(err);
+                console.log(err);
                 setLoadingProfile(false);
             });
-    }, []);
-
-    useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        setUserRecipes([]);
-        setLoadingRecipes(true);
-        let id = user.id;
-        getAllUserRecipes(id)
-            .then((res) => res.json())
-            .then((json) => {
-                const recipes = json.recipes;
-                let newRecipes = [];
-                recipes.forEach((recipe) => {
-                    newRecipes.push({
-                        id: recipe.recipeData.recipe_id,
-                        user_id: recipe.recipeData.user_id,
-                        title: recipe.recipeData.title,
-                        likes: recipe.recipeData.likes,
-                        date: recipe.recipeData.date_created,
-                        img: URL.createObjectURL(
-                            base64toBlob(recipe.image, "image/png")
-                        ),
-                    });
-                });
-                setLoadingRecipes(false);
-                setUserRecipes(newRecipes);
-                setDisplayRecipes(newRecipes);
-            })
-            .catch((err) => {
-                setLoadingRecipes(false);
-                console.log(err);
-            });
-    }, []);
+    }, [username]);
 
     const onFileChange = (event) => {
         event.stopPropagation();
@@ -142,27 +144,30 @@ const Profile = () => {
                             alt=""
                             className="img-fluid my-4"
                         />
-                        <div className="addProfilePictureContainer">
-                            <span className="fa-stack">
-                                <i
-                                    id="backgroundIcon"
-                                    className="fa fa-circle fa-stack-1x"
-                                ></i>
-                                <i
-                                    id="addProfilePictureIcon"
-                                    className="fa fa-plus-circle fa-stack-1x"
-                                    onClick={onButtonClick}
-                                >
-                                    <input
-                                        type="file"
-                                        id="file"
-                                        ref={inputFile}
-                                        onChange={onFileChange}
-                                        style={{ display: "none" }}
-                                    />
-                                </i>
-                            </span>
-                        </div>
+                        {!otherUser && (
+                            <div className="addProfilePictureContainer">
+                                <span className="fa-stack">
+                                    <i
+                                        id="backgroundIcon"
+                                        className="fa fa-circle fa-stack-1x"
+                                    ></i>
+                                    <i
+                                        id="addProfilePictureIcon"
+                                        className="fa fa-plus-circle fa-stack-1x"
+                                        onClick={onButtonClick}
+                                    >
+                                        <input
+                                            type="file"
+                                            id="file"
+                                            ref={inputFile}
+                                            onChange={onFileChange}
+                                            style={{ display: "none" }}
+                                        />
+                                    </i>
+                                </span>
+                            </div>
+                        )}
+
                         {errorMessage.length > 0 && (
                             <div
                                 className="alert alert-danger my-3"
@@ -189,17 +194,36 @@ const Profile = () => {
 
             <hr className="my-5"></hr>
             <div className="container ">
-                <h1
-                    className="display-4 text-center my-5"
-                    style={{ color: "#683ed1" }}
-                >
-                    My recipes
-                </h1>
-                <SearchBar
-                    text="Search through your recipes!"
-                    recipes={userRecipes}
-                    callback={updateSearch}
-                />
+                {!otherUser ? (
+                    <h1
+                        className="display-4 text-center my-5"
+                        style={{ color: "#683ed1" }}
+                    >
+                        My recipes
+                    </h1>
+                ) : (
+                    <h1
+                        className="display-4 text-center my-5"
+                        style={{ color: "#683ed1" }}
+                    >
+                        {username + "'s"} recipes
+                    </h1>
+                )}
+
+                {!otherUser ? (
+                    <SearchBar
+                        text="Search through your recipes!"
+                        recipes={userRecipes}
+                        callback={updateSearch}
+                    />
+                ) : (
+                    <SearchBar
+                        text={`Search through ${username}'s recipes!`}
+                        recipes={userRecipes}
+                        callback={updateSearch}
+                    />
+                )}
+
                 <RecipeList
                     loading={loadingRecipes}
                     recipes={currentRecipes}
