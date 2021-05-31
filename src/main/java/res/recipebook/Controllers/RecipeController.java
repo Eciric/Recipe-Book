@@ -55,7 +55,6 @@ public class RecipeController {
 
     @PostMapping(value="/getRecipeById", produces = {MediaType.APPLICATION_JSON_VALUE})
     public RecipeResponse getRecipe(@RequestBody RecipeRequest request) {
-        System.out.println(request.getId());
-        return new RecipeResponse();
+        return recipeService.getRecipeById(request.getId());
     }
 }
