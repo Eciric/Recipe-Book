@@ -69,10 +69,15 @@ const Login = () => {
                             error.response.data.message) ||
                         error.message ||
                         error.toString();
-
+                    if (error.response.status === 401) {
+                        setMessage(
+                            "Provided credentials couldn't be proven authentic."
+                        );
+                    } else {
+                        setMessage(resMessage);
+                    }
                     setLoading(false);
                     setSuccessful(false);
-                    setMessage(resMessage);
                 }
             );
         }
