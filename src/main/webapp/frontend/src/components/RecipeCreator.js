@@ -90,22 +90,27 @@ const RecipeCreator = () => {
         e.stopPropagation();
         e.preventDefault();
 
-        setLoading(true);
-        storeRecipe(name, contents, image)
-            .then((res) => {
-                setSuccessful(true);
-                setLoading(false);
-                setMessage("Successfully added the recipe!");
-                setTimeout(() => {
-                    history.push("/");
-                    window.location.reload();
-                }, 500);
-            })
-            .catch((err) => {
-                setSuccessful(false);
-                setLoading(false);
-                setMessage(err);
-            });
+        if (name === "" || contents === "" || image === undefined) {
+            setSuccessful(false);
+            setMessage("Fill out the form properly!");
+        } else {
+            setLoading(true);
+            storeRecipe(name, contents, image)
+                .then((res) => {
+                    setSuccessful(true);
+                    setLoading(false);
+                    setMessage("Successfully added the recipe!");
+                    setTimeout(() => {
+                        history.push("/");
+                        window.location.reload();
+                    }, 500);
+                })
+                .catch((err) => {
+                    setSuccessful(false);
+                    setLoading(false);
+                    setMessage(err);
+                });
+        }
     };
 
     return (
