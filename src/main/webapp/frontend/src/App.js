@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import { RecipeView } from "./components/RecipeView";
 import RecipeCreator from "./components/RecipeCreator";
 import { getCurrentUser } from "./services/authService";
+import { AdminPanel } from "./components/AdminPanel";
 
 function App() {
     const [currentUser, setCurrentUser] = useState(undefined);
@@ -42,6 +43,9 @@ function App() {
                     </Route>
                     <Route path="/recipeview/:id">
                         <RecipeView />
+                    </Route>
+                    <Route path="/adminpanel">
+                        <AdminPanel />
                     </Route>
                 </Switch>
             </div>
