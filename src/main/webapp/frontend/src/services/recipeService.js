@@ -5,6 +5,8 @@ const API_DOWNLOAD_ALL_URL = "http://localhost:8080/api/recipes/getAllRecipes";
 const API_GET_RECIPE_URL = "http://localhost:8080/api/recipes/getRecipeById";
 const API_GET_USER_RECIPES_URL =
     "http://localhost:8080/api/recipes/getAllUserRecipes";
+const API_DELETE_RECIPE_BY_ID_URL =
+    "http://localhost:8080/api/recipes/deleteRecipeById";
 
 export const storeRecipe = async (title, contents, image) => {
     let header = authHeader();
@@ -50,6 +52,19 @@ export const getRecipeById = async (id) => {
         headers: {
             "Content-Type": "application/json",
         },
+    });
+    return res;
+};
+
+export const deleteRecipeById = async (id) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    const res = await fetch(API_DELETE_RECIPE_BY_ID_URL, {
+        method: "post",
+        body: JSON.stringify({
+            id: id,
+        }),
+        headers: header,
     });
     return res;
 };
