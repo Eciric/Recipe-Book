@@ -1,9 +1,9 @@
-const API_GET_USER_DATA_URL = "http://localhost:8080/api/users/getUserData";
+import authHeader from "../services/authHeader";
 
-export const isLoggedIn = () => {
-    const user = localStorage.getItem("user");
-    return user !== null && user !== undefined;
-};
+const API_GET_USER_DATA_URL = "http://localhost:8080/api/users/getUserData";
+const API_GET_ALL_USERS_URL = "http://localhost:8080/api/users/getAllUsers";
+const API_DELETE_USER_BY_ID_URL =
+    "http://localhost:8080/api/users/deleteUserById";
 
 export const getUserData = async (username, id) => {
     const res = fetch(API_GET_USER_DATA_URL, {
@@ -14,4 +14,24 @@ export const getUserData = async (username, id) => {
         return res.json();
     });
     return res;
+};
+
+export const getAllUsers = async () => {
+    return fetch(API_GET_ALL_USERS_URL, {
+        method: "get",
+        headers: authHeader(),
+    });
+};
+
+export const deleteUserById = async (id) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    return fetch(API_DELETE_USER_BY_ID_URL, {
+        method: "post",
+        body: JSON.stringify({
+            username: null,
+            id: id,
+        }),
+        headers: header,
+    });
 };
