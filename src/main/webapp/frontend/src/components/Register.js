@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { register } from "../services/authService";
 import { isEmail } from "validator";
+import registerImage from "../images/register.jpg";
 
 const validateUsername = (username) => {
     return username.length > 2 && username.length < 20;
@@ -121,10 +122,20 @@ const Register = () => {
         <div className="container">
             <div className="card my-5 text-center">
                 <div className="card-header">Register your account today!</div>
-                <div className="card-body">
-                    <form onSubmit={handleRegister}>
+                <div className="card-body register-body">
+                    <img
+                        src={registerImage}
+                        alt=""
+                        className="img-fluid register-image"
+                    ></img>
+                    <form className="register-form" onSubmit={handleRegister}>
                         <div className="form-group my-4">
-                            <label className="my-2">Email address</label>
+                            <label
+                                className="my-2"
+                                style={{ color: "#e684ee" }}
+                            >
+                                Email address
+                            </label>
                             <input
                                 type="email"
                                 className="form-control auth-control"
@@ -140,7 +151,12 @@ const Register = () => {
                         </div>
 
                         <div className="form-group my-4">
-                            <label className="my-2">Username</label>
+                            <label
+                                className="my-2"
+                                style={{ color: "#e684ee" }}
+                            >
+                                Username
+                            </label>
                             <input
                                 type="text"
                                 className="form-control auth-control"
@@ -156,7 +172,12 @@ const Register = () => {
                         </div>
 
                         <div className="form-group my-4">
-                            <label className="my-2">Password</label>
+                            <label
+                                className="my-2"
+                                style={{ color: "#e684ee" }}
+                            >
+                                Password
+                            </label>
                             <input
                                 type="password"
                                 className="form-control auth-control"
