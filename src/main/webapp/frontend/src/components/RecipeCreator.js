@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { storeRecipe } from "../services/recipeService";
 import { useHistory } from "react-router-dom";
-import { isLoggedIn } from "../services/userService";
+import { isLoggedIn } from "../services/authService";
 
 const validateName = (name) => {
     return name.length > 2 && name.length < 25;
