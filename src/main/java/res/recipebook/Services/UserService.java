@@ -1,5 +1,6 @@
 package res.recipebook.Services;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import res.recipebook.Models.User;
 import res.recipebook.Payload.Responses.UserResponse;
@@ -54,5 +55,9 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public void deleteUserById(int id) {
+        userRepository.deleteById(id);
     }
 }
