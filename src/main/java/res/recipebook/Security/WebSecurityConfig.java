@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/files/**").permitAll()
                 .antMatchers("/api/recipes/**").permitAll()
                 .antMatchers("/api/users/**").permitAll()
+                .antMatchers("/api/likes/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
