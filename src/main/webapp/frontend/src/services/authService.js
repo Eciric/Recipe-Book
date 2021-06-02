@@ -47,10 +47,7 @@ export const hasAdminAuthority = (user) => {
     return false;
 };
 
-/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
-export default {
-    login,
-    logout,
-    register,
-    getCurrentUser,
+export const isLoggedIn = () => {
+    const user = localStorage.getItem("user");
+    return user !== null && user !== undefined;
 };
