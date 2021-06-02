@@ -13,7 +13,6 @@ import { getUserData } from "../services/userService";
 
 const Profile = () => {
     const [errorMessage, setErrorMessage] = useState("");
-    const [userData, setUserData] = useState({});
     const [otherUser, setOtherUser] = useState(true);
     const [loadingProfile, setLoadingProfile] = useState(false);
     const [loadingRecipes, setLoadingRecipes] = useState(false);
@@ -37,7 +36,6 @@ const Profile = () => {
                 if (user) {
                     if (res.user_id === user.id) setOtherUser(false);
                 }
-                setUserData(res);
                 if (res.profile_picture) {
                     let blob = base64toBlob(res.profile_picture, "image/png");
                     const objectURL = URL.createObjectURL(blob);
