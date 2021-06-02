@@ -1,6 +1,8 @@
 package res.recipebook.Controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import res.recipebook.Models.User;
@@ -8,7 +10,6 @@ import res.recipebook.Payload.Requests.UserRequest;
 import res.recipebook.Payload.Responses.UserResponse;
 import res.recipebook.Services.UserService;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @CrossOrigin(origins="*")
@@ -35,6 +36,13 @@ public class UserController {
     @GetMapping(value="/getAllUsers", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value="/deleteUserById")
+    public ResponseEntity<?> deleteUserById(@RequestBody UserRequest request) {
+        userService.deleteUserById(request.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
