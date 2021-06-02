@@ -178,7 +178,7 @@ code {
 }
 
 #addProfilePictureIcon:hover {
-  color: darkviolet;
+  color: hotpink;
   cursor: pointer;
 }
 
@@ -406,4 +406,75 @@ label {
   padding: 0 50px;
   border-radius: 15px;
   object-fit: cover;
+}
+
+#creatorName {
+  text-decoration: none;
+  color:#683ed1;
+}
+
+#creatorName:hover {
+  color:hotpink;
+  text-shadow: 0 0 5px hotpink;
+}
+
+#as-react-datatable-table-head > div.col-md-6.float-right.text-right {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+span.input-group-text {
+  background-color: whitesmoke !important;
+}
+
+th {
+  color: #683ed1 !important;
+}
+
+.table th {
+  background: white !important;
+}
+
+.table tr:nth-child(odd){
+  background: #e8deff !important;
+}
+
+.table tr:nth-child(even){
+  background: white !important;
+}
+
+.table {
+  text-align: center !important;
+}
+
+.register-image {
+  filter:brightness(50%);
+}
+
+.register-body {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.register-form {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform:translateY(-50%);
+}
+
+#as-react-datatable-table-foot > div.col-md-6.pull-right.text-right {
+  padding-top: 10px;
+}
+
+#likesImage {
+  width: 100px;
+  height: 100px;
+  transition: 0.5s;
+}
+
+#likesImage:hover {
+  cursor: pointer;
+  transform: scale(1.1);
 }
