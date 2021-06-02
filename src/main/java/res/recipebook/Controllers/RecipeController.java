@@ -60,9 +60,8 @@ public class RecipeController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping(value="/deleteRecipeById")
+    @DeleteMapping(value="/deleteRecipeById")
     public ResponseEntity<?> deleteRecipeById(@RequestBody RecipeRequest request) {
-        System.out.println(request.getId());
         recipeService.deleteRecipeById(request.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }

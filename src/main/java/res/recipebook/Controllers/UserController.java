@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping(value="/deleteUserById")
+    @DeleteMapping(value="/deleteUserById")
     public ResponseEntity<?> deleteUserById(@RequestBody UserRequest request) {
         userService.deleteUserById(request.getId());
         return new ResponseEntity<>(HttpStatus.OK);
