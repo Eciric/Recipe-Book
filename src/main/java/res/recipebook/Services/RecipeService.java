@@ -119,4 +119,8 @@ public class RecipeService {
         recipeResponse.setRecipes(allUserRecipesWithImages);
         return recipeResponse;
     }
+
+    public void deleteRecipeById(int id) {
+        recipeRepository.deleteById(id);
+    }
 }
