@@ -34,9 +34,19 @@ const Home = () => {
                         ),
                     });
                 });
+
+                let sortedRecipes = newRecipes.sort((first, second) => {
+                    let compareVal = 0;
+                    let firstTitle = first.title.toLowerCase();
+                    let secondTitle = second.title.toLowerCase();
+                    if (firstTitle > secondTitle) compareVal = 1;
+                    else if (firstTitle < secondTitle) compareVal = -1;
+                    return compareVal;
+                });
+
                 setLoading(false);
-                setRecipes(newRecipes);
-                setDisplayRecipes(newRecipes);
+                setRecipes(sortedRecipes);
+                setDisplayRecipes(sortedRecipes);
             })
             .catch((err) => {
                 setLoading(false);
