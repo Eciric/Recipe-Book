@@ -3,6 +3,7 @@ package res.recipebook.Controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,5 +57,13 @@ public class RecipeController {
     @PostMapping(value="/getRecipeById", produces = {MediaType.APPLICATION_JSON_VALUE})
     public RecipeResponse getRecipe(@RequestBody RecipeRequest request) {
         return recipeService.getRecipeById(request.getId());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value="/deleteRecipeById")
+    public ResponseEntity<?> deleteRecipeById(@RequestBody RecipeRequest request) {
+        System.out.println(request.getId());
+        recipeService.deleteRecipeById(request.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
