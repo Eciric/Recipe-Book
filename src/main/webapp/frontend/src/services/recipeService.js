@@ -60,7 +60,7 @@ export const deleteRecipeById = async (id) => {
     let header = authHeader();
     header["Content-Type"] = "application/json";
     const res = await fetch(API_DELETE_RECIPE_BY_ID_URL, {
-        method: "post",
+        method: "delete",
         body: JSON.stringify({
             id: id,
         }),

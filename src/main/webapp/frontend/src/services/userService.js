@@ -27,7 +27,7 @@ export const deleteUserById = async (id) => {
     let header = authHeader();
     header["Content-Type"] = "application/json";
     return fetch(API_DELETE_USER_BY_ID_URL, {
-        method: "post",
+        method: "delete",
         body: JSON.stringify({
             username: null,
             id: id,
