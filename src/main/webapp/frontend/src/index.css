@@ -400,6 +400,8 @@ label {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  border: 2px solid #683ed1;
+  box-shadow: 2px 2px 15px #683ed1;
 }
 
 #recipeImage {
@@ -477,4 +479,71 @@ th {
 #likesImage:hover {
   cursor: pointer;
   transform: scale(1.1);
+}
+
+.createComment {
+  max-width: 70%;
+  display: flex;
+  justify-content: left;
+}
+
+.createComment p {
+  font-size: 1.5em;
+  margin: 0;
+  text-align: left;
+  padding-left: 15px;
+  height: 45px;
+}
+
+.createComment .text {
+  width: 80%;
+  text-align: right;
+}
+
+.createComment .text button {
+  margin-right: -15px;
+}
+
+.commentsCount {
+  margin: 0 auto;
+  text-align: left;
+  width: 70%;
+  padding-bottom: 0.5em;
+}
+
+.recipeComment {
+  margin-left: 15px !important;
+  width: 100%;
+}
+
+.comment {
+  max-width: 70%;
+  display: flex;
+  justify-content: left;
+}
+
+.comment p {
+  font-size: 1em;
+  margin: 0;
+  text-align: left;
+  padding-left: 15px;
+  height: 45px;
+}
+
+.messageContent {
+  margin-top: -10px;
+  text-align: left;
+  padding-left: 15px;
+  height: auto;
+  overflow-wrap:break-word;
+}
+
+#date {
+  font-size: 0.8em;
+  margin-top: 3px;
+}
+
+.commentMeta {
+  display:flex;
+  justify-content: flex-start;
 }
