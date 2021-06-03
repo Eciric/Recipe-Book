@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getRecipeById } from "../services/recipeService";
 import { getUserData } from "../services/userService";
 import { base64toBlob } from "../services/base64ToBlob";
@@ -9,30 +9,58 @@ import {
     getAllRecipeLikes,
     getAllUserLikes,
 } from "../services/likeService";
+import {
+    getComments,
+    addComment,
+    deleteComment,
+} from "../services/commentsService";
 import likesImage from "../images/like.png";
 import likesClickedImage from "../images/likeClicked.png";
 import defaultImage from "../images/user.png";
 import Loader from "react-loader-spinner";
+import { TextField } from "@material-ui/core";
+import { CommentSection } from "../components/CommentSection";
 
 export const RecipeView = () => {
-    const { id } = useParams();
-    const [loading, setLoading] = useState(false);
-    const [recipe, setRecipe] = useState({});
-    const [creator, setCreator] = useState({});
-    const [creatorPicture, setCreatorPicture] = useState("");
-    const [recipePicture, setRecipePicture] = useState("");
-    const [likePic, setLikePic] = useState(likesImage);
-    const [processing, setProcessing] = useState(false);
-    const [recipeLikes, setRecipeLikes] = useState(0);
-    const [alreadyLiked, setAlreadyLiked] = useState(false);
+    // History for redirecting
+    const history = useHistory();
 
+    // Recipe hooks
+    const { id } = useParams();
+    const [recipe, setRecipe] = useState({});
+    const [loadingRecipe, setLoadingRecipe] = useState(false);
+    const [recipePicture, setRecipePicture] = useState("");
+
+    // Creator and User hooks
+    const [creator, setCreator] = useState({});
+    const [loadingCreator, setLoadingCreator] = useState(false);
+    const [creatorPicture, setCreatorPicture] = useState("");
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [user, setUser] = useState({});
+    const [userImage, setUserImage] = useState("");
+
+    // Comments hooks
+    const [comments, setComments] = useState([]);
+    const [loadingComments, setLoadingComments] = useState(false);
+    const [comment, setComment] = useState("");
+    const [addingComment, setAddingComment] = useState(false);
+    const [addCommentResponse, setAddCommentResponse] = useState("");
+    const [addCommentSuccessful, setAddCommentSuccessful] = useState(false);
+
+    // Likes hooks
+    const [recipeLikes, setRecipeLikes] = useState(0);
+    const [loadingLikes, setLoadingLikes] = useState(false);
+    const [processingLike, setProcessingLike] = useState(false);
+    const [alreadyLiked, setAlreadyLiked] = useState(false);
+    const [likePic, setLikePic] = useState(likesImage);
+
+    // Fetch recipe related data
     useEffect(() => {
-        // Fetch recipe related data
-        setLoading(true);
+        setLoadingRecipe(true);
         getRecipeById(id)
             .then((res) => res.json())
             .then((json) => {
-                setLoading(false);
+                setLoadingRecipe(false);
                 var recipe = json.recipes[0];
                 setRecipe({
                     id: recipe.recipeData.recipe_id,
@@ -50,17 +78,42 @@ export const RecipeView = () => {
                 }
             })
             .catch((err) => {
-                setLoading(false);
+                setLoadingRecipe(false);
                 console.log(err);
             });
     }, [id]);
 
+    // Fetch logged in user data
+    useEffect(() => {
+        let userObject = JSON.parse(localStorage.getItem("user"));
+        if (userObject) {
+            setLoggedIn(true);
+            let username = userObject.username;
+            getUserData(username, null)
+                .then((res) => {
+                    setUser(res);
+                    if (res.profile_picture) {
+                        let blob = base64toBlob(
+                            res.profile_picture,
+                            "image/png"
+                        );
+                        const objectURL = URL.createObjectURL(blob);
+                        setUserImage(objectURL);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }, []);
+
+    // Fetching creator of the recipe data
     useEffect(() => {
         if (recipe.user_id) {
-            setLoading(true);
+            setLoadingCreator(true);
             getUserData(null, recipe.user_id)
                 .then((json) => {
-                    setLoading(false);
+                    setLoadingCreator(false);
                     setCreator(json);
                     if (json.profile_picture) {
                         let blob = base64toBlob(
@@ -74,7 +127,7 @@ export const RecipeView = () => {
                     }
                 })
                 .catch((err) => {
-                    setLoading(false);
+                    setLoadingCreator(false);
                     console.log(err);
                 });
         }
@@ -82,42 +135,88 @@ export const RecipeView = () => {
 
     // Sets the recipe count to be displayed in the view
     useEffect(() => {
+        setLoadingLikes(true);
         getAllRecipeLikes(id)
             .then((res) => res.json())
             .then((json) => {
+                setLoadingLikes(false);
                 setRecipeLikes(json.length);
             })
             .catch((err) => {
+                setLoadingLikes(false);
                 console.log(err);
             });
     }, [id, alreadyLiked]);
 
     // Checks if the user already likes this recipe
     useEffect(() => {
-        let user_id = JSON.parse(localStorage.getItem("user")).id;
-        getAllUserLikes(user_id)
+        let userObject = JSON.parse(localStorage.getItem("user"));
+        if (userObject) {
+            let user_id = userObject.id;
+            getAllUserLikes(user_id)
+                .then((res) => res.json())
+                .then((json) => {
+                    let result = json.find(
+                        (row) => row.recipe_id === Number(id)
+                    );
+                    if (result === undefined) result = false;
+                    else result = true;
+
+                    setAlreadyLiked(result);
+
+                    if (result === true) {
+                        setLikePic(likesClickedImage);
+                    } else {
+                        setLikePic(likesImage);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }, [id]);
+
+    const getParsedComments = async (json) => {
+        let newComments = [];
+        for (let i = 0; i < json.length; i++) {
+            const user = await getUserData(null, json[i].user_id);
+            let image = base64toBlob(user.profile_picture, "image/png");
+            const objectURL = URL.createObjectURL(image);
+            newComments.push({
+                id: json[i].comment_id,
+                username: json[i].username,
+                message: json[i].message,
+                date: json[i].date_created,
+                image: objectURL,
+            });
+        }
+        return newComments;
+    };
+
+    // Fetches recipe comments
+    useEffect(() => {
+        setLoadingComments(true);
+        getComments(Number(id))
             .then((res) => res.json())
-            .then((json) => {
-                let result = json.find((row) => row.recipe_id === Number(id));
-                if (result === undefined) result = false;
-                else result = true;
-
-                setAlreadyLiked(result);
-
-                if (result === true) {
-                    setLikePic(likesClickedImage);
-                } else {
-                    setLikePic(likesImage);
-                }
+            .then(async (json) => {
+                let parsedComments = await getParsedComments(json);
+                setComments(parsedComments);
+                setLoadingComments(false);
             })
             .catch((err) => {
+                setLoadingComments(false);
                 console.log(err);
             });
     }, [id]);
 
     const handleLikeClicked = () => {
-        if (processing === false) {
-            setProcessing(true);
+        if (!loggedIn) {
+            history.push("/login");
+            window.location.reload();
+        }
+
+        if (processingLike === false) {
+            setProcessingLike(true);
             let user_id = JSON.parse(localStorage.getItem("user")).id;
             if (alreadyLiked) {
                 // Delete user like and change the image accordingly
@@ -126,12 +225,12 @@ export const RecipeView = () => {
                         if (res.ok) {
                             setAlreadyLiked(false);
                             setLikePic(likesImage);
-                            setProcessing(false);
+                            setProcessingLike(false);
                         }
                     })
                     .catch((err) => {
                         console.log(err);
-                        setProcessing(false);
+                        setProcessingLike(false);
                     });
             } else {
                 // Add user like and change the image accordingly
@@ -140,36 +239,73 @@ export const RecipeView = () => {
                         if (res.ok) {
                             setAlreadyLiked(true);
                             setLikePic(likesClickedImage);
-                            setProcessing(false);
+                            setProcessingLike(false);
                         }
                     })
                     .catch((err) => {
                         console.log(err);
-                        setProcessing(false);
+                        setProcessingLike(false);
                     });
             }
         }
     };
 
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
+
+    const handleSubmitComment = () => {
+        setAddingComment(true);
+        addComment(id, user.user_id, user.username, comment)
+            .then((res) => {
+                if (res.ok) {
+                    setComment("");
+                    setAddingComment(false);
+                    setAddCommentSuccessful(true);
+                    setAddCommentResponse(
+                        "Sucessfully submitted your message!"
+                    );
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                setAddingComment(false);
+                setAddCommentSuccessful(false);
+                setAddCommentResponse("Failed to submit your message!");
+            });
+    };
+
     return (
         <div className="container">
-            {loading ? (
-                <div className="spinnerContainer">
-                    <Loader
-                        type="MutatingDots"
-                        color="#683ED1"
-                        secondaryColor="#9b6dff"
-                        height={100}
-                        width={100}
-                    />
-                </div>
-            ) : (
-                <div className="card my-5 text-center">
-                    <div className="card-header">
+            <div className="card my-5 text-center">
+                <div className="card-header">
+                    {loadingRecipe ? (
+                        <div className="spinnerContainer">
+                            <Loader
+                                type="MutatingDots"
+                                color="#683ED1"
+                                secondaryColor="#9b6dff"
+                                height={100}
+                                width={100}
+                            />
+                        </div>
+                    ) : (
                         <h1 className="display-4">{recipe.title}</h1>
-                    </div>
-                    <div className="card-body">
-                        <div className="row">
+                    )}
+                </div>
+                <div className="card-body">
+                    <div className="row">
+                        {loadingCreator ? (
+                            <div className="spinnerContainer">
+                                <Loader
+                                    type="MutatingDots"
+                                    color="#683ED1"
+                                    secondaryColor="#9b6dff"
+                                    height={100}
+                                    width={100}
+                                />
+                            </div>
+                        ) : (
                             <div className="userInfo col-sm-12 col-lg-6 col-xl-6">
                                 <img
                                     id="recipeUserPicture"
@@ -187,6 +323,19 @@ export const RecipeView = () => {
                                     </a>
                                 </p>
                             </div>
+                        )}
+
+                        {loadingLikes ? (
+                            <div className="spinnerContainer">
+                                <Loader
+                                    type="MutatingDots"
+                                    color="#683ED1"
+                                    secondaryColor="#9b6dff"
+                                    height={100}
+                                    width={100}
+                                />
+                            </div>
+                        ) : (
                             <div className="recipeLikes col-sm-12 col-lg-6 col-xl-6">
                                 <img
                                     id="likesImage"
@@ -199,40 +348,139 @@ export const RecipeView = () => {
                                     Total likes: {recipeLikes}
                                 </p>
                             </div>
-                        </div>
-                        <hr className="my-1" style={{ color: "#683ed1" }}></hr>
-                        <div className="recipeInfo">
-                            <p className="mt-3" style={{ color: "#683ed1" }}>
-                                Recipe created:{" "}
-                                {new Date(recipe.date).toLocaleDateString(
-                                    "en-gb",
-                                    {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
-                                    }
-                                )}
-                            </p>
-                            <img
-                                id="recipeImage"
-                                src={recipePicture}
-                                alt=""
-                                className="img-fluid"
-                            />
-                            <hr className="mt-5"></hr>
-                            <div className="my-5">
-                                <h1
-                                    className="display-5 mb-5"
+                        )}
+                    </div>
+                    <hr className="my-1" style={{ color: "#683ed1" }}></hr>
+                    <div className="recipeInfo">
+                        {loadingRecipe ? (
+                            <div className="spinnerContainer">
+                                <Loader
+                                    type="MutatingDots"
+                                    color="#683ED1"
+                                    secondaryColor="#9b6dff"
+                                    height={100}
+                                    width={100}
+                                />
+                            </div>
+                        ) : (
+                            <div>
+                                <p
+                                    className="mt-3"
                                     style={{ color: "#683ed1" }}
                                 >
-                                    Recipe instructions
-                                </h1>
-                                {recipe.contents}
+                                    Recipe created:{" "}
+                                    {new Date(recipe.date).toLocaleDateString(
+                                        "en-gb",
+                                        {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric",
+                                        }
+                                    )}
+                                </p>
+                                <img
+                                    id="recipeImage"
+                                    src={recipePicture}
+                                    alt=""
+                                    className="img-fluid"
+                                />
+                                <hr className="mt-5"></hr>
+                                <div className="my-5 recipeContents">
+                                    <h1
+                                        className="display-5 mb-5"
+                                        style={{ color: "#683ed1" }}
+                                    >
+                                        Recipe instructions
+                                    </h1>
+                                    {recipe.contents}
+                                </div>
                             </div>
-                        </div>
+                        )}
+                        <hr className="mt-5"></hr>
+                        {loadingComments ? (
+                            <div className="spinnerContainer">
+                                <Loader
+                                    type="MutatingDots"
+                                    color="#683ED1"
+                                    secondaryColor="#9b6dff"
+                                    height={100}
+                                    width={100}
+                                />
+                            </div>
+                        ) : (
+                            <div className="my-5 recipeComments">
+                                <div className="commentsCount">
+                                    <p>{comments.length} Comments</p>
+                                </div>
+                                {loggedIn ? (
+                                    <div className="container createComment">
+                                        <div className="image">
+                                            <img
+                                                id="recipeUserPicture"
+                                                alt=""
+                                                src={userImage}
+                                            />
+                                        </div>
+                                        <div className="text">
+                                            <TextField
+                                                id="standard-basic"
+                                                className="recipeComment"
+                                                multiline={true}
+                                                label="Add a comment..."
+                                                value={comment}
+                                                onChange={handleCommentChange}
+                                            />
+                                            <button
+                                                className="btn btn-primary mt-3"
+                                                onClick={handleSubmitComment}
+                                                disabled={addingComment}
+                                            >
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="container loginPrompt">
+                                        <p>
+                                            <a href="/login">Log in</a> to
+                                            create a comment!
+                                        </p>
+                                    </div>
+                                )}
+                                {addCommentResponse.length > 0 &&
+                                    (addCommentSuccessful ? (
+                                        <div
+                                            className="alert alert-success my-3"
+                                            role="alert"
+                                        >
+                                            <p>{addCommentResponse}</p>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="alert alert-danger my-3"
+                                            role="alert"
+                                        >
+                                            <p>{addCommentResponse}</p>
+                                        </div>
+                                    ))}
+                                {loadingComments ? (
+                                    <div className="spinnerContainer">
+                                        <Loader
+                                            type="MutatingDots"
+                                            color="#683ED1"
+                                            secondaryColor="#9b6dff"
+                                            height={100}
+                                            width={100}
+                                        />
+                                    </div>
+                                ) : (
+                                    <CommentSection comments={comments} />
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 };
