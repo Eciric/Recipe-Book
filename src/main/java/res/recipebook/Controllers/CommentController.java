@@ -22,9 +22,14 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping(value="/getAllComments", produces={MediaType.APPLICATION_JSON_VALUE})
-    public List<Comment> getAllComments(@RequestBody CommentRequest request) {
-        return commentService.getAllComments(request.getRecipe_id());
+    @GetMapping(value="/getAllComments", produces={MediaType.APPLICATION_JSON_VALUE})
+    public List<Comment> getAllComments() {
+        return commentService.getAllComments();
+    }
+
+    @PostMapping(value="/getAllRecipeComments", produces={MediaType.APPLICATION_JSON_VALUE})
+    public List<Comment> getAllRecipeComments(@RequestBody CommentRequest request) {
+        return commentService.getAllRecipeComments(request.getRecipe_id());
     }
 
     @PreAuthorize("hasRole('USER')")
