@@ -1,11 +1,19 @@
 import authHeader from "../services/authHeader";
 
+const API_GET_ALL_LIKES_URL = "http://localhost:8080/api/likes/getAllLikes";
 const API_GET_USER_LIKES_URL =
     "http://localhost:8080/api/likes/getAllUserLikes";
 const API_GET_ALL_RECIPE_LIKES_URL =
     "http://localhost:8080/api/likes/getAllRecipeLikes";
 const API_DELETE_LIKE_URL = "http://localhost:8080/api/likes/deleteUserLike";
 const API_ADD_LIKE_URL = "http://localhost:8080/api/likes/addUserLike";
+
+export const getAllLikes = async () => {
+    const res = await fetch(API_GET_ALL_LIKES_URL, {
+        method: "get",
+    });
+    return res;
+};
 
 export const getAllUserLikes = async (id) => {
     const res = await fetch(API_GET_USER_LIKES_URL, {

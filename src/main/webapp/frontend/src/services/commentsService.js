@@ -1,10 +1,19 @@
 import authHeader from "./authHeader";
 
-const API_GET_COMMENTS_URL =
+const API_GET_ALL_COMMENTS_URL =
     "http://localhost:8080/api/comments/getAllComments";
+const API_GET_COMMENTS_URL =
+    "http://localhost:8080/api/comments/getAllRecipeComments";
 const API_ADD_COMMENT_URL = "http://localhost:8080/api/comments/addComment";
 const API_DELETE_COMMENT_URL =
     "http://localhost:8080/api/comments/deleteComment";
+
+export const getAllComments = async () => {
+    const res = await fetch(API_GET_ALL_COMMENTS_URL, {
+        method: "get",
+    });
+    return res;
+};
 
 export const getComments = async (id) => {
     const res = await fetch(API_GET_COMMENTS_URL, {
