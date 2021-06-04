@@ -9,11 +9,7 @@ import {
     getAllRecipeLikes,
     getAllUserLikes,
 } from "../services/likeService";
-import {
-    getComments,
-    addComment,
-    deleteComment,
-} from "../services/commentsService";
+import { getComments, addComment } from "../services/commentsService";
 import likesImage from "../images/like.png";
 import likesClickedImage from "../images/likeClicked.png";
 import defaultImage from "../images/user.png";
@@ -207,7 +203,7 @@ export const RecipeView = () => {
                 setLoadingComments(false);
                 console.log(err);
             });
-    }, [id]);
+    }, [id, addingComment]);
 
     const handleLikeClicked = () => {
         if (!loggedIn) {
@@ -265,6 +261,9 @@ export const RecipeView = () => {
                     setAddCommentResponse(
                         "Sucessfully submitted your message!"
                     );
+                    setTimeout(() => {
+                        setAddCommentResponse("");
+                    }, 5000);
                 }
             })
             .catch((err) => {
@@ -272,6 +271,9 @@ export const RecipeView = () => {
                 setAddingComment(false);
                 setAddCommentSuccessful(false);
                 setAddCommentResponse("Failed to submit your message!");
+                setTimeout(() => {
+                    setAddCommentResponse("");
+                }, 5000);
             });
     };
 
