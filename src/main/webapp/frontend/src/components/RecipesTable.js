@@ -1,7 +1,29 @@
 import React from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
+import { useHistory } from "react-router-dom";
+import { deleteRecipeById } from "../services/recipeService";
 
-export const RecipesTable = ({ recipes, editCallback, deleteCallback }) => {
+export const RecipesTable = ({ recipes }) => {
+    const history = useHistory();
+
+    const editEntry = (record, index) => {
+        console.log(record);
+        console.log(index);
+    };
+
+    const deleteEntry = (record, index) => {
+        deleteRecipeById(record.id)
+            .then((res) => {
+                if (res.ok) {
+                    history.push("/adminpanel");
+                    window.location.reload();
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     let columns = [
         { text: "ID", key: "id", sortable: true },
         { text: "Title", key: "title", sortable: true },
@@ -18,7 +40,7 @@ export const RecipesTable = ({ recipes, editCallback, deleteCallback }) => {
                             className="btn btn-secondary btn-sm"
                             style={{ marginRight: "5px" }}
                             onClick={() => {
-                                editCallback(record, index);
+                                editEntry(record, index);
                             }}
                         >
                             Edit
@@ -31,7 +53,7 @@ export const RecipesTable = ({ recipes, editCallback, deleteCallback }) => {
                             className="btn btn-danger btn-sm"
                             style={{ marginRight: "5px" }}
                             onClick={() => {
-                                deleteCallback(record, index);
+                                deleteEntry(record, index);
                             }}
                         >
                             Delete

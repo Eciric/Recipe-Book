@@ -1,32 +1,18 @@
 import React from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import { useHistory } from "react-router-dom";
-import { deleteUserById } from "../services/userService";
 
-export const UsersTable = ({ users }) => {
+export const LikesTable = ({ likes }) => {
     const history = useHistory();
 
     const editEntry = (record, index) => {};
 
-    const deleteEntry = (record, index) => {
-        deleteUserById(record.id)
-            .then((res) => {
-                if (res.ok) {
-                    history.push("/adminpanel");
-                    window.location.reload();
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    const deleteEntry = (record, index) => {};
 
     let columns = [
         { text: "ID", key: "id", sortable: true },
-        { text: "Name", key: "name", sortable: true },
-        { text: "Roles", key: "roles", sortable: true },
-        { text: "Email", key: "email", sortable: true },
-        { text: "Date", key: "date", sortable: true },
+        { text: "UserID", key: "userid", sortable: true },
+        { text: "RecipeID", key: "recipeid", sortable: true },
         {
             key: "action",
             text: "Action",
@@ -66,28 +52,12 @@ export const UsersTable = ({ users }) => {
     ];
 
     let data = [];
-    if (users) {
-        users.forEach((row) => {
-            let formattedDate = new Date(row.date_created).toLocaleDateString(
-                "en-gb",
-                {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                }
-            );
-            let rolesString = row.roles.reduce(
-                (previousValue, currentValue) => {
-                    return (previousValue += currentValue.name + " ");
-                },
-                ""
-            );
+    if (likes) {
+        likes.forEach((row) => {
             data.push({
-                id: row.user_id,
-                name: row.username,
-                roles: rolesString,
-                email: row.email,
-                date: formattedDate,
+                id: row.like_id,
+                userid: row.user_id,
+                recipeid: row.recipe_id,
             });
         });
     }

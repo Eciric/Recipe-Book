@@ -1,32 +1,20 @@
 import React from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import { useHistory } from "react-router-dom";
-import { deleteUserById } from "../services/userService";
 
-export const UsersTable = ({ users }) => {
+export const CommentsTable = ({ comments }) => {
     const history = useHistory();
 
     const editEntry = (record, index) => {};
 
-    const deleteEntry = (record, index) => {
-        deleteUserById(record.id)
-            .then((res) => {
-                if (res.ok) {
-                    history.push("/adminpanel");
-                    window.location.reload();
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    const deleteEntry = (record, index) => {};
 
     let columns = [
         { text: "ID", key: "id", sortable: true },
-        { text: "Name", key: "name", sortable: true },
-        { text: "Roles", key: "roles", sortable: true },
-        { text: "Email", key: "email", sortable: true },
+        { text: "UserID", key: "userid", sortable: true },
+        { text: "Username", key: "username", sortable: true },
         { text: "Date", key: "date", sortable: true },
+        { text: "RecipeID", key: "recipeid", sortable: true },
         {
             key: "action",
             text: "Action",
@@ -66,8 +54,8 @@ export const UsersTable = ({ users }) => {
     ];
 
     let data = [];
-    if (users) {
-        users.forEach((row) => {
+    if (comments) {
+        comments.forEach((row) => {
             let formattedDate = new Date(row.date_created).toLocaleDateString(
                 "en-gb",
                 {
@@ -76,18 +64,13 @@ export const UsersTable = ({ users }) => {
                     day: "numeric",
                 }
             );
-            let rolesString = row.roles.reduce(
-                (previousValue, currentValue) => {
-                    return (previousValue += currentValue.name + " ");
-                },
-                ""
-            );
+
             data.push({
-                id: row.user_id,
-                name: row.username,
-                roles: rolesString,
-                email: row.email,
+                id: row.comment_id,
+                userid: row.user_id,
+                username: row.username,
                 date: formattedDate,
+                recipeid: row.recipe_id,
             });
         });
     }

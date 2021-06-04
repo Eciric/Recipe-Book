@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { hasAdminAuthority } from "../services/authService";
-import { deleteRecipeById, getAllRecipes } from "../services/recipeService";
-import { deleteUserById, getAllUsers } from "../services/userService";
+import { getAllRecipes } from "../services/recipeService";
+import { getAllUsers } from "../services/userService";
+import { getAllComments } from "../services/commentsService";
+import { getAllLikes } from "../services/likeService";
 import { RecipesTable } from "./RecipesTable";
 import { UsersTable } from "./UsersTable";
+import { CommentsTable } from "./CommentsTable";
+import { LikesTable } from "./LikesTable";
 
 export const AdminPanel = () => {
     const history = useHistory();
     const [users, setUsers] = useState([]);
     const [recipes, setRecipes] = useState([]);
-    const [toggleDisplay, setToggleDisplay] = useState(false);
+    const [comments, setComments] = useState([]);
+    const [likes, setLikes] = useState([]);
 
+    const [displayUsers, setDisplayUsers] = useState(true);
+    const [displayRecipes, setDisplayRecipes] = useState(false);
+    const [displayComments, setDisplayComments] = useState(false);
+    const [displayLikes, setDisplayLikes] = useState(false);
+
+    // Authorize user
     useEffect(() => {
         let user = JSON.parse(localStorage.getItem("user"));
         if (hasAdminAuthority(user) === false) {
@@ -20,67 +31,63 @@ export const AdminPanel = () => {
         }
     }, [history]);
 
+    // Fetch users
     useEffect(() => {
         getAllUsers()
             .then((res) => res.json())
-            .then((json) => {
-                setUsers(json);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            .then((json) => setUsers(json))
+            .catch((err) => console.log(err));
     }, []);
 
+    // Fetch recipes
     useEffect(() => {
         getAllRecipes()
             .then((res) => res.json())
-            .then((json) => {
-                setRecipes(json.recipes);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            .then((json) => setRecipes(json.recipes))
+            .catch((err) => console.log(err));
     }, []);
 
-    const editRecipeEntry = (record, index) => {
-        console.log(record);
-        console.log(index);
-    };
+    // Fetch comments
+    useEffect(() => {
+        getAllComments()
+            .then((res) => res.json())
+            .then((json) => setComments(json))
+            .catch((err) => console.log(err));
+    }, []);
 
-    const deleteRecipeEntry = (record, index) => {
-        deleteRecipeById(record.id)
-            .then((res) => {
-                if (res.ok) {
-                    history.push("/adminpanel");
-                    window.location.reload();
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    // Fetch likes
+    useEffect(() => {
+        getAllLikes()
+            .then((res) => res.json())
+            .then((json) => setLikes(json))
+            .catch((err) => console.log(err));
+    }, []);
 
-    const editUserEntry = (record, index) => {};
-
-    const deleteUserEntry = (record, index) => {
-        deleteUserById(record.id)
-            .then((res) => {
-                if (res.ok) {
-                    history.push("/adminpanel");
-                    window.location.reload();
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    const displayRecipesTable = () => {
-        setToggleDisplay(false);
+    const clearDisplays = () => {
+        setDisplayUsers(false);
+        setDisplayRecipes(false);
+        setDisplayComments(false);
+        setDisplayLikes(false);
     };
 
     const displayUsersTable = () => {
-        setToggleDisplay(true);
+        clearDisplays();
+        setDisplayUsers(true);
+    };
+
+    const displayRecipesTable = () => {
+        clearDisplays();
+        setDisplayRecipes(true);
+    };
+
+    const displayCommentsTable = () => {
+        clearDisplays();
+        setDisplayComments(true);
+    };
+
+    const displayLikesTable = () => {
+        clearDisplays();
+        setDisplayLikes(true);
     };
 
     return (
@@ -92,35 +99,44 @@ export const AdminPanel = () => {
                 Admin Panel
             </p>
 
-            <div className="text-center">
+            <div className="text-center mb-5">
                 <button
                     className="btn btn-primary"
                     onClick={displayUsersTable}
-                    style={{ marginRight: "15px" }}
+                    style={{ margin: "15px" }}
                 >
                     Users Table
                 </button>
                 <button
                     className="btn btn-primary"
                     onClick={displayRecipesTable}
+                    style={{ margin: "15px" }}
                 >
                     Recipes Table
                 </button>
+                <button
+                    className="btn btn-primary"
+                    onClick={displayCommentsTable}
+                    style={{ margin: "15px" }}
+                >
+                    Comments Table
+                </button>
+                <button
+                    className="btn btn-primary"
+                    onClick={displayLikesTable}
+                    style={{ margin: "15px" }}
+                >
+                    Likes Table
+                </button>
             </div>
 
-            {toggleDisplay ? (
-                <UsersTable
-                    users={users}
-                    editCallback={editUserEntry}
-                    deleteCallback={deleteUserEntry}
-                />
-            ) : (
-                <RecipesTable
-                    recipes={recipes}
-                    editCallback={editRecipeEntry}
-                    deleteCallback={deleteRecipeEntry}
-                />
-            )}
+            {displayUsers && <UsersTable users={users} />}
+
+            {displayRecipes && <RecipesTable recipes={recipes} />}
+
+            {displayComments && <CommentsTable comments={comments} />}
+
+            {displayLikes && <LikesTable likes={likes} />}
         </div>
     );
 };
