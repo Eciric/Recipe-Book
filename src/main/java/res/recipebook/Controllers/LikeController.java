@@ -21,6 +21,11 @@ public class LikeController {
         this.likeService = likeService;
     }
 
+    @GetMapping(value = "/getAllLikes", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public List<Like> getAllLikes() {
+        return likeService.getAllLikes();
+    }
+
     @PostMapping(value="/getAllUserLikes", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Like> getAllUserLikes(@RequestBody LikeRequest likeRequest) {
         return likeService.getUserLikes(likeRequest.getUser_id());

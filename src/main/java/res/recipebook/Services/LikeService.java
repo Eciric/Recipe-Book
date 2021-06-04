@@ -20,6 +20,10 @@ public class LikeService {
         this.recipeRepository = recipeRepository;
     }
 
+    public List<Like> getAllLikes() {
+        return likeRepository.findAll();
+    }
+
     public List<Like> getUserLikes(int user_id) {
         return likeRepository.findAllByUser_id(user_id);
     }

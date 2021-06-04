@@ -17,7 +17,11 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public List<Comment> getAllComments(int recipe_id) {
+    public List<Comment> getAllComments() {
+        return commentRepository.findAll();
+    }
+
+    public List<Comment> getAllRecipeComments(int recipe_id) {
         return commentRepository.findAllByRecipe_id(recipe_id);
     }
 
