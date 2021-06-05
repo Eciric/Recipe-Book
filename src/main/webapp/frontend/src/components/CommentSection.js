@@ -16,15 +16,21 @@ export const CommentSection = ({ comments }) => {
                 return (
                     <div key={id} className="container comment my-5">
                         <div className="image">
-                            <img
-                                id="recipeUserPicture"
-                                alt=""
-                                src={userImage}
-                            />
+                            <a href={"/profile/" + username}>
+                                <img
+                                    id="recipeUserPicture"
+                                    alt=""
+                                    src={userImage}
+                                />
+                            </a>
                         </div>
                         <div className="text">
                             <div className="commentMeta">
-                                <p id="name">{username}</p>
+                                <p id="name">
+                                    <a href={"/profile/" + username}>
+                                        {username}
+                                    </a>
+                                </p>
                                 <p id="date">{date}</p>
                             </div>
 
