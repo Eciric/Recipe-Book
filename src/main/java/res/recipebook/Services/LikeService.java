@@ -51,4 +51,14 @@ public class LikeService {
             likeRepository.save(like.get());
         }
     }
+
+    public String getUserRecipeLikesCount(int user_id) {
+        List<Recipe> userRecipes = recipeRepository.findAllByUser_id(user_id);
+        int likes = 0;
+        for (Recipe recipe: userRecipes) {
+            List<Like> recipeLikes = likeRepository.findAllByRecipe_id(recipe.getRecipe_id());
+            likes += recipeLikes.size();
+        }
+        return String.valueOf(likes);
+    }
 }
