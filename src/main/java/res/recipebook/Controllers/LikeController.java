@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import res.recipebook.Models.Like;
 import res.recipebook.Payload.Requests.LikeRequest;
+import res.recipebook.Payload.Requests.UpdateLikeRequest;
 import res.recipebook.Services.LikeService;
 
 import java.util.List;
@@ -47,6 +48,13 @@ public class LikeController {
     @DeleteMapping(value="/deleteUserLike")
     public ResponseEntity<?> deleteUserLike(@RequestBody LikeRequest likeRequest) {
         likeService.removeUserLike(likeRequest.getLike_id());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value="/updateLike")
+    public ResponseEntity<?> updateLike(@RequestBody UpdateLikeRequest likeRequest) {
+        likeService.updateLike(likeRequest.getLike_id(), likeRequest.getUser_id(), likeRequest.getRecipe_id());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

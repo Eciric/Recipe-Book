@@ -7,6 +7,7 @@ const API_GET_ALL_RECIPE_LIKES_URL =
     "http://localhost:8080/api/likes/getAllRecipeLikes";
 const API_DELETE_LIKE_URL = "http://localhost:8080/api/likes/deleteUserLike";
 const API_ADD_LIKE_URL = "http://localhost:8080/api/likes/addUserLike";
+const API_UPDATE_LIKE_URL = "http://localhost:8080/api/likes/updateLike";
 
 export const getAllLikes = async () => {
     const res = await fetch(API_GET_ALL_LIKES_URL, {
@@ -64,6 +65,21 @@ export const deleteUserLikeFromRecipe = async (like_id) => {
         method: "delete",
         body: JSON.stringify({
             like_id: like_id,
+        }),
+        headers: header,
+    });
+    return res;
+};
+
+export const updateLike = async (id, user_id, recipe_id) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    const res = await fetch(API_UPDATE_LIKE_URL, {
+        method: "post",
+        body: JSON.stringify({
+            like_id: id,
+            user_id: user_id,
+            recipe_id: recipe_id,
         }),
         headers: header,
     });

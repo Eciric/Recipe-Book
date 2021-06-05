@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import { useHistory } from "react-router-dom";
 import { deleteUserLikeFromRecipe } from "../services/likeService";
+import { EditLikeRow } from "../components/EditLikeRow";
 
 export const LikesTable = ({ likes }) => {
     const history = useHistory();
+    const [editing, setEditing] = useState(false);
+    const [editRecord, setEditRecord] = useState({});
 
-    const editEntry = (record, index) => {};
+    const editEntry = (record) => {
+        setEditing(true);
+        setEditRecord(record);
+    };
 
     const deleteEntry = (record) => {
         deleteUserLikeFromRecipe(record.id)
@@ -76,7 +82,11 @@ export const LikesTable = ({ likes }) => {
 
     return (
         <div>
-            <ReactDatatable columns={columns} records={data} />
+            {editing ? (
+                <EditLikeRow record={editRecord} setEditing={setEditing} />
+            ) : (
+                <ReactDatatable columns={columns} records={data} />
+            )}
         </div>
     );
 };
