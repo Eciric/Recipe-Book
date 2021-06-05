@@ -46,7 +46,7 @@ public class LikeController {
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping(value="/deleteUserLike")
     public ResponseEntity<?> deleteUserLike(@RequestBody LikeRequest likeRequest) {
-        likeService.removeUserLike(likeRequest.getUser_id(), likeRequest.getRecipe_id());
+        likeService.removeUserLike(likeRequest.getLike_id());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

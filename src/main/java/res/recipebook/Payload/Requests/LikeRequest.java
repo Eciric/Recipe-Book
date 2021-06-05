@@ -7,4 +7,5 @@ import lombok.Setter;
 public class LikeRequest {
     int user_id;
     int recipe_id;
+    int like_id;
 }

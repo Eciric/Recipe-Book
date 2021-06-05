@@ -57,14 +57,13 @@ export const addUserLikeToRecipe = async (user_id, recipe_id) => {
     return res;
 };
 
-export const deleteUserLikeFromRecipe = async (user_id, recipe_id) => {
+export const deleteUserLikeFromRecipe = async (like_id) => {
     let header = authHeader();
     header["Content-Type"] = "application/json";
     const res = await fetch(API_DELETE_LIKE_URL, {
         method: "delete",
         body: JSON.stringify({
-            user_id: user_id,
-            recipe_id: recipe_id,
+            like_id: like_id,
         }),
         headers: header,
     });
