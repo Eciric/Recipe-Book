@@ -8,15 +8,13 @@ export const UsersTable = ({ users }) => {
     const history = useHistory();
     const [editing, setEditing] = useState(false);
     const [editRecord, setEditRecord] = useState({});
-    const [editIndex, setEditIndex] = useState(undefined);
 
-    const editEntry = (record, index) => {
+    const editEntry = (record) => {
         setEditing(true);
         setEditRecord(record);
-        setEditIndex(index);
     };
 
-    const deleteEntry = (record, index) => {
+    const deleteEntry = (record) => {
         deleteUserById(record.id)
             .then((res) => {
                 if (res.ok) {
@@ -45,7 +43,7 @@ export const UsersTable = ({ users }) => {
                             className="btn btn-secondary btn-sm"
                             style={{ marginRight: "5px" }}
                             onClick={() => {
-                                editEntry(record, index);
+                                editEntry(record);
                             }}
                         >
                             Edit
@@ -58,7 +56,7 @@ export const UsersTable = ({ users }) => {
                             className="btn btn-danger btn-sm"
                             style={{ marginRight: "5px" }}
                             onClick={() => {
-                                deleteEntry(record, index);
+                                deleteEntry(record);
                             }}
                         >
                             Delete
@@ -103,11 +101,7 @@ export const UsersTable = ({ users }) => {
     return (
         <div>
             {editing ? (
-                <EditUserRow
-                    record={editRecord}
-                    index={editIndex}
-                    setEditing={setEditing}
-                />
+                <EditUserRow record={editRecord} setEditing={setEditing} />
             ) : (
                 <ReactDatatable columns={columns} records={data} />
             )}
