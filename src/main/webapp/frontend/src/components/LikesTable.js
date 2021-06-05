@@ -1,13 +1,25 @@
 import React from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import { useHistory } from "react-router-dom";
+import { deleteUserLikeFromRecipe } from "../services/likeService";
 
 export const LikesTable = ({ likes }) => {
     const history = useHistory();
 
     const editEntry = (record, index) => {};
 
-    const deleteEntry = (record, index) => {};
+    const deleteEntry = (record) => {
+        deleteUserLikeFromRecipe(record.id)
+            .then((res) => {
+                if (res.ok) {
+                    history.push("/adminpanel");
+                    window.location.reload();
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     let columns = [
         { text: "ID", key: "id", sortable: true },

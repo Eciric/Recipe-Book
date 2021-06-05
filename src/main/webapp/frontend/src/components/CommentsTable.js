@@ -1,13 +1,25 @@
 import React from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import { useHistory } from "react-router-dom";
+import { deleteComment } from "../services/commentsService";
 
 export const CommentsTable = ({ comments }) => {
     const history = useHistory();
 
     const editEntry = (record, index) => {};
 
-    const deleteEntry = (record, index) => {};
+    const deleteEntry = (record) => {
+        deleteComment(record.recipeid, record.userid, record.id)
+            .then((res) => {
+                if (res.ok) {
+                    history.push("/adminpanel");
+                    window.location.reload();
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     let columns = [
         { text: "ID", key: "id", sortable: true },
@@ -38,7 +50,7 @@ export const CommentsTable = ({ comments }) => {
                             className="btn btn-danger btn-sm"
                             style={{ marginRight: "5px" }}
                             onClick={() => {
-                                deleteEntry(record, index);
+                                deleteEntry(record);
                             }}
                         >
                             Delete
