@@ -29,7 +29,7 @@ export const getComments = async (id) => {
     return res;
 };
 
-export const addComment = async (recipe_id, user_id, username, message) => {
+export const addComment = async (recipe_id, user_id, message) => {
     let header = authHeader();
     header["Content-Type"] = "application/json";
     const res = await fetch(API_ADD_COMMENT_URL, {
@@ -37,7 +37,6 @@ export const addComment = async (recipe_id, user_id, username, message) => {
         body: JSON.stringify({
             recipe_id: recipe_id,
             user_id: user_id,
-            username: username,
             message: message,
         }),
         headers: header,

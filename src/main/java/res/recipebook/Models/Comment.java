@@ -20,15 +20,13 @@ public class Comment {
 
     private int recipe_id;
     private int user_id;
-    private String username;
     @Size(max = 1000)
     private String message;
     private Timestamp date_created;
 
-    public Comment(int recipe_id, int user_id, String username, String message, Timestamp date_created) {
+    public Comment(int recipe_id, int user_id, String message, Timestamp date_created) {
         this.recipe_id = recipe_id;
         this.user_id = user_id;
-        this.username = username;
         this.message = message;
         this.date_created = date_created;
     }

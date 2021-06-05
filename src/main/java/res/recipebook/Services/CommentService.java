@@ -25,8 +25,8 @@ public class CommentService {
         return commentRepository.findAllByRecipe_id(recipe_id);
     }
 
-    public void addComment(int user_id, int recipe_id, String username, String message) {
-        commentRepository.save(new Comment(recipe_id, user_id, username, message, Timestamp.from(Instant.now())));
+    public void addComment(int user_id, int recipe_id, String message) {
+        commentRepository.save(new Comment(recipe_id, user_id, message, Timestamp.from(Instant.now())));
     }
 
     public void deleteComment(int comment_id) {

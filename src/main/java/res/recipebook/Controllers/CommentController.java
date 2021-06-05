@@ -35,7 +35,7 @@ public class CommentController {
     @PreAuthorize("hasRole('USER')")
     @PutMapping(value="/addComment")
     public ResponseEntity<?> addComment(@RequestBody CommentRequest request) {
-        commentService.addComment(request.getUser_id(), request.getRecipe_id(), request.getUsername(), request.getMessage());
+        commentService.addComment(request.getUser_id(), request.getRecipe_id(), request.getMessage());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

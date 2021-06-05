@@ -182,7 +182,7 @@ export const RecipeView = () => {
             const objectURL = URL.createObjectURL(image);
             newComments.push({
                 id: json[i].comment_id,
-                username: json[i].username,
+                username: user.username,
                 message: json[i].message,
                 date: json[i].date_created,
                 image: objectURL,
@@ -254,7 +254,7 @@ export const RecipeView = () => {
 
     const handleSubmitComment = () => {
         setAddingComment(true);
-        addComment(id, user.user_id, user.username, comment)
+        addComment(id, user.user_id, comment)
             .then((res) => {
                 if (res.ok) {
                     setComment("");
