@@ -10,6 +10,7 @@ import { NoRecipes } from "./NoRecipes";
 import { Pagination } from "./Pagination";
 import { SearchBar } from "./SearchBar";
 import { getUserData } from "../services/userService";
+import { getUserRecipeLikesCount } from "../services/likeService";
 
 const Profile = () => {
     const [errorMessage, setErrorMessage] = useState("");
@@ -21,6 +22,7 @@ const Profile = () => {
     const [recipesPerPage] = useState(6);
     const [userRecipes, setUserRecipes] = useState([]);
     const [displayRecipes, setDisplayRecipes] = useState([]);
+    const [likesCount, setLikesCount] = useState(0);
     const { username } = useParams();
     const inputFile = useRef(null);
     const onButtonClick = () => {
@@ -31,7 +33,6 @@ const Profile = () => {
         setLoadingProfile(true);
         getUserData(username, null)
             .then((res) => {
-                console.log(res);
                 const user = JSON.parse(localStorage.getItem("user"));
                 if (user) {
                     if (res.user_id === user.id) setOtherUser(false);
@@ -57,7 +58,6 @@ const Profile = () => {
                                 id: recipe.recipeData.recipe_id,
                                 user_id: recipe.recipeData.user_id,
                                 title: recipe.recipeData.title,
-                                likes: recipe.recipeData.likes,
                                 date: recipe.recipeData.date_created,
                                 img: URL.createObjectURL(
                                     base64toBlob(recipe.image, "image/png")
@@ -70,6 +70,16 @@ const Profile = () => {
                     })
                     .catch((err) => {
                         setLoadingRecipes(false);
+                        console.log(err);
+                    });
+                getUserRecipeLikesCount(res.user_id)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((json) => {
+                        setLikesCount(json);
+                    })
+                    .catch((err) => {
                         console.log(err);
                     });
             })
@@ -183,11 +193,7 @@ const Profile = () => {
             <p>
                 Recipes shared: {userRecipes.length}
                 <br></br>
-                All recipe likes:{" "}
-                {userRecipes.reduce(
-                    (total, recipe) => (total += recipe.likes),
-                    0
-                )}
+                All recipe likes: {likesCount}
             </p>
 
             <hr className="my-5"></hr>
