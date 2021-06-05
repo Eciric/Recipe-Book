@@ -33,4 +33,13 @@ public class CommentService {
         Optional<Comment> comment = commentRepository.findById(comment_id);
         comment.ifPresent(commentRepository::delete);
     }
+
+    public void updateComment(int comment_id, int user_id, int recipe_id) {
+        Optional<Comment> comment = commentRepository.findById(comment_id);
+        if (comment.isPresent()) {
+            comment.get().setUser_id(user_id);
+            comment.get().setRecipe_id(recipe_id);
+            commentRepository.save(comment.get());
+        }
+    }
 }

@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import { useHistory } from "react-router-dom";
 import { deleteComment } from "../services/commentsService";
+import { EditCommentRow } from "./EditCommentRow";
 
 export const CommentsTable = ({ comments }) => {
     const history = useHistory();
+    const [editing, setEditing] = useState(false);
+    const [editRecord, setEditRecord] = useState({});
 
-    const editEntry = (record, index) => {};
+    const editEntry = (record) => {
+        setEditing(true);
+        setEditRecord(record);
+    };
 
     const deleteEntry = (record) => {
         deleteComment(record.recipeid, record.userid, record.id)
@@ -24,7 +30,6 @@ export const CommentsTable = ({ comments }) => {
     let columns = [
         { text: "ID", key: "id", sortable: true },
         { text: "UserID", key: "userid", sortable: true },
-        { text: "Username", key: "username", sortable: true },
         { text: "Date", key: "date", sortable: true },
         { text: "RecipeID", key: "recipeid", sortable: true },
         {
@@ -80,7 +85,6 @@ export const CommentsTable = ({ comments }) => {
             data.push({
                 id: row.comment_id,
                 userid: row.user_id,
-                username: row.username,
                 date: formattedDate,
                 recipeid: row.recipe_id,
             });
@@ -89,7 +93,11 @@ export const CommentsTable = ({ comments }) => {
 
     return (
         <div>
-            <ReactDatatable columns={columns} records={data} />
+            {editing ? (
+                <EditCommentRow record={editRecord} setEditing={setEditing} />
+            ) : (
+                <ReactDatatable columns={columns} records={data} />
+            )}
         </div>
     );
 };

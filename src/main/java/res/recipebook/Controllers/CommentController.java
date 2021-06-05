@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import res.recipebook.Models.Comment;
 import res.recipebook.Payload.Requests.CommentRequest;
+import res.recipebook.Payload.Requests.UpdateCommentRequest;
 import res.recipebook.Services.CommentService;
 
 import java.util.List;
@@ -43,6 +44,13 @@ public class CommentController {
     @DeleteMapping(value="/deleteComment")
     public ResponseEntity<?> deleteComment(@RequestBody CommentRequest request) {
         commentService.deleteComment(request.getComment_id());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "/updateComment")
+    public ResponseEntity<?> updateComment(@RequestBody UpdateCommentRequest request) {
+        commentService.updateComment(request.getComment_id(), request.getUser_id(), request.getRecipe_id());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

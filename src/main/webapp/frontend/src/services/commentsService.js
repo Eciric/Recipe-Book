@@ -7,6 +7,8 @@ const API_GET_COMMENTS_URL =
 const API_ADD_COMMENT_URL = "http://localhost:8080/api/comments/addComment";
 const API_DELETE_COMMENT_URL =
     "http://localhost:8080/api/comments/deleteComment";
+const API_UPDATE_COMMENT_URL =
+    "http://localhost:8080/api/comments/updateComment";
 
 export const getAllComments = async () => {
     const res = await fetch(API_GET_ALL_COMMENTS_URL, {
@@ -53,6 +55,21 @@ export const deleteComment = async (recipe_id, user_id, comment_id) => {
             recipe_id: recipe_id,
             user_id: user_id,
             comment_id: comment_id,
+        }),
+        headers: header,
+    });
+    return res;
+};
+
+export const updateComment = async (comment_id, user_id, recipe_id) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    const res = await fetch(API_UPDATE_COMMENT_URL, {
+        method: "post",
+        body: JSON.stringify({
+            comment_id: comment_id,
+            user_id: user_id,
+            recipe_id: recipe_id,
         }),
         headers: header,
     });
