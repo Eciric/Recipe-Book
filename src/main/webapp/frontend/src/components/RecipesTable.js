@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import { useHistory } from "react-router-dom";
 import { deleteRecipeById } from "../services/recipeService";
+import { EditRecipeRow } from "./EditRecipeRow";
 
 export const RecipesTable = ({ recipes }) => {
     const history = useHistory();
+    const [editing, setEditing] = useState(false);
+    const [editRecord, setEditRecord] = useState({});
 
-    const editEntry = (record, index) => {
-        console.log(record);
-        console.log(index);
+    const editEntry = (record) => {
+        setEditing(true);
+        setEditRecord(record);
     };
 
     const deleteEntry = (record, index) => {
@@ -27,7 +30,6 @@ export const RecipesTable = ({ recipes }) => {
     let columns = [
         { text: "ID", key: "id", sortable: true },
         { text: "Title", key: "title", sortable: true },
-        { text: "Likes", key: "likes", sortable: true },
         { text: "Date", key: "date", sortable: true },
         { text: "UserID", key: "userID", sortable: true },
         {
@@ -81,7 +83,6 @@ export const RecipesTable = ({ recipes }) => {
             data.push({
                 id: row.recipeData.recipe_id,
                 title: row.recipeData.title,
-                likes: row.recipeData.likes,
                 date: formattedDate,
                 userID: row.recipeData.user_id,
             });
@@ -90,7 +91,11 @@ export const RecipesTable = ({ recipes }) => {
 
     return (
         <div>
-            <ReactDatatable columns={columns} records={data} />
+            {editing ? (
+                <EditRecipeRow record={editRecord} setEditing={setEditing} />
+            ) : (
+                <ReactDatatable columns={columns} records={data} />
+            )}
         </div>
     );
 };

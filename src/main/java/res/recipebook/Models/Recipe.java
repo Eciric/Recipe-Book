@@ -19,13 +19,11 @@ public class Recipe {
     private Timestamp date_created;
     private String title;
     private String recipe_text;
-    private int likes;
 
-    public Recipe(int user_id, Timestamp date_created, String title, String recipe_text, int likes) {
+    public Recipe(int user_id, Timestamp date_created, String title, String recipe_text) {
         this.user_id = user_id;
         this.date_created = date_created;
         this.title = title;
         this.recipe_text = recipe_text;
-        this.likes = likes;
     }
 }

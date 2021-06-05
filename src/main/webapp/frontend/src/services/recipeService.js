@@ -3,6 +3,7 @@ import authHeader from "../services/authHeader";
 const API_UPLOAD_URL = "http://localhost:8080/api/recipes/storeRecipe";
 const API_DOWNLOAD_ALL_URL = "http://localhost:8080/api/recipes/getAllRecipes";
 const API_GET_RECIPE_URL = "http://localhost:8080/api/recipes/getRecipeById";
+const API_UPDATE_RECIPE_URL = "http://localhost:8080/api/recipes/updateRecipe";
 const API_GET_USER_RECIPES_URL =
     "http://localhost:8080/api/recipes/getAllUserRecipes";
 const API_DELETE_RECIPE_BY_ID_URL =
@@ -67,4 +68,18 @@ export const deleteRecipeById = async (id) => {
         headers: header,
     });
     return res;
+};
+
+export const updateRecipe = async (id, title, user_id) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    return fetch(API_UPDATE_RECIPE_URL, {
+        method: "post",
+        body: JSON.stringify({
+            recipe_id: id,
+            title: title,
+            user_id: user_id,
+        }),
+        headers: header,
+    });
 };

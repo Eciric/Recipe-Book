@@ -74,7 +74,7 @@ public class RecipeService {
     // Save a new recipe
     public boolean storeRecipe(int user_id, MultipartFile file, String title, String contents) {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        Recipe newRecipe = new Recipe(user_id, Timestamp.from(Instant.now()), title, contents, 0);
+        Recipe newRecipe = new Recipe(user_id, Timestamp.from(Instant.now()), title, contents);
         Recipe confirmedRecipe = recipeRepository.save(newRecipe);
         int recipe_id = confirmedRecipe.getRecipe_id();
         try {
@@ -122,5 +122,14 @@ public class RecipeService {
 
     public void deleteRecipeById(int id) {
         recipeRepository.deleteById(id);
+    }
+
+    public void updateRecipe(int recipe_id, String title, int user_id) {
+        Optional<Recipe> recipe = recipeRepository.findById(recipe_id);
+        if (recipe.isPresent()) {
+            recipe.get().setTitle(title);
+            recipe.get().setUser_id(user_id);
+            recipeRepository.save(recipe.get());
+        }
     }
 }

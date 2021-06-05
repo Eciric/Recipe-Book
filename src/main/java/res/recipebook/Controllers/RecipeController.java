@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import res.recipebook.Payload.Requests.RecipeRequest;
+import res.recipebook.Payload.Requests.UpdateRecipeRequest;
 import res.recipebook.Payload.Responses.RecipeResponse;
 import res.recipebook.Repositories.UserRepository;
 import res.recipebook.Security.Services.UserDetailsImpl;
@@ -63,6 +64,13 @@ public class RecipeController {
     @DeleteMapping(value="/deleteRecipeById")
     public ResponseEntity<?> deleteRecipeById(@RequestBody RecipeRequest request) {
         recipeService.deleteRecipeById(request.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value="/updateRecipe")
+    public ResponseEntity<?> updateRecipe(@RequestBody UpdateRecipeRequest request) {
+        recipeService.updateRecipe(request.getRecipe_id(), request.getTitle(), request.getUser_id());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
