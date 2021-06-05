@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import res.recipebook.Models.User;
+import res.recipebook.Payload.Requests.UpdateUserRequest;
 import res.recipebook.Payload.Requests.UserRequest;
 import res.recipebook.Payload.Responses.UserResponse;
 import res.recipebook.Services.UserService;
@@ -45,4 +46,10 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value="/updateUser", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest request) {
+        userService.updateUser(request.getUser_id(), request.getUsername(), request.getRoles(), request.getEmail());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
