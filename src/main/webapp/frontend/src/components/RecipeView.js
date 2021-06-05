@@ -49,6 +49,7 @@ export const RecipeView = () => {
     const [processingLike, setProcessingLike] = useState(false);
     const [alreadyLiked, setAlreadyLiked] = useState(false);
     const [likePic, setLikePic] = useState(likesImage);
+    const [likeId, setLikeId] = useState(undefined);
 
     // Fetch recipe related data
     useEffect(() => {
@@ -155,6 +156,7 @@ export const RecipeView = () => {
                     let result = json.find(
                         (row) => row.recipe_id === Number(id)
                     );
+                    if (result) setLikeId(result.like_id);
                     if (result === undefined) result = false;
                     else result = true;
 
@@ -216,7 +218,7 @@ export const RecipeView = () => {
             let user_id = JSON.parse(localStorage.getItem("user")).id;
             if (alreadyLiked) {
                 // Delete user like and change the image accordingly
-                deleteUserLikeFromRecipe(user_id, id)
+                deleteUserLikeFromRecipe(likeId)
                     .then((res) => {
                         if (res.ok) {
                             setAlreadyLiked(false);
