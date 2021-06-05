@@ -2,6 +2,7 @@ import authHeader from "../services/authHeader";
 
 const API_GET_USER_DATA_URL = "http://localhost:8080/api/users/getUserData";
 const API_GET_ALL_USERS_URL = "http://localhost:8080/api/users/getAllUsers";
+const API_UPDATE_USER_URL = "http://localhost:8080/api/users/updateUser";
 const API_DELETE_USER_BY_ID_URL =
     "http://localhost:8080/api/users/deleteUserById";
 
@@ -31,6 +32,21 @@ export const deleteUserById = async (id) => {
         body: JSON.stringify({
             username: null,
             id: id,
+        }),
+        headers: header,
+    });
+};
+
+export const updateUser = async (id, username, roles, email) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    return fetch(API_UPDATE_USER_URL, {
+        method: "post",
+        body: JSON.stringify({
+            user_id: id,
+            username: username,
+            roles: roles,
+            email: email,
         }),
         headers: header,
     });
