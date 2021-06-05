@@ -37,6 +37,11 @@ public class LikeController {
         return likeService.getRecipeLikes(likeRequest.getRecipe_id());
     }
 
+    @PostMapping(value="/getUserRecipesLikesCount", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public String getUserRecipeLikesCount(@RequestBody LikeRequest likeRequest) {
+        return likeService.getUserRecipeLikesCount(likeRequest.getUser_id());
+    }
+
     @PreAuthorize("hasRole('USER')")
     @PutMapping(value="/addUserLike")
     public ResponseEntity<?> addUserLike(@RequestBody LikeRequest likeRequest) {
