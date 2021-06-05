@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import { useHistory } from "react-router-dom";
 import { deleteUserById } from "../services/userService";
+import { EditUserRow } from "./EditUserRow";
 
 export const UsersTable = ({ users }) => {
     const history = useHistory();
+    const [editing, setEditing] = useState(false);
+    const [editRecord, setEditRecord] = useState({});
+    const [editIndex, setEditIndex] = useState(undefined);
 
-    const editEntry = (record, index) => {};
+    const editEntry = (record, index) => {
+        setEditing(true);
+        setEditRecord(record);
+        setEditIndex(index);
+    };
 
     const deleteEntry = (record, index) => {
         deleteUserById(record.id)
@@ -94,7 +102,15 @@ export const UsersTable = ({ users }) => {
 
     return (
         <div>
-            <ReactDatatable columns={columns} records={data} />
+            {editing ? (
+                <EditUserRow
+                    record={editRecord}
+                    index={editIndex}
+                    setEditing={setEditing}
+                />
+            ) : (
+                <ReactDatatable columns={columns} records={data} />
+            )}
         </div>
     );
 };
