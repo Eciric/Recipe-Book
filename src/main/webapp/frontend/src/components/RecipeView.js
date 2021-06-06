@@ -42,6 +42,7 @@ export const RecipeView = () => {
     const [addingComment, setAddingComment] = useState(false);
     const [addCommentResponse, setAddCommentResponse] = useState("");
     const [addCommentSuccessful, setAddCommentSuccessful] = useState(false);
+    const [reloadComments, setReloadComments] = useState(false);
 
     // Likes hooks
     const [recipeLikes, setRecipeLikes] = useState(0);
@@ -172,7 +173,7 @@ export const RecipeView = () => {
                     console.log(err);
                 });
         }
-    }, [id]);
+    }, [id, processingLike]);
 
     const getParsedComments = async (json) => {
         let newComments = [];
@@ -193,6 +194,7 @@ export const RecipeView = () => {
 
     // Fetches recipe comments
     useEffect(() => {
+        setReloadComments(false);
         setLoadingComments(true);
         getComments(Number(id))
             .then((res) => res.json())
@@ -205,7 +207,7 @@ export const RecipeView = () => {
                 setLoadingComments(false);
                 console.log(err);
             });
-    }, [id, addingComment]);
+    }, [id, addingComment, reloadComments]);
 
     const handleLikeClicked = () => {
         if (!loggedIn) {
@@ -221,8 +223,6 @@ export const RecipeView = () => {
                 deleteUserLikeFromRecipe(likeId)
                     .then((res) => {
                         if (res.ok) {
-                            setAlreadyLiked(false);
-                            setLikePic(likesImage);
                             setProcessingLike(false);
                         }
                     })
@@ -235,8 +235,6 @@ export const RecipeView = () => {
                 addUserLikeToRecipe(user_id, id)
                     .then((res) => {
                         if (res.ok) {
-                            setAlreadyLiked(true);
-                            setLikePic(likesClickedImage);
                             setProcessingLike(false);
                         }
                     })
@@ -263,9 +261,9 @@ export const RecipeView = () => {
                     setAddCommentResponse(
                         "Sucessfully submitted your message!"
                     );
-                    setTimeout(() => {
+                    setTimeout(async () => {
                         setAddCommentResponse("");
-                    }, 5000);
+                    }, 1500);
                 }
             })
             .catch((err) => {
@@ -273,9 +271,9 @@ export const RecipeView = () => {
                 setAddingComment(false);
                 setAddCommentSuccessful(false);
                 setAddCommentResponse("Failed to submit your message!");
-                setTimeout(() => {
+                setTimeout(async () => {
                     setAddCommentResponse("");
-                }, 5000);
+                }, 1500);
             });
     };
 
@@ -478,7 +476,10 @@ export const RecipeView = () => {
                                         />
                                     </div>
                                 ) : (
-                                    <CommentSection comments={comments} />
+                                    <CommentSection
+                                        comments={comments}
+                                        setReloadComments={setReloadComments}
+                                    />
                                 )}
                             </div>
                         )}
