@@ -520,6 +520,7 @@ th {
   max-width: 70%;
   display: flex;
   justify-content: left;
+  position: relative;
 }
 
 .comment p {
@@ -552,4 +553,14 @@ th {
   background-color: white;
   max-width: 30%;
   box-shadow: 0px 0px 15px 1px rgba(104, 62, 209, 0.9);
+}
+
+.deleteComment {
+  position:absolute;
+  right: 0;
+  color: red;
+}
+
+.deleteComment:hover {
+  cursor: pointer;
 }
