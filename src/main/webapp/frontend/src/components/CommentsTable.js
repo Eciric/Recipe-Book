@@ -15,7 +15,7 @@ export const CommentsTable = ({ comments }) => {
     };
 
     const deleteEntry = (record) => {
-        deleteComment(record.recipeid, record.userid, record.id)
+        deleteComment(record.id)
             .then((res) => {
                 if (res.ok) {
                     history.push("/adminpanel");

@@ -46,14 +46,12 @@ export const addComment = async (recipe_id, user_id, message) => {
     return res;
 };
 
-export const deleteComment = async (recipe_id, user_id, comment_id) => {
+export const deleteComment = async (comment_id) => {
     let header = authHeader();
     header["Content-Type"] = "application/json";
     const res = await fetch(API_DELETE_COMMENT_URL, {
         method: "delete",
         body: JSON.stringify({
-            recipe_id: recipe_id,
-            user_id: user_id,
             comment_id: comment_id,
         }),
         headers: header,

@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { deleteComment } from "../services/commentsService";
 
-export const CommentSection = ({ comments }) => {
+export const CommentSection = ({ comments, setReloadComments }) => {
+    const [currentUsername, setCurrentUsername] = useState("");
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+            setCurrentUsername(user.username);
+        }
+    }, []);
+
+    const handleDeleteClicked = (id) => {
+        deleteComment(id)
+            .then((res) => {
+                if (res.ok) {
+                    setReloadComments(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     return (
         <div className="container allComments">
             {comments.map((comment) => {
                 let userImage = comment.image;
                 let username = comment.username;
+                let letDelete = username === currentUsername;
                 let message = comment.message;
                 let date = new Date(comment.date).toLocaleDateString("en-gb", {
                     year: "numeric",
@@ -38,6 +61,16 @@ export const CommentSection = ({ comments }) => {
                                 {message}
                             </div>
                         </div>
+                        {letDelete && (
+                            <div
+                                className="deleteComment"
+                                onClick={() => {
+                                    handleDeleteClicked(id);
+                                }}
+                            >
+                                <i className="fa fa-times"></i>
+                            </div>
+                        )}
                     </div>
                 );
             })}
