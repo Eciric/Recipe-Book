@@ -309,12 +309,14 @@ export const RecipeView = () => {
                             </div>
                         ) : (
                             <div className="userInfo col-sm-12 col-lg-6 col-xl-6">
-                                <img
-                                    id="recipeUserPicture"
-                                    src={creatorPicture}
-                                    alt=""
-                                    className="img-fluid mt-4"
-                                />
+                                <a href={`/profile/${creator.username}`}>
+                                    <img
+                                        id="recipeUserPicture"
+                                        src={creatorPicture}
+                                        alt=""
+                                        className="img-fluid mt-4"
+                                    />
+                                </a>
                                 <p className="mt-2">
                                     By{" "}
                                     <a

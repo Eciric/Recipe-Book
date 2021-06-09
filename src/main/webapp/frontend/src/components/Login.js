@@ -107,6 +107,7 @@ const Login = () => {
                                         className="form-control auth-control"
                                         id="inputUsername"
                                         placeholder="Your cool username..."
+                                        autoComplete="off"
                                         onChange={handleUsernameChange}
                                         value={username}
                                     />

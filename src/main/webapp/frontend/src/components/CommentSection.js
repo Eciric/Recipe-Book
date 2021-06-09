@@ -50,7 +50,10 @@ export const CommentSection = ({ comments, setReloadComments }) => {
                         <div className="text">
                             <div className="commentMeta">
                                 <p id="name">
-                                    <a href={"/profile/" + username}>
+                                    <a
+                                        id="creatorName"
+                                        href={"/profile/" + username}
+                                    >
                                         {username}
                                     </a>
                                 </p>

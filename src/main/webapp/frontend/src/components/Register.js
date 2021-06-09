@@ -140,6 +140,7 @@ const Register = () => {
                                 type="email"
                                 className="form-control auth-control"
                                 id="inputEmail"
+                                autoComplete="off"
                                 placeholder="email@email.com..."
                                 onChange={handleEmailChange}
                                 value={email}
@@ -161,6 +162,7 @@ const Register = () => {
                                 type="text"
                                 className="form-control auth-control"
                                 id="inputUsername"
+                                autoComplete="off"
                                 placeholder="A nice username..."
                                 onChange={handleUsernameChange}
                                 value={username}
