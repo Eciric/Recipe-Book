@@ -9,6 +9,11 @@ body {
   background-color: whitesmoke;
 }
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -40,7 +45,7 @@ code {
 
 .card {
   box-shadow: 0px 0px 15px 1px rgba(104, 62, 209, 0.9);
-  max-width: 63%;
+  max-width: 75%;
   margin: 0 auto;
   background-color: white;
   margin-top: 3rem !important;
@@ -51,7 +56,7 @@ code {
 }
 
 .auth-control {
-  max-width: 60%;
+  max-width: 85%;
   margin: 0 auto;
   padding-left: 40px;
   border-color: #683ed1;
@@ -251,12 +256,12 @@ code {
 footer {
   background-color: #fafafa;
   color: #683ed1;
-  bottom: 0 !important;
-  margin: 0 auto;
-  width: 100%;
-  position: absolute;
   box-shadow: 0px -5px 15px #a17ef8;
+  font-size: 1rem;
+  width: 100%;
   height: 75px;
+  bottom: 0 !important;
+  position: absolute;
 }
 
 #root {
@@ -449,21 +454,15 @@ th {
   text-align: center !important;
 }
 
-.register-image {
-  filter:brightness(50%);
-}
-
 .register-body {
-  position: relative;
-  display: flex;
-  justify-content: center;
+  background: url("./images/register.jpg");
+  background-size: cover;
 }
 
 .register-form {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  transform:translateY(-50%);
+  padding: 0.5rem;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 #as-react-datatable-table-foot > div.col-md-6.pull-right.text-right {

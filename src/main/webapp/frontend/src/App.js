@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Profile from "./components/Profile";
-import Footer from "./components/Footer";
-import { RecipeView } from "./components/RecipeView";
-import RecipeCreator from "./components/RecipeCreator";
-import { getCurrentUser } from "./services/authService";
-import { AdminPanel } from "./components/AdminPanel";
+import { getCurrentUser } from "./services/auth-services/authService";
+import Navbar from "./components/layout-components/Navbar";
+import Home from "./components/layout-components/Home";
+import Footer from "./components/layout-components/Footer";
+import Login from "./components/user-components/Login";
+import Register from "./components/user-components/Register";
+import Profile from "./components/user-components/Profile";
+import { RecipeView } from "./components/recipe-components/RecipeView";
+import RecipeCreator from "./components/recipe-components/RecipeCreator";
+import { AdminPanel } from "./components/admin-components/AdminPanel";
 
 function App() {
     const [currentUser, setCurrentUser] = useState(undefined);
