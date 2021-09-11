@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import Loader from "react-loader-spinner";
 import { login } from "../../services/auth-services/authService";
 import image from "../../images/login-side.jpg";
 
@@ -63,18 +64,14 @@ const Login = () => {
                     }, 500);
                 },
                 (error) => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                    if (error.response.status === 401) {
+                    if (error.response && error.response.status === 401) {
                         setMessage(
                             "Provided credentials couldn't be proven authentic."
                         );
                     } else {
-                        setMessage(resMessage);
+                        setMessage(
+                            "Unknown error occured when attempting to log in."
+                        );
                     }
                     setLoading(false);
                     setSuccessful(false);
@@ -86,6 +83,17 @@ const Login = () => {
     return (
         <div className="container">
             <div className="card text-center">
+                {loading && (
+                    <div className="fullSpinnerContainer">
+                        <Loader
+                            type="MutatingDots"
+                            color="#683ED1"
+                            secondaryColor="#9b6dff"
+                            height={100}
+                            width={100}
+                        />
+                    </div>
+                )}
                 <div className="card-header">
                     Your data is safe with Recipe Book, or maybe not.
                 </div>
@@ -101,40 +109,45 @@ const Login = () => {
                         <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                             <form onSubmit={handleLogin}>
                                 <div className="form-group my-5">
-                                    <label className="my-2">Username</label>
-                                    <input
-                                        type="text"
-                                        className="form-control auth-control"
-                                        id="inputUsername"
-                                        placeholder="Your cool username..."
-                                        autoComplete="off"
-                                        onChange={handleUsernameChange}
-                                        value={username}
-                                    />
+                                    <div className="login-form__username mb-4">
+                                        <label className="my-2">Username</label>
+                                        <input
+                                            type="text"
+                                            className="form-control auth-control"
+                                            id="inputUsername"
+                                            placeholder="Your cool username..."
+                                            autoComplete="off"
+                                            onChange={handleUsernameChange}
+                                            value={username}
+                                        />
 
-                                    {usernameError.length > 0 && (
-                                        <span className="error">
-                                            {usernameError}
-                                        </span>
-                                    )}
-                                </div>
+                                        {usernameError.length > 0 && (
+                                            <div className="mt-2">
+                                                <span className="error">
+                                                    {usernameError}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="login-form__password mb-4">
+                                        <label className="my-2">Password</label>
+                                        <input
+                                            type="password"
+                                            className="form-control auth-control"
+                                            id="inputPassword"
+                                            placeholder="Your secure password..."
+                                            onChange={handlePasswordChange}
+                                            value={password}
+                                        />
 
-                                <div className="form-group my-5">
-                                    <label className="my-2">Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control auth-control"
-                                        id="inputPassword"
-                                        placeholder="Your secure password..."
-                                        onChange={handlePasswordChange}
-                                        value={password}
-                                    />
-
-                                    {passwordError.length > 0 && (
-                                        <span className="error">
-                                            {passwordError}
-                                        </span>
-                                    )}
+                                        {passwordError.length > 0 && (
+                                            <div className="mt-2">
+                                                <span className="error">
+                                                    {passwordError}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                                 <br></br>
                                 <button

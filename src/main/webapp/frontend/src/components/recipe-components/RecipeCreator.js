@@ -126,64 +126,66 @@ const RecipeCreator = () => {
 
             <div className="recipeForm p-5">
                 <div className="form-group my-4">
-                    <label className="my-1">Recipe Name:</label>
-                    <input
-                        id="recipeName"
-                        type="text"
-                        className="form-control"
-                        onChange={handleNameChange}
-                        value={name}
-                    ></input>
-                    {nameError.length > 0 && (
-                        <span className="error">{nameError}</span>
-                    )}
-                </div>
+                    <div className="d-flex">
+                        <div className="flex-grow-1">
+                            <label className="my-1">Recipe Name:</label>
+                            <input
+                                id="recipeName"
+                                type="text"
+                                className="form-control"
+                                onChange={handleNameChange}
+                                value={name}
+                            ></input>
+                            {nameError.length > 0 && (
+                                <span className="error">{nameError}</span>
+                            )}
 
-                <div className="form-group my-4">
-                    <label>Recipe Image:</label>
-                    <div className="recipePictureContainer">
-                        <img
-                            id="recipePicture"
-                            src={recipeUri}
-                            alt=""
-                            className="img-fluid my-4"
-                        />
-                        <div className="addRecipePictureContainer">
-                            <span className="fa-stack">
-                                <i
-                                    id="recipeBackgroundIcon"
-                                    className="fa fa-circle fa-stack-1x"
-                                ></i>
-                                <i
-                                    id="addRecipePictureIcon"
-                                    className="fa fa-plus-circle fa-stack-1x"
-                                    onClick={onButtonClick}
-                                >
-                                    <input
-                                        type="file"
-                                        id="file"
-                                        ref={inputFile}
-                                        onChange={onFileChange}
-                                        style={{ display: "none" }}
-                                    />
-                                </i>
-                            </span>
+                            <label className="my-1">Recipe Contents:</label>
+                            <textarea
+                                id="recipeContent"
+                                className="form-control"
+                                rows="10"
+                                onChange={handleContentsChange}
+                                value={contents}
+                            ></textarea>
+
+                            {contentsError.length > 0 && (
+                                <span className="error">{contentsError}</span>
+                            )}
+                        </div>
+                        <div className="flex-grow-1">
+                            <label>Recipe Image:</label>
+                            <div className="recipePictureContainer">
+                                <img
+                                    id="recipePicture"
+                                    src={recipeUri}
+                                    alt=""
+                                    className="img-fluid my-4"
+                                />
+                                <div className="addRecipePictureContainer">
+                                    <span className="fa-stack">
+                                        <i
+                                            id="recipeBackgroundIcon"
+                                            className="fa fa-circle fa-stack-1x"
+                                        ></i>
+                                        <i
+                                            id="addRecipePictureIcon"
+                                            className="fa fa-plus-circle fa-stack-1x"
+                                            onClick={onButtonClick}
+                                        >
+                                            <input
+                                                type="file"
+                                                id="file"
+                                                ref={inputFile}
+                                                onChange={onFileChange}
+                                                style={{ display: "none" }}
+                                            />
+                                        </i>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div className="form-group my-4">
-                    <label className="my-1">Recipe Contents:</label>
-                    <textarea
-                        id="recipeContent"
-                        className="form-control"
-                        rows="10"
-                        onChange={handleContentsChange}
-                        value={contents}
-                    ></textarea>
-                    {contentsError.length > 0 && (
-                        <span className="error">{contentsError}</span>
-                    )}
                 </div>
 
                 <div className="my-4">

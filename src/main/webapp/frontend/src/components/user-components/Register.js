@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { isEmail } from "validator";
+import Loader from "react-loader-spinner";
 import { register } from "../../services/auth-services/authService";
 
 const validateUsername = (username) => {
@@ -101,17 +102,12 @@ const Register = () => {
                     setLoading(false);
                     setMessage(response.data.message);
                 },
-                (error) => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
+                () => {
                     setSuccessful(false);
                     setLoading(false);
-                    setMessage(resMessage);
+                    setMessage(
+                        "Unknown error occured when attempting to register."
+                    );
                 }
             );
         }
@@ -120,63 +116,94 @@ const Register = () => {
     return (
         <div className="container">
             <div className="card my-5 text-center">
+                {loading && (
+                    <div className="fullSpinnerContainer">
+                        <Loader
+                            type="MutatingDots"
+                            color="#683ED1"
+                            secondaryColor="#9b6dff"
+                            height={100}
+                            width={100}
+                        />
+                    </div>
+                )}
                 <div className="card-header">Register your account today!</div>
                 <div className="card-body register-body">
                     <form className="register-form" onSubmit={handleRegister}>
                         <div className="form-group py-4">
-                            <label className="my-2" style={{ color: "white" }}>
-                                Email address
-                            </label>
-                            <input
-                                type="email"
-                                className="form-control auth-control"
-                                id="inputEmail"
-                                autoComplete="off"
-                                placeholder="email@email.com..."
-                                onChange={handleEmailChange}
-                                value={email}
-                            />
+                            <div className="register-form__email mb-4">
+                                <label
+                                    className="my-2"
+                                    style={{ color: "white" }}
+                                >
+                                    Email address
+                                </label>
+                                <input
+                                    type="email"
+                                    className="form-control auth-control"
+                                    id="inputEmail"
+                                    autoComplete="off"
+                                    placeholder="email@email.com..."
+                                    onChange={handleEmailChange}
+                                    value={email}
+                                />
 
-                            {emailError.length > 0 && (
-                                <span className="error">{emailError}</span>
-                            )}
-                        </div>
+                                {emailError.length > 0 && (
+                                    <div className="mt-3">
+                                        <span className="error">
+                                            {emailError}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="register-form__username mb-4">
+                                <label
+                                    className="my-2"
+                                    style={{ color: "white" }}
+                                >
+                                    Username
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control auth-control"
+                                    id="inputUsername"
+                                    autoComplete="off"
+                                    placeholder="A nice username..."
+                                    onChange={handleUsernameChange}
+                                    value={username}
+                                />
+                                {usernameError.length > 0 && (
+                                    <div className="mt-3">
+                                        <span className="error">
+                                            {usernameError}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="register-form__password">
+                                <label
+                                    className="my-2"
+                                    style={{ color: "white" }}
+                                >
+                                    Password
+                                </label>
+                                <input
+                                    type="password"
+                                    className="form-control auth-control"
+                                    id="inputPassword"
+                                    placeholder="A secure password..."
+                                    onChange={handlePasswordChange}
+                                    value={password}
+                                />
 
-                        <div className="form-group py-4">
-                            <label className="my-2" style={{ color: "white" }}>
-                                Username
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control auth-control"
-                                id="inputUsername"
-                                autoComplete="off"
-                                placeholder="A nice username..."
-                                onChange={handleUsernameChange}
-                                value={username}
-                            />
-
-                            {usernameError.length > 0 && (
-                                <span className="error">{usernameError}</span>
-                            )}
-                        </div>
-
-                        <div className="form-group py-4">
-                            <label className="my-2" style={{ color: "white" }}>
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                className="form-control auth-control"
-                                id="inputPassword"
-                                placeholder="A secure password..."
-                                onChange={handlePasswordChange}
-                                value={password}
-                            />
-
-                            {passwordError.length > 0 && (
-                                <span className="error">{passwordError}</span>
-                            )}
+                                {passwordError.length > 0 && (
+                                    <div className="mt-3">
+                                        <span className="error">
+                                            {passwordError}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <br></br>
                         <button

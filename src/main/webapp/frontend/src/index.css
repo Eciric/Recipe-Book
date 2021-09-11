@@ -1,565 +1,580 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: whitesmoke;
 }
 
 p {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 
 .container {
-  padding: 0;
+    padding: 0;
 }
 
 .navbar {
-  background-color: rgba(255, 255, 255, 0.5) !important;
-	box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .nav-link {
-  color: #683ed1 !important;
+    color: #683ed1 !important;
 }
 
 .nav-link:hover {
-  color: hotpink !important;
-  text-shadow: 0px 0px 10px hotpink;
+    color: hotpink !important;
+    text-shadow: 0px 0px 10px hotpink;
 }
 
 .navbar-brand {
-  color: #683ed1 !important;
+    color: #683ed1 !important;
 }
 
 .card {
-  box-shadow: 0px 0px 15px 1px rgba(104, 62, 209, 0.9);
-  max-width: 75%;
-  margin: 0 auto;
-  background-color: white;
-  margin-top: 3rem !important;
+    box-shadow: 0px 0px 15px 1px rgba(104, 62, 209, 0.9);
+    max-width: 75%;
+    margin: 0 auto;
+    background-color: white;
+    margin-top: 3rem !important;
+    position: relative;
 }
 
 .card-header {
-  border-bottom-color: #683ed1;
+    border-bottom-color: #683ed1;
 }
 
 .auth-control {
-  max-width: 85%;
-  margin: 0 auto;
-  padding-left: 40px;
-  border-color: #683ed1;
-  border-width: 1px;
+    max-width: 85%;
+    margin: 0 auto;
+    padding-left: 40px;
+    border-color: #683ed1;
+    border-width: 1px;
 }
 
 .form-control {
-  margin: 0 auto;
-  border-color: #683ed1;
-  border-width: 1px;
-  box-shadow: 0 0 5px 0 #683ed1;
+    margin: 0 auto;
+    border-color: #683ed1;
+    border-width: 1px;
+    box-shadow: 0 0 5px 0 #683ed1;
 }
 
 @media only screen and (max-width: 768px) {
-  .card {
-    box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
-    max-width: 90%;
-    margin: 0 auto;
-  }
-  
-  .auth-control {
-    max-width: 93% !important;
-    margin: 0 auto;
-    padding-left: 40px;
-  }
+    .card {
+        box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .auth-control {
+        max-width: 93% !important;
+        margin: 0 auto;
+        padding-left: 40px;
+    }
 }
 
 @media only screen and (max-width: 992px) {
-  .card {
-    box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
-    max-width: 90%;
-    margin: 0 auto;
-  }
-  
-  .auth-control {
-    max-width: 75%;
-    margin: 0 auto;
-    padding-left: 40px;
-  }
+    .card {
+        box-shadow: 5px 5px 15px rgba(104, 62, 209, 0.5);
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .auth-control {
+        max-width: 75%;
+        margin: 0 auto;
+        padding-left: 40px;
+    }
 }
 
 #inputEmail {
-  background-image:url(./images/envelope.png); 
-  background-repeat: no-repeat; 
-  background-size: 21px 21px;
-  background-position: 2% 55%;
+    background-image: url(./images/envelope.png);
+    background-repeat: no-repeat;
+    background-size: 21px 21px;
+    background-position: 2% 55%;
 }
 
 #inputUsername {
-  background-image:url(./images/usericon.png); 
-  background-repeat: no-repeat; 
-  background-size: 21px 21px;
-  background-position: 2% 55%;
+    background-image: url(./images/usericon.png);
+    background-repeat: no-repeat;
+    background-size: 21px 21px;
+    background-position: 2% 55%;
 }
 
 #inputPassword {
-  background-image:url(./images/password.png); 
-  background-repeat: no-repeat; 
-  background-size: 21px 21px;
-  background-position: 2% 55%;
+    background-image: url(./images/password.png);
+    background-repeat: no-repeat;
+    background-size: 21px 21px;
+    background-position: 2% 55%;
 }
 
 #searchBar {
-  background-image:url(./images/search.png); 
-  background-repeat: no-repeat; 
-  background-size: 21px 21px;
-  background-position: 1.2% 55%;
+    background-image: url(./images/search.png);
+    background-repeat: no-repeat;
+    background-size: 21px 21px;
+    background-position: 1.2% 55%;
 }
 
 .btn-primary {
-  background-color: #683ed1;
+    background-color: #683ed1;
 }
 
 .logo {
-  width: 60px;
-  margin-top: -5px;
+    width: 60px;
+    margin-top: -5px;
 }
 
 .error {
-  color: red;
-  font-size: 0.75rem;
-  text-align: left;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 25px;
+    padding: 10px;
+    color: red;
+    font-size: 1rem;
+    text-align: left;
 }
 
 .alert {
-  max-width: 65%;
-  margin: 0 auto;
+    max-width: 65%;
+    margin: 0 auto;
 }
 
 #profileContainer {
-  background-color: white;
-  box-shadow: 5px 5px 15px #683ed1;
-  text-align:center;
+    background-color: white;
+    box-shadow: 5px 5px 15px #683ed1;
+    text-align: center;
 }
 
 #profilePicture {
-  width: 200px;
-  height: 200px;
-  border: 2px solid rgba(104, 62, 209, 0.5) !important;
-  border-radius: 50%;
-  box-shadow: 2px 2px 15px #683ed1;
+    width: 200px;
+    height: 200px;
+    border: 2px solid rgba(104, 62, 209, 0.5) !important;
+    border-radius: 50%;
+    box-shadow: 2px 2px 15px #683ed1;
 }
 
 .profilePictureContainer {
-  position: relative;
-  width: 200px;
-  margin: 0 auto;
+    position: relative;
+    width: 200px;
+    margin: 0 auto;
 }
 
 .addProfilePictureContainer {
-  position: absolute;
-  top: 70%;
-  right: 10%;
+    position: absolute;
+    top: 70%;
+    right: 10%;
 }
 
 #addProfilePictureIcon {
-  font-size: 2rem;
-  color: #a17ef8;
+    font-size: 2rem;
+    color: #a17ef8;
 }
 
 #backgroundIcon {
-  color:white;
-  font-size: 2rem;
+    color: white;
+    font-size: 2rem;
 }
 
 #addProfilePictureIcon:hover {
-  color: hotpink;
-  cursor: pointer;
+    color: hotpink;
+    cursor: pointer;
 }
 
-
 .recipeList {
-  margin-top: 5rem;
-  flex: 1;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
+    margin-top: 5rem;
+    flex: 1;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
 }
 
 .recipeTile img {
-  width: 350px;
-  height: 250px;
-  object-fit: cover;
-  filter: brightness(80%);
-  transition: 0.5s;
+    width: 350px;
+    height: 250px;
+    object-fit: cover;
+    filter: brightness(80%);
+    transition: 0.5s;
 }
 
 .recipeTile {
-  width: 350px;
-  height: 250px;
-  margin: 20px;
-  box-shadow: 2px 2px 15px #683ed1;;
-  border: 1px solid #683ed1;
-  position: relative;
-  transition: 0.5s;
+    width: 350px;
+    height: 250px;
+    margin: 20px;
+    box-shadow: 2px 2px 15px #683ed1;
+    border: 1px solid #683ed1;
+    position: relative;
+    transition: 0.5s;
 }
 
 .recipeTile:hover img {
-  filter:brightness(100%);
+    filter: brightness(100%);
 }
 
 .recipeTile:hover {
-  cursor: pointer;
-  transform: scale(1.05);
-
+    cursor: pointer;
+    transform: scale(1.05);
 }
 
 .recipeTile h1 {
-  color:white;
-  position: absolute;
-  z-index: 1;
-  vertical-align: center;
-  text-align: center;
-  top:50%;
-  left:50%;
-  transform: translateY(-50%) translateX(-50%);
-  text-shadow: 1px 1px 10px #a17ef8;
-  font-weight: 400;
+    color: white;
+    position: absolute;
+    z-index: 1;
+    vertical-align: center;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    text-shadow: 1px 1px 10px #a17ef8;
+    font-weight: 400;
 }
 
 .recipeTileCaption {
-  top:50%;
-  transform: translateY(-50%);
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .row > * {
-  padding-left: 0;
-  padding-right: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .row {
-  width: 100% !important;
-  padding: 0;
-  margin: 0;
+    width: 100% !important;
+    padding: 0;
+    margin: 0;
 }
 
 footer {
-  background-color: #fafafa;
-  color: #683ed1;
-  box-shadow: 0px -5px 15px #a17ef8;
-  font-size: 1rem;
-  width: 100%;
-  height: 75px;
-  bottom: 0 !important;
-  position: absolute;
+    background-color: #fafafa;
+    color: #683ed1;
+    box-shadow: 0px -5px 15px #a17ef8;
+    font-size: 1rem;
+    width: 100%;
+    height: 75px;
+    bottom: 0 !important;
+    position: absolute;
 }
 
 #root {
-  min-height: calc(100vh - 2px);
-  position: relative;
-  padding-bottom: 120px;
+    min-height: calc(100vh - 2px);
+    position: relative;
+    padding-bottom: 120px;
 }
 
 .recipeCreator {
-  background-color: white;
-  box-shadow: 5px 5px 15px #683ed1;
-  text-align:center;
+    background-color: white;
+    box-shadow: 5px 5px 15px #683ed1;
+    text-align: center;
 }
 
 #recipeName {
-  max-width: 40%;
-  margin: 0 auto;
+    max-width: 100%;
 }
 
 #recipeContent {
-  max-width: 75%;
+    max-width: 100%;
 }
 
 .recipePictureContainer {
-  position: relative;
-  width: 400px;
-  margin: 0 auto;
+    position: relative;
+    width: 400px;
+    margin: 0 auto;
 }
 
 .addRecipePictureContainer {
-  position: absolute;
-  top: 87%;
-  right: 2%;
+    position: absolute;
+    top: 87%;
+    right: 2%;
 }
 
 #recipePicture {
-  width: 400px;
-  height: 400px;
-  object-fit: cover;
-  border: 2px dashed rgba(104, 62, 209) !important;
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border: 2px dashed rgba(104, 62, 209) !important;
 }
 
 #addRecipePictureIcon {
-  font-size: 4rem;
-  color: #a17ef8;
+    font-size: 4rem;
+    color: #a17ef8;
 }
 
 #recipeBackgroundIcon {
-  color:white;
-  font-size: 4rem;
+    color: white;
+    font-size: 4rem;
 }
 
 #addRecipePictureIcon:hover {
-  color: darkviolet;
-  cursor: pointer;
+    color: darkviolet;
+    cursor: pointer;
 }
 
 #recipeContent {
-  max-height: 500px;
+    max-height: 500px;
 }
 
 label {
-  font-size: 1.2rem;
-  color: #683ed1;
+    font-size: 1.2rem;
+    color: #683ed1;
 }
 
 .card-header {
-  color: #683ed1;
-  font-size: 1.25em;
+    color: #683ed1;
+    font-size: 1.25em;
 }
 
 .card-body {
-  padding: 0;
+    padding: 0;
 }
 
 .btn-primary {
-  position: relative;
-  background-color: white;
-  font-size: 1em;
-  color:#683ed1;
-  padding: 0.75em 1.75em;
-  box-shadow: 0 0 0.75em 0 #683ed1;
-  transition: 0.5s;
-  text-shadow: 0 0 0.45em #a17ef8;
+    position: relative;
+    background-color: white;
+    font-size: 1em;
+    color: #683ed1;
+    padding: 0.75em 1.75em;
+    box-shadow: 0 0 0.75em 0 #683ed1;
+    transition: 0.5s;
+    text-shadow: 0 0 0.45em #a17ef8;
 }
 
 .btn-primary:hover {
-  background-color: #683ed1;
-  color:white;
-  padding: 0.75em 1.75em;
-  box-shadow: 0 0 1.5em 0 #683ed1;
+    background-color: #683ed1;
+    color: white;
+    padding: 0.75em 1.75em;
+    box-shadow: 0 0 1.5em 0 #683ed1;
 }
 
 .btn-primary:focus {
-  background-color: #6C2DC7 !important;
-  box-shadow: 0 0 2.5em 0 #6C2DC7 !important; 
+    background-color: #6c2dc7 !important;
+    box-shadow: 0 0 2.5em 0 #6c2dc7 !important;
 }
 
 .login-image {
-  border-right: 2px solid #683ed1;
+    border-right: 2px solid #683ed1;
 }
 
 .spinnerContainer {
-  margin: 0 auto;
-  width: 100px;
+    margin: 0 auto;
+    width: 100px;
+}
+
+.fullSpinnerContainer {
+    display: flex;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .noRecipes {
- text-align: center;
+    text-align: center;
 }
 
 .pagination {
-  margin-top: 45px;
-  text-align: center;
-  justify-content: center;
+    margin-top: 45px;
+    text-align: center;
+    justify-content: center;
 }
 
 .page-link {
-  color: #a17ef8;
+    color: #a17ef8;
 }
 
 .page-item {
-  box-shadow: 0.1em 0.1em 1em 0.1em #683ed1;
-
+    box-shadow: 0.1em 0.1em 1em 0.1em #683ed1;
 }
 
 .page-link:hover {
-  background-color: #af8ef8 !important;
-  color: white !important;
+    background-color: #af8ef8 !important;
+    color: white !important;
 }
 
 .page-item:hover {
-  box-shadow: 0 0 1em 0 #683ed1;
+    box-shadow: 0 0 1em 0 #683ed1;
 }
 
 .page-item:focus {
-  box-shadow: 0 0 1em 0 #683ed1;
+    box-shadow: 0 0 1em 0 #683ed1;
 }
 
 #recipeUserPicture {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 2px solid #683ed1;
-  box-shadow: 2px 2px 15px #683ed1;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #683ed1;
+    box-shadow: 2px 2px 15px #683ed1;
 }
 
 #recipeImage {
-  padding: 0 50px;
-  border-radius: 15px;
-  object-fit: cover;
+    padding: 0 50px;
+    border-radius: 15px;
+    object-fit: cover;
 }
 
 #creatorName {
-  text-decoration: none;
-  color:#683ed1;
+    text-decoration: none;
+    color: #683ed1;
 }
 
 #creatorName:hover {
-  color:hotpink;
-  text-shadow: 0 0 5px hotpink;
+    color: hotpink;
+    text-shadow: 0 0 5px hotpink;
 }
 
 #as-react-datatable-table-head > div.col-md-6.float-right.text-right {
-  display: flex !important;
-  justify-content: flex-end !important;
+    display: flex !important;
+    justify-content: flex-end !important;
 }
 
 span.input-group-text {
-  background-color: whitesmoke !important;
+    background-color: whitesmoke !important;
 }
 
 th {
-  color: #683ed1 !important;
+    color: #683ed1 !important;
 }
 
 .table th {
-  background: white !important;
+    background: white !important;
 }
 
-.table tr:nth-child(odd){
-  background: #e8deff !important;
+.table tr:nth-child(odd) {
+    background: #e8deff !important;
 }
 
-.table tr:nth-child(even){
-  background: white !important;
+.table tr:nth-child(even) {
+    background: white !important;
 }
 
 .table {
-  text-align: center !important;
+    text-align: center !important;
 }
 
 .register-body {
-  background: url("./images/register.jpg");
-  background-size: cover;
+    background: url("./images/register.jpg");
+    background-size: cover;
 }
 
 .register-form {
-  padding: 0.5rem;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 #as-react-datatable-table-foot > div.col-md-6.pull-right.text-right {
-  padding-top: 10px;
+    padding-top: 10px;
 }
 
 #likesImage {
-  width: 100px;
-  height: 100px;
-  transition: 0.5s;
+    width: 100px;
+    height: 100px;
+    transition: 0.5s;
 }
 
 #likesImage:hover {
-  cursor: pointer;
-  transform: scale(1.1);
+    cursor: pointer;
+    transform: scale(1.1);
 }
 
 .createComment {
-  max-width: 70%;
-  display: flex;
-  justify-content: left;
+    max-width: 70%;
+    display: flex;
+    justify-content: left;
 }
 
 .createComment p {
-  font-size: 1.5em;
-  margin: 0;
-  text-align: left;
-  padding-left: 15px;
-  height: 45px;
+    font-size: 1.5em;
+    margin: 0;
+    text-align: left;
+    padding-left: 15px;
+    height: 45px;
 }
 
 .createComment .text {
-  width: 80%;
-  text-align: right;
+    width: 80%;
+    text-align: right;
 }
 
 .createComment .text button {
-  margin-right: -15px;
+    margin-right: -15px;
 }
 
 .commentsCount {
-  margin: 0 auto;
-  text-align: left;
-  width: 70%;
-  padding-bottom: 0.5em;
+    margin: 0 auto;
+    text-align: left;
+    width: 70%;
+    padding-bottom: 0.5em;
 }
 
 .recipeComment {
-  margin-left: 15px !important;
-  width: 100%;
+    margin-left: 15px !important;
+    width: 100%;
 }
 
 .comment {
-  max-width: 70%;
-  display: flex;
-  justify-content: left;
-  position: relative;
+    max-width: 70%;
+    display: flex;
+    justify-content: left;
+    position: relative;
 }
 
 .comment p {
-  font-size: 1em;
-  margin: 0;
-  text-align: left;
-  padding-left: 15px;
-  height: 45px;
+    font-size: 1em;
+    margin: 0;
+    text-align: left;
+    padding-left: 15px;
+    height: 45px;
 }
 
 .messageContent {
-  margin-top: -10px;
-  text-align: left;
-  padding-left: 15px;
-  height: auto;
-  overflow-wrap:break-word;
+    margin-top: -10px;
+    text-align: left;
+    padding-left: 15px;
+    height: auto;
+    overflow-wrap: break-word;
 }
 
 #date {
-  font-size: 0.8em;
-  margin-top: 3px;
+    font-size: 0.8em;
+    margin-top: 3px;
 }
 
 .commentMeta {
-  display:flex;
-  justify-content: flex-start;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .editUser {
-  background-color: white;
-  max-width: 30%;
-  box-shadow: 0px 0px 15px 1px rgba(104, 62, 209, 0.9);
+    background-color: white;
+    max-width: 30%;
+    box-shadow: 0px 0px 15px 1px rgba(104, 62, 209, 0.9);
 }
 
 .deleteComment {
-  position:absolute;
-  right: 0;
-  color: red;
+    position: absolute;
+    right: 0;
+    color: red;
 }
 
 .deleteComment:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
