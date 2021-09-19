@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { storeRecipe } from "../../services/recipe-services/recipeService";
 import { isLoggedIn } from "../../services/auth-services/authService";
+import { Tags } from "../shared-components/Tags";
 
 const validateName = (name) => {
     return name.length > 2 && name.length < 25;
@@ -10,6 +11,10 @@ const validateName = (name) => {
 const validateContents = (contents) => {
     return contents.length > 10 && contents.length < 1501;
 };
+
+const tagSuggestions = [{ id: "vegan", text: "vegan" }];
+
+const ingredientSuggestions = [{ id: "milk", text: "milk" }];
 
 const RecipeCreator = () => {
     const history = useHistory();
@@ -28,6 +33,10 @@ const RecipeCreator = () => {
     const [loading, setLoading] = useState(false);
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
+
+    // Hooks for tags and ingredients
+    const [tags, setTags] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
         if (!isLoggedIn()) {
@@ -127,7 +136,7 @@ const RecipeCreator = () => {
             <div className="recipeForm p-5">
                 <div className="form-group my-4">
                     <div className="d-flex">
-                        <div className="flex-grow-1">
+                        <div className="recipeForm__data">
                             <label className="my-1">Recipe Name:</label>
                             <input
                                 id="recipeName"
@@ -140,7 +149,23 @@ const RecipeCreator = () => {
                                 <span className="error">{nameError}</span>
                             )}
 
-                            <label className="my-1">Recipe Contents:</label>
+                            <label className="mt-3">Recipe Ingredients:</label>
+                            <p className="lead mb-2">
+                                Adding recipe ingredients will help users to
+                                find your recipe through filter options and make
+                                it easier to prepare for making it!
+                            </p>
+                            <Tags
+                                tags={ingredients}
+                                setTags={setIngredients}
+                                suggestions={ingredientSuggestions}
+                            ></Tags>
+
+                            <label className="mt-3">Recipe Contents:</label>
+                            <p className="lead mb-2">
+                                Here you can write a detailed description on how
+                                your recipe works.
+                            </p>
                             <textarea
                                 id="recipeContent"
                                 className="form-control"
@@ -152,8 +177,19 @@ const RecipeCreator = () => {
                             {contentsError.length > 0 && (
                                 <span className="error">{contentsError}</span>
                             )}
+
+                            <label className="mt-3">Recipe Tags:</label>
+                            <p className="lead mb-2">
+                                Make sure to add tags to your recipe to make it
+                                easier to locate!
+                            </p>
+                            <Tags
+                                tags={tags}
+                                setTags={setTags}
+                                suggestions={tagSuggestions}
+                            ></Tags>
                         </div>
-                        <div className="flex-grow-1">
+                        <div className="recipeForm__image">
                             <label>Recipe Image:</label>
                             <div className="recipePictureContainer">
                                 <img

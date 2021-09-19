@@ -5,10 +5,13 @@ import { RecipeList } from "../recipe-components/RecipeList";
 import { NoRecipes } from "../recipe-components/NoRecipes";
 import { SearchBar } from "../shared-components/SearchBar";
 import { Pagination } from "../shared-components/Pagination";
+import { getAllRecipeLikes } from "../../services/user-services/likeService";
 
 const Home = () => {
     const [recipes, setRecipes] = useState([]);
+
     const [displayRecipes, setDisplayRecipes] = useState([]);
+    const [currentRecipes, setCurrentRecipes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [recipesPerPage] = useState(12);
     const [loading, setLoading] = useState(false);
@@ -22,7 +25,7 @@ const Home = () => {
             .then((json) => {
                 const recipes = json.recipes;
                 let newRecipes = [];
-                recipes.forEach((recipe) => {
+                recipes.forEach((recipe, index) => {
                     newRecipes.push({
                         id: recipe.recipeData.recipe_id,
                         user_id: recipe.recipeData.user_id,
@@ -33,20 +36,21 @@ const Home = () => {
                             base64toBlob(recipe.image, "image/png")
                         ),
                     });
-                });
-
-                let sortedRecipes = newRecipes.sort((first, second) => {
-                    let compareVal = 0;
-                    let firstTitle = first.title.toLowerCase();
-                    let secondTitle = second.title.toLowerCase();
-                    if (firstTitle > secondTitle) compareVal = 1;
-                    else if (firstTitle < secondTitle) compareVal = -1;
-                    return compareVal;
+                    getAllRecipeLikes(recipe.recipeData.recipe_id)
+                        .then((res) => res.json())
+                        .then((json) => {
+                            newRecipes[index].likes = json.length;
+                        });
                 });
 
                 setLoading(false);
-                setRecipes(sortedRecipes);
-                setDisplayRecipes(sortedRecipes);
+                setRecipes(newRecipes);
+                setDisplayRecipes(newRecipes);
+                const indexOfLastRecipe = currentPage * recipesPerPage;
+                const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+                setCurrentRecipes(
+                    newRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe)
+                );
             })
             .catch((err) => {
                 setLoading(false);
@@ -57,21 +61,26 @@ const Home = () => {
     const updateSearch = (filteredRecipes) => {
         setCurrentPage(1);
         setDisplayRecipes(filteredRecipes);
+        const indexOfLastRecipe = currentPage * recipesPerPage;
+        const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+        setCurrentRecipes(
+            displayRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe)
+        );
     };
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    const indexOfLastRecipe = currentPage * recipesPerPage;
-    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-    const currentRecipes = displayRecipes.slice(
-        indexOfFirstRecipe,
-        indexOfLastRecipe
-    );
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastRecipe = currentPage * recipesPerPage;
+        const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+        setCurrentRecipes(
+            displayRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe)
+        );
+    };
 
     return (
         <div className="home">
             <SearchBar
-                text="What are you looking for?"
+                text="Search recipes"
                 recipes={recipes}
                 callback={updateSearch}
             />
