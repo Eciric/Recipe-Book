@@ -21,7 +21,7 @@ export const storeRecipe = async (title, contents, image) => {
         body: formData,
         headers: header,
     });
-    return res;
+    return res.json();
 };
 
 export const getAllRecipes = async () => {

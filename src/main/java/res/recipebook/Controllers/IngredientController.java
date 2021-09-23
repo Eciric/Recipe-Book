@@ -27,8 +27,8 @@ public class IngredientController {
         return this.ingredientService.getAllIngredientsByRecipeId((int)id);
     }
 
-    @GetMapping(path="/getAllTagsByUserId", params="id")
-    public List<Ingredient> getAllTagsByUserId(@RequestParam("id") long id) {
+    @GetMapping(path="/getAllIngredientsByUserId", params="id")
+    public List<Ingredient> getAllIngredientsByUserId(@RequestParam("id") long id) {
         return this.ingredientService.getAllIngredientsByUserId((int)id);
     }
 

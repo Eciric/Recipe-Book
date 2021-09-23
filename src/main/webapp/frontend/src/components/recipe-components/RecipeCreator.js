@@ -1,7 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { storeRecipe } from "../../services/recipe-services/recipeService";
-import { isLoggedIn } from "../../services/auth-services/authService";
+import { storeRecipeIngredients } from "../../services/recipe-services/ingredientsService";
+import { storeRecipeTags } from "../../services/recipe-services/tagsService";
+import {
+    getCurrentUser,
+    isLoggedIn,
+} from "../../services/auth-services/authService";
 import { Tags } from "../shared-components/Tags";
 
 const validateName = (name) => {
@@ -106,6 +111,16 @@ const RecipeCreator = () => {
             setLoading(true);
             storeRecipe(name, contents, image)
                 .then((res) => {
+                    storeRecipeTags(
+                        getCurrentUser()?.id,
+                        res.recipe_id,
+                        tags.map((tag) => tag.text)
+                    );
+                    storeRecipeIngredients(
+                        getCurrentUser()?.id,
+                        res.recipe_id,
+                        ingredients.map((ingredient) => ingredient.text)
+                    );
                     setSuccessful(true);
                     setLoading(false);
                     setMessage("Successfully added the recipe!");

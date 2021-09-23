@@ -72,7 +72,7 @@ public class RecipeService {
     }
 
     // Save a new recipe
-    public boolean storeRecipe(int user_id, MultipartFile file, String title, String contents) {
+    public Recipe storeRecipe(int user_id, MultipartFile file, String title, String contents) {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         Recipe newRecipe = new Recipe(user_id, Timestamp.from(Instant.now()), title, contents);
         Recipe confirmedRecipe = recipeRepository.save(newRecipe);
@@ -83,10 +83,10 @@ public class RecipeService {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             RecipeImage newRecipeImage = new RecipeImage(recipe_id, targetLocation.toString());
             recipeImageRepository.save(newRecipeImage);
-            return true;
+            return confirmedRecipe;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
+            return null;
         }
     }
 

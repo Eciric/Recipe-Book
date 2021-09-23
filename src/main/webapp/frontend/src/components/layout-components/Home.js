@@ -56,7 +56,7 @@ const Home = () => {
                 setLoading(false);
                 console.log(err);
             });
-    }, []);
+    }, [currentPage, recipesPerPage]);
 
     const updateSearch = (filteredRecipes) => {
         setCurrentPage(1);

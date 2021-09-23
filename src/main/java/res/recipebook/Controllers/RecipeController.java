@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import res.recipebook.Models.Recipe;
 import res.recipebook.Payload.Requests.RecipeRequest;
 import res.recipebook.Payload.Requests.UpdateRecipeRequest;
 import res.recipebook.Payload.Responses.RecipeResponse;
@@ -30,13 +31,12 @@ public class RecipeController {
     public ResponseEntity<?> storeRecipe(@RequestParam(value = "file") MultipartFile file,
                                          @RequestParam(value="title") String title,
                                          @RequestParam(value="contents") String contents) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         try {
             UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (userRepository.existsByUsername(userDetails.getUsername()) && userRepository.existsById(userDetails.getId().intValue())) {
-                boolean ok = recipeService.storeRecipe(userDetails.getId().intValue(), file, title, contents);
-                if (ok) return new ResponseEntity<>(HttpStatus.OK);
-                else return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
+                Recipe recipe = recipeService.storeRecipe(userDetails.getId().intValue(), file, title, contents);
+                if (recipe != null) return ResponseEntity.ok(recipe);
+                return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
             } else {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
