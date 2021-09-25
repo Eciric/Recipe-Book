@@ -50,16 +50,7 @@ export const SearchBar = ({ text, recipes, callback }) => {
     };
 
     const handleSavingFilters = () => {
-        console.log(
-            currentTags,
-            currentIngredients,
-            fromDate,
-            toDate,
-            fromLikes,
-            toLikes,
-            selectedSortingOption
-        );
-        console.log(recipes[0]);
+        console.log(recipes);
         if (selectedSortingOption) {
             sortRecipes();
         }
@@ -83,7 +74,7 @@ export const SearchBar = ({ text, recipes, callback }) => {
 
     return (
         <div className="searchBar row my-5">
-            <div className="col-xl-10 col-lg-8 col-sm-12 searchBar__search px-5 mt-2">
+            <div className="col-sm-12 col-md-10 searchBar__search mt-2">
                 <input
                     id="searchBar"
                     className="search-control form-control-lg"
@@ -93,7 +84,7 @@ export const SearchBar = ({ text, recipes, callback }) => {
                     aria-label="Search"
                 />
             </div>
-            <div className="col-xl-2 col-lg-4 col-sm-12 searchBar__filters px-5 mt-2">
+            <div className="col-sm-12 col-md-2 searchBar__filters mt-2">
                 <button
                     className="filters__dialog-button btn btn-primary"
                     onClick={() => {

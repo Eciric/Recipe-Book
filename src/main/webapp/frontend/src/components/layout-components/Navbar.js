@@ -17,7 +17,7 @@ const Navbar = ({ user }) => {
     return (
         <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
-                <Link className="navbar-brand mx-4" to="/">
+                <Link className="navbar-brand ms-4" to="/">
                     <img
                         className="logo"
                         src={logo}

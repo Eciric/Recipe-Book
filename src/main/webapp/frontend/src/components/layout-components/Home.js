@@ -6,6 +6,8 @@ import { NoRecipes } from "../recipe-components/NoRecipes";
 import { SearchBar } from "../shared-components/SearchBar";
 import { Pagination } from "../shared-components/Pagination";
 import { getAllRecipeLikes } from "../../services/user-services/likeService";
+import { getRecipeTags } from "../../services/recipe-services/tagsService";
+import { getRecipeIngredients } from "../../services/recipe-services/ingredientsService";
 
 const Home = () => {
     const [recipes, setRecipes] = useState([]);
@@ -13,7 +15,7 @@ const Home = () => {
     const [displayRecipes, setDisplayRecipes] = useState([]);
     const [currentRecipes, setCurrentRecipes] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [recipesPerPage] = useState(12);
+    const [recipesPerPage] = useState(15);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -41,6 +43,22 @@ const Home = () => {
                         .then((json) => {
                             newRecipes[index].likes = json.length;
                         });
+                    getRecipeTags(recipe.recipeData.recipe_id).then((res) => {
+                        const tags = [];
+                        res.forEach((item) => {
+                            tags.push(item.tag);
+                        });
+                        newRecipes[index].tags = tags;
+                    });
+                    getRecipeIngredients(recipe.recipeData.recipe_id).then(
+                        (res) => {
+                            const ingredients = [];
+                            res.forEach((item) => {
+                                ingredients.push(item.ingredient);
+                            });
+                            newRecipes[index].ingredients = ingredients;
+                        }
+                    );
                 });
 
                 setLoading(false);

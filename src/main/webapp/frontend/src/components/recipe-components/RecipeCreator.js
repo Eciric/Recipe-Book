@@ -150,8 +150,8 @@ const RecipeCreator = () => {
 
             <div className="recipeForm p-5">
                 <div className="form-group my-4">
-                    <div className="d-flex">
-                        <div className="recipeForm__data">
+                    <div className="row">
+                        <div className="col-md-12 col-xxl-6 p-3">
                             <label className="my-1">Recipe Name:</label>
                             <input
                                 id="recipeName"
@@ -176,23 +176,6 @@ const RecipeCreator = () => {
                                 suggestions={ingredientSuggestions}
                             ></Tags>
 
-                            <label className="mt-3">Recipe Contents:</label>
-                            <p className="lead mb-2">
-                                Here you can write a detailed description on how
-                                your recipe works.
-                            </p>
-                            <textarea
-                                id="recipeContent"
-                                className="form-control"
-                                rows="10"
-                                onChange={handleContentsChange}
-                                value={contents}
-                            ></textarea>
-
-                            {contentsError.length > 0 && (
-                                <span className="error">{contentsError}</span>
-                            )}
-
                             <label className="mt-3">Recipe Tags:</label>
                             <p className="lead mb-2">
                                 Make sure to add tags to your recipe to make it
@@ -203,8 +186,7 @@ const RecipeCreator = () => {
                                 setTags={setTags}
                                 suggestions={tagSuggestions}
                             ></Tags>
-                        </div>
-                        <div className="recipeForm__image">
+
                             <label>Recipe Image:</label>
                             <div className="recipePictureContainer">
                                 <img
@@ -235,6 +217,24 @@ const RecipeCreator = () => {
                                     </span>
                                 </div>
                             </div>
+                        </div>
+                        <div className="col-md-12 col-xxl-6 p-3">
+                            <label className="mt-3">Recipe Contents:</label>
+                            <p className="lead mb-2">
+                                Here you can write a detailed description on how
+                                your recipe works.
+                            </p>
+                            <textarea
+                                id="recipeContent"
+                                className="form-control"
+                                rows="10"
+                                onChange={handleContentsChange}
+                                value={contents}
+                            ></textarea>
+
+                            {contentsError.length > 0 && (
+                                <span className="error">{contentsError}</span>
+                            )}
                         </div>
                     </div>
                 </div>
