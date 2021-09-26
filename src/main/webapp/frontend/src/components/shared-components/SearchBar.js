@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ExpandMore } from "@material-ui/icons";
 import {
     Accordion,
@@ -24,19 +24,25 @@ export const SearchBar = ({ text, recipes, callback }) => {
 
     const [modalShow, setModalShow] = useState(false);
 
+    const [tempRecipes, setTempRecipes] = useState([]);
+
     const [selectedSortingOption, setSelectedSortingOption] = useState("");
     const [currentTags, setCurrentTags] = useState([]);
     const [currentIngredients, setCurrentIngredients] = useState([]);
-    const [fromDate, setFromDate] = useState(0);
-    const [toDate, setToDate] = useState(0);
-    const [fromLikes, setFromLikes] = useState(0);
-    const [toLikes, setToLikes] = useState(0);
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
+    const [fromLikes, setFromLikes] = useState("");
+    const [toLikes, setToLikes] = useState("");
+
+    useEffect(() => {
+        setTempRecipes(recipes);
+    }, [recipes]);
 
     const handleSearchQueryChange = (e) => {
         if (e.target.value === "") {
-            callback(recipes);
+            callback(tempRecipes);
         } else {
-            let filteredRecipes = recipes.filter((recipe) =>
+            let filteredRecipes = tempRecipes.filter((recipe) =>
                 recipe.title
                     .toLowerCase()
                     .includes(e.target.value.toLowerCase())
@@ -50,17 +56,20 @@ export const SearchBar = ({ text, recipes, callback }) => {
     };
 
     const handleSavingFilters = () => {
-        console.log(recipes);
         if (selectedSortingOption) {
             sortRecipes();
         }
+
+        filter();
+
         setModalShow(false);
     };
 
     const sortRecipes = () => {
+        console.log(recipes);
         const type = selectedSortingOption.split("-")[0];
         const dir = selectedSortingOption.split("-")[1];
-        const sortedRecipes = recipes.sort((a, b) => {
+        const sortedRecipes = tempRecipes.sort((a, b) => {
             if (dir === "asc") {
                 if (a[type] > b[type]) return 1;
                 else return -1;
@@ -69,7 +78,91 @@ export const SearchBar = ({ text, recipes, callback }) => {
                 else return -1;
             }
         });
-        callback(sortedRecipes);
+        setTempRecipes(sortedRecipes);
+        console.log(recipes);
+    };
+
+    const filterIngredients = (filterRecipes) => {
+        const flattenedIngredients = currentIngredients.map(
+            (ingredient) => ingredient.text
+        );
+        const filteredRecipes = filterRecipes.filter((recipe) => {
+            const matchingIngredients = recipe.ingredients.filter(
+                (ingredient) => flattenedIngredients.includes(ingredient)
+            );
+            return matchingIngredients && matchingIngredients.length;
+        });
+        setTempRecipes(filteredRecipes);
+        return filteredRecipes;
+    };
+
+    const filterTags = (filterRecipes) => {
+        const flattenedTags = currentTags.map((tag) => tag.text);
+        const filteredRecipes = filterRecipes.filter((recipe) => {
+            const matchingTags = recipe.tags.filter((tag) =>
+                flattenedTags.includes(tag)
+            );
+            return matchingTags && matchingTags.length;
+        });
+        setTempRecipes(filteredRecipes);
+        return filteredRecipes;
+    };
+
+    const filterDate = (filterRecipes) => {
+        const filteredRecipes = filterRecipes.filter((recipe) => {
+            const recipeDate = new Date(recipe.date);
+            const from = new Date(fromDate);
+            const to = new Date(toDate);
+            return (
+                recipeDate.getTime() >= from.getTime() &&
+                recipeDate.getTime() <= to.getTime()
+            );
+        });
+        setTempRecipes(filteredRecipes);
+        return filteredRecipes;
+    };
+
+    const filterLikes = (filterRecipes) => {
+        const filteredRecipes = filterRecipes.filter(
+            (recipe) => recipe.likes >= fromLikes && recipe.likes <= toLikes
+        );
+        setTempRecipes(filteredRecipes);
+        return filteredRecipes;
+    };
+
+    const filter = () => {
+        let filterRecipes = tempRecipes;
+
+        if (currentIngredients.length) {
+            filterRecipes = filterIngredients(filterRecipes);
+        }
+
+        if (currentTags.length) {
+            filterRecipes = filterTags(filterRecipes);
+        }
+
+        if (fromDate && toDate) {
+            filterRecipes = filterDate(filterRecipes);
+        }
+
+        if (fromLikes && toLikes) {
+            filterRecipes = filterLikes(filterRecipes);
+        }
+
+        callback(filterRecipes);
+    };
+
+    const resetFilters = () => {
+        setCurrentIngredients([]);
+        setCurrentTags([]);
+        setSelectedSortingOption("");
+        setToDate(0);
+        setFromDate(0);
+        setToLikes(0);
+        setFromLikes(0);
+        console.log(recipes);
+        setTempRecipes(recipes);
+        callback(recipes);
     };
 
     return (
@@ -91,6 +184,7 @@ export const SearchBar = ({ text, recipes, callback }) => {
                         setModalShow(true);
                     }}
                 >
+                    <i className="bi bi-funnel me-2"></i>
                     Filters
                 </button>
             </div>
@@ -126,27 +220,9 @@ export const SearchBar = ({ text, recipes, callback }) => {
                                         {option.charAt(0).toUpperCase() +
                                             option.slice(1).split("-")[0]}
                                         {sortDirection === "asc" ? (
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="16"
-                                                height="16"
-                                                fill="currentColor"
-                                                className="bi bi-caret-up-fill ms-1"
-                                                viewBox="0 0 16 16"
-                                            >
-                                                <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                                            </svg>
+                                            <i className="bi bi-caret-up-fill ms-2"></i>
                                         ) : (
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="16"
-                                                height="16"
-                                                fill="currentColor"
-                                                className="bi bi-caret-down-fill"
-                                                viewBox="0 0 16 16"
-                                            >
-                                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                                            </svg>
+                                            <i className="bi bi-caret-down-fill ms-2"></i>
                                         )}
                                     </button>
                                 </div>
@@ -209,13 +285,26 @@ export const SearchBar = ({ text, recipes, callback }) => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={handleSavingFilters}
-                    >
-                        Save current settings
-                    </button>
+                    <div className="row">
+                        <div className="col-6">
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={resetFilters}
+                            >
+                                Reset settings
+                            </button>
+                        </div>
+                        <div className="col-6">
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleSavingFilters}
+                            >
+                                Save current settings
+                            </button>
+                        </div>
+                    </div>
                 </Modal.Footer>
             </Modal>
         </div>

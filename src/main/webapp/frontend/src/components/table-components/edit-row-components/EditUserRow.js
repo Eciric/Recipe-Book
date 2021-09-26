@@ -15,7 +15,6 @@ export const EditUserRow = ({ record, index, setEditing }) => {
         let formattedRoles = newRoles.split(" ").filter((role) => {
             return role === "ROLE_ADMIN" || role === "ROLE_USER";
         });
-        console.log(formattedRoles);
         updateUser(id, name, formattedRoles, newEmail)
             .then((res) => {
                 if (res.ok) {

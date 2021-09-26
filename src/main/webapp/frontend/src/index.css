@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
 body {
     margin: 0;
     padding: 0;
@@ -258,16 +260,21 @@ code {
 }
 
 .recipeTile h1 {
-    color: white;
     position: absolute;
-    z-index: 1;
     vertical-align: center;
     text-align: center;
+    z-index: 1;
+
     top: 50%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
+
+    width: 100%;
+    white-space: normal;
+
     text-shadow: 1px 1px 10px #a17ef8;
     font-weight: 400;
+    color: white;
 }
 
 .recipeTileCaption {

@@ -79,10 +79,11 @@ const Home = () => {
     const updateSearch = (filteredRecipes) => {
         setCurrentPage(1);
         setDisplayRecipes(filteredRecipes);
+        console.log(filteredRecipes);
         const indexOfLastRecipe = currentPage * recipesPerPage;
         const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
         setCurrentRecipes(
-            displayRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe)
+            filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe)
         );
     };
 
@@ -97,11 +98,15 @@ const Home = () => {
 
     return (
         <div className="home">
+            <h1 className="display-5 ms-3 mt-3" style={{ color: "#683ed1" }}>
+                Your go to recipe portal
+            </h1>
             <SearchBar
-                text="Search recipes"
+                text="Search for recipes"
                 recipes={recipes}
                 callback={updateSearch}
             />
+            <hr />
             <RecipeList
                 loading={loading}
                 recipes={currentRecipes}
