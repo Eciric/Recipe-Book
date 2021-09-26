@@ -98,9 +98,15 @@ const Home = () => {
 
     return (
         <div className="home">
-            <h1 className="display-5 ms-3 mt-3" style={{ color: "#683ed1" }}>
-                Your go to recipe portal
-            </h1>
+            <div className="home__mesage  ms-3 mt-3">
+                <h1 className="display-5" style={{ color: "#683ed1" }}>
+                    The go to recipe portal
+                </h1>
+                <p className="lead">
+                    Share your own recipes and learn the recipes of other users
+                    now on RecipeBook.
+                </p>
+            </div>
             <SearchBar
                 text="Search for recipes"
                 recipes={recipes}

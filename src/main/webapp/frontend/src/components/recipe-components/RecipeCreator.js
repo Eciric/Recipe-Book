@@ -148,11 +148,14 @@ const RecipeCreator = () => {
                 </h1>
             </div>
 
-            <div className="recipeForm p-5">
+            <div className="recipeForm p-2">
                 <div className="form-group my-4">
                     <div className="row">
                         <div className="col-md-12 col-xxl-6 p-3">
                             <label className="my-1">Recipe Name:</label>
+                            <p className="lead mb-2">
+                                How is your recipe called?
+                            </p>
                             <input
                                 id="recipeName"
                                 type="text"
@@ -186,14 +189,19 @@ const RecipeCreator = () => {
                                 setTags={setTags}
                                 suggestions={tagSuggestions}
                             ></Tags>
-
+                        </div>
+                        <div className="col-md-12 col-xxl-6 p-3">
                             <label>Recipe Image:</label>
+                            <p className="lead mb-2">
+                                The main image of your recipe that will be
+                                displayed in the home page
+                            </p>
                             <div className="recipePictureContainer">
                                 <img
                                     id="recipePicture"
                                     src={recipeUri}
                                     alt=""
-                                    className="img-fluid my-4"
+                                    className="img-fluid mt-2"
                                 />
                                 <div className="addRecipePictureContainer">
                                     <span className="fa-stack">
@@ -217,8 +225,6 @@ const RecipeCreator = () => {
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-12 col-xxl-6 p-3">
                             <label className="mt-3">Recipe Contents:</label>
                             <p className="lead mb-2">
                                 Here you can write a detailed description on how
@@ -246,7 +252,7 @@ const RecipeCreator = () => {
                         onClick={handleRecipeSubmit}
                         disabled={loading}
                     >
-                        Submit your recipe!
+                        Submit my recipe!
                     </button>
                 </div>
 

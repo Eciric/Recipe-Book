@@ -5,6 +5,9 @@ import RecipeTile from "./RecipeTile";
 export const RecipeList = ({ loading, recipes, noRecipesComponent }) => {
     return (
         <section className="recipeList">
+            <div className="display-6 ms-2" style={{ color: "#683ed1" }}>
+                Recipes:
+            </div>
             {loading ? (
                 <div className="spinnerContainer">
                     <Loader
