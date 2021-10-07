@@ -5,7 +5,6 @@ const RecipeTile = (props) => {
 
     const goToRecipeView = (id) => {
         history.push(`/recipeview/${id}`);
-        window.location.reload();
     };
     return (
         <div

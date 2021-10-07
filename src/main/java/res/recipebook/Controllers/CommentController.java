@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import res.recipebook.Models.Comment;
+import res.recipebook.Models.Tag;
+import res.recipebook.Payload.Requests.ChangeCommentMessageRequest;
 import res.recipebook.Payload.Requests.CommentRequest;
 import res.recipebook.Payload.Requests.UpdateCommentRequest;
 import res.recipebook.Services.CommentService;
@@ -33,10 +35,16 @@ public class CommentController {
         return commentService.getAllRecipeComments(request.getRecipe_id());
     }
 
+    @GetMapping(path="/getCommentReplies", params="id")
+    public List<Comment> getAllRepliesByCommentId(@RequestParam("id") long id) {
+        return commentService.getCommentReplies((int)id);
+    }
+
+
     @PreAuthorize("hasRole('USER')")
     @PutMapping(value="/addComment")
     public ResponseEntity<?> addComment(@RequestBody CommentRequest request) {
-        commentService.addComment(request.getUser_id(), request.getRecipe_id(), request.getMessage());
+        commentService.addComment(request.getUser_id(), request.getRecipe_id(), request.getMessage(), request.getReply_comment_id());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -44,6 +52,13 @@ public class CommentController {
     @DeleteMapping(value="/deleteComment")
     public ResponseEntity<?> deleteComment(@RequestBody CommentRequest request) {
         commentService.deleteComment(request.getComment_id());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping(value = "/changeCommentMessage")
+    public ResponseEntity<?> updateComment(@RequestBody ChangeCommentMessageRequest request) {
+        commentService.changeMessage(request.getComment_id(), request.getMessage());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -9,4 +9,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Query("select r from Comment r where r.recipe_id=?1")
     List<Comment> findAllByRecipe_id(int recipe_id);
+
+    @Query("select r from Comment r where r.reply_comment_id=?1")
+    List<Comment> findAllRepliesByComment_id(int comment_id);
 }

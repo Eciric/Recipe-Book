@@ -25,8 +25,8 @@ public class CommentService {
         return commentRepository.findAllByRecipe_id(recipe_id);
     }
 
-    public void addComment(int user_id, int recipe_id, String message) {
-        commentRepository.save(new Comment(recipe_id, user_id, message, Timestamp.from(Instant.now())));
+    public void addComment(int user_id, int recipe_id, String message, int reply_comment_id) {
+        commentRepository.save(new Comment(recipe_id, user_id, message, reply_comment_id, Timestamp.from(Instant.now())));
     }
 
     public void deleteComment(int comment_id) {
@@ -41,5 +41,17 @@ public class CommentService {
             comment.get().setRecipe_id(recipe_id);
             commentRepository.save(comment.get());
         }
+    }
+
+    public void changeMessage(int comment_id, String newMessage) {
+        Optional<Comment> comment = commentRepository.findById(comment_id);
+        if (comment.isPresent()) {
+            comment.get().setMessage(newMessage);
+            commentRepository.save(comment.get());
+        }
+    }
+
+    public List<Comment> getCommentReplies(int comment_id) {
+        return commentRepository.findAllRepliesByComment_id(comment_id);
     }
 }

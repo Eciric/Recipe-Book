@@ -438,7 +438,7 @@ export const RecipeView = () => {
                                                 onChange={handleCommentChange}
                                             />
                                             <button
-                                                className="btn btn-primary mt-3"
+                                                className="btn btn-submit mt-3"
                                                 onClick={handleSubmitComment}
                                                 disabled={addingComment}
                                             >
@@ -483,6 +483,7 @@ export const RecipeView = () => {
                                 ) : (
                                     <CommentSection
                                         comments={comments}
+                                        userImage={userImage}
                                         setReloadComments={setReloadComments}
                                     />
                                 )}

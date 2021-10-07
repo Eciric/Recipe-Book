@@ -410,6 +410,41 @@ label {
     box-shadow: 0 0 2.5em 0 #6c2dc7 !important;
 }
 
+.btn-secondary {
+    background-color: #6c2dc7;
+    color: white;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:focus {
+    background-color: white;
+    color: #6c2dc7;
+}
+
+.btn-submit {
+    position: relative;
+    background-color: white;
+    font-size: 0.9em;
+    color: #683ed1;
+    padding: 0.25em 1.25em;
+    box-shadow: 0 0 0.25em 0 #683ed1;
+    transition: 0.5s;
+    text-shadow: 0 0 0.15em #a17ef8;
+}
+
+.btn-submit:hover {
+    background-color: #683ed1;
+    color: white;
+    padding: 0.25em 1.25em;
+    box-shadow: 0 0 1em 0 #683ed1;
+}
+
+.btn-submit:focus {
+    background-color: #6c2dc7 !important;
+    box-shadow: 0 0 1em 0 #6c2dc7 !important;
+}
+
 .login-image {
     border-right: 2px solid #683ed1;
 }
@@ -598,6 +633,10 @@ th {
     position: relative;
 }
 
+.comment > .text {
+    width: 65%;
+}
+
 .comment p {
     font-size: 1em;
     margin: 0;
@@ -606,10 +645,23 @@ th {
     height: 45px;
 }
 
+.reply {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
 .messageContent {
     margin-top: -10px;
     text-align: left;
     padding-left: 15px;
+    height: auto;
+    overflow-wrap: break-word;
+}
+
+.edit-comment {
+    margin-top: -10px;
+    text-align: left;
     height: auto;
     overflow-wrap: break-word;
 }
@@ -630,14 +682,31 @@ th {
     box-shadow: 0px 0px 15px 1px rgba(104, 62, 209, 0.9);
 }
 
-.deleteComment {
+.comment > .dropdown {
     position: absolute;
     right: 0;
-    color: red;
 }
 
-.deleteComment:hover {
-    cursor: pointer;
+#dropdown-basic {
+    background-color: #683ed1;
+    color: white;
+}
+
+#dropdown-basic:hover {
+    background-color: #a17ef8;
+    color: white;
+}
+
+.btn-check:active + .btn-success:focus,
+.btn-check:checked + .btn-success:focus,
+.btn-check:focus + .btn-success,
+.btn-check:focus + .btn-success,
+.btn-success:focus,
+.btn-success:focus .btn-check:focus + .btn-success,
+.btn-success:focus .btn-success.active:focus,
+.btn-success:active:focus,
+.show > .btn-success.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(200, 0, 125, 0.5);
 }
 
 .filters__dialog-button {
