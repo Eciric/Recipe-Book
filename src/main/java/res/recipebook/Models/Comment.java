@@ -20,7 +20,7 @@ public class Comment {
 
     private int recipe_id;
     private int user_id;
-    private int reply_comment_id;
+    private Integer reply_comment_id;
     @Size(max = 1000)
     private String message;
     private Timestamp date_created;
