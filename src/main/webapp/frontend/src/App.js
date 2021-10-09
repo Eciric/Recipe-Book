@@ -10,6 +10,10 @@ import Profile from "./components/user-components/Profile";
 import { RecipeView } from "./components/recipe-components/RecipeView";
 import RecipeCreator from "./components/recipe-components/RecipeCreator";
 import { AdminPanel } from "./components/admin-components/AdminPanel";
+import {
+    endSession,
+    validateSession,
+} from "./services/auth-services/sessionService";
 
 function App() {
     const [currentUser, setCurrentUser] = useState(undefined);
@@ -18,6 +22,11 @@ function App() {
         const user = getCurrentUser();
         if (user) {
             setCurrentUser(user);
+        }
+
+        if (user && !validateSession()) {
+            endSession();
+            setCurrentUser(undefined);
         }
     }, []);
 
