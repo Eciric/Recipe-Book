@@ -52,6 +52,7 @@ public class CommentService {
     }
 
     public List<Comment> getCommentReplies(int comment_id) {
+        System.out.println("getting replies for commentid: " + comment_id);
         return commentRepository.findAllRepliesByComment_id(comment_id);
     }
 }

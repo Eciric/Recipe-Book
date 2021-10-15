@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { TextField } from "@material-ui/core";
 import {
+    addComment,
     changeCommentMessage,
+    deleteComment,
     fetchReplies,
 } from "../../services/user-services/commentsService";
+import { useParams } from "react-router";
+import { CommentSection } from "./CommentSection";
+import { base64toBlob } from "../../services/file-services/base64ToBlob";
+import { getUserData } from "../../services/user-services/userService";
 
-export const Comment = ({ comment, onDelete, userImage }) => {
-    const [currentUsername, setCurrentUsername] = useState("");
+export const Comment = ({ comment, setReloadComments, userImage }) => {
+    const { id } = useParams();
+    const [currentUser, setCurrentUser] = useState({});
     const [formattedDate, setFormattedDate] = useState("");
     const [toggleEdit, setToggleEdit] = useState(false);
     const [newMessage, setNewMessage] = useState("");
@@ -21,7 +28,7 @@ export const Comment = ({ comment, onDelete, userImage }) => {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
         if (user) {
-            setCurrentUsername(user.username);
+            setCurrentUser(user);
         }
 
         setFormattedDate(
@@ -32,12 +39,37 @@ export const Comment = ({ comment, onDelete, userImage }) => {
             })
         );
         setNewMessage(comment.message);
-
-        fetchReplies(comment.id)
-            .then((res) => res.json())
-            .then((json) => console.log(json))
-            .catch(() => {});
     }, [comment]);
+
+    const getParsedComments = async (json) => {
+        let newComments = [];
+        for (let i = 0; i < json.length; i++) {
+            const user = await getUserData(null, json[i].user_id);
+            let image = base64toBlob(user.profile_picture, "image/png");
+            const objectURL = URL.createObjectURL(image);
+            newComments.push({
+                id: json[i].comment_id,
+                username: user.username,
+                message: json[i].message,
+                date: json[i].date_created,
+                image: objectURL,
+                reply_comment_id: json[i].reply_comment_id,
+            });
+        }
+        return newComments;
+    };
+
+    // Fetches recipe comments
+    useEffect(() => {
+        fetchReplies(comment.id)
+            .then(async (json) => {
+                let parsedComments = await getParsedComments(json);
+                setReplies(parsedComments);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [comment.id]);
 
     const handleMessageChange = (e) => {
         setNewMessage(e.target.value);
@@ -60,11 +92,33 @@ export const Comment = ({ comment, onDelete, userImage }) => {
             );
     };
 
-    const handleSubmitReply = () => {};
+    const handleDeleteClicked = (id) => {
+        deleteComment(id)
+            .then((res) => {
+                if (res.ok) {
+                    setReloadComments(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const handleSubmitReply = () => {
+        addComment(id, currentUser.id, reply, comment.id)
+            .then((res) => {
+                if (res.ok) {
+                    setReloadComments(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     return (
         <div className="comment-wrapper  my-5">
-            <div key={comment.id} className="container comment">
+            <div key={comment.id} className="comment">
                 <div className="image">
                     <a href={"/profile/" + comment.username}>
                         <img
@@ -122,7 +176,7 @@ export const Comment = ({ comment, onDelete, userImage }) => {
                         </div>
                     )}
                 </div>
-                {currentUsername === comment.username && (
+                {currentUser.username === comment.username && (
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
                             <i className="bi bi-three-dots-vertical"></i>
@@ -139,7 +193,7 @@ export const Comment = ({ comment, onDelete, userImage }) => {
                             </Dropdown.Item>
                             <Dropdown.Item
                                 onClick={() => {
-                                    onDelete(comment.id);
+                                    handleDeleteClicked(comment.id);
                                 }}
                             >
                                 <i className="bi bi-trash me-2"></i>
@@ -151,7 +205,11 @@ export const Comment = ({ comment, onDelete, userImage }) => {
                 <div className="reply">
                     <button
                         onClick={() => {
-                            setToggleReply(true);
+                            {
+                                toggleReply
+                                    ? setToggleReply(false)
+                                    : setToggleReply(true);
+                            }
                         }}
                         className="btn btn-secondary btn-sm"
                     >
@@ -159,12 +217,34 @@ export const Comment = ({ comment, onDelete, userImage }) => {
                         Reply
                     </button>
                 </div>
+                {replies.length > 0 && (
+                    <div className="toggle-replies">
+                        {!toggleReplies ? (
+                            <button
+                                className="btn btn-text"
+                                onClick={() => {
+                                    setToggleReplies(true);
+                                }}
+                            >
+                                <i className="bi bi-arrow-90deg-down me-2"></i>
+                                Toggle Replies {`(${replies.length})`}
+                            </button>
+                        ) : (
+                            <button
+                                className="btn btn-text"
+                                onClick={() => {
+                                    setToggleReplies(false);
+                                }}
+                            >
+                                <i className="bi bi-arrow-90deg-up me-2"></i>
+                                Collapse replies {`(${replies.length})`}
+                            </button>
+                        )}
+                    </div>
+                )}
             </div>
             {toggleReply && (
-                <div
-                    className="container createComment mt-4"
-                    style={{ width: "60%" }}
-                >
+                <div className="createComment mt-4">
                     <div className="image">
                         <img id="recipeUserPicture" alt="" src={userImage} />
                     </div>
@@ -188,7 +268,16 @@ export const Comment = ({ comment, onDelete, userImage }) => {
                     </div>
                 </div>
             )}
-            {toggleReplies && <div className="container replies"></div>}
+
+            {toggleReplies && (
+                <div className="replies">
+                    <CommentSection
+                        comments={replies}
+                        userImage={userImage}
+                        setReloadComments={setReloadComments}
+                    />
+                </div>
+            )}
         </div>
     );
 };
