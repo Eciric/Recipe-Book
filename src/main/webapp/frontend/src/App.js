@@ -14,6 +14,7 @@ import {
     endSession,
     validateSession,
 } from "./services/auth-services/sessionService";
+import { FavoriteRecipes } from "./components/recipe-components/FavoriteRecipes";
 
 function App() {
     const [currentUser, setCurrentUser] = useState(undefined);
@@ -49,6 +50,9 @@ function App() {
                     </Route>
                     <Route path="/recipecreator">
                         <RecipeCreator />
+                    </Route>
+                    <Route path="/favoriterecipes">
+                        <FavoriteRecipes />
                     </Route>
                     <Route path="/recipeview/:id">
                         <RecipeView />

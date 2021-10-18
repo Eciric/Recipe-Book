@@ -73,6 +73,17 @@ const Navbar = ({ user }) => {
                             <li className="nav-item me-2">
                                 <Link
                                     className="nav-link"
+                                    to="/favoriterecipes"
+                                >
+                                    Favorite Recipes
+                                </Link>
+                            </li>
+                        )}
+
+                        {user && (
+                            <li className="nav-item me-2">
+                                <Link
+                                    className="nav-link"
                                     to={"/profile/" + user.username}
                                 >
                                     Profile

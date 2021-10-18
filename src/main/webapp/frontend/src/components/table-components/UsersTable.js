@@ -19,7 +19,6 @@ export const UsersTable = ({ users }) => {
             .then((res) => {
                 if (res.ok) {
                     history.push("/adminpanel");
-                    window.location.reload();
                 }
             })
             .catch((err) => {

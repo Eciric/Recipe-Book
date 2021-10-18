@@ -874,3 +874,12 @@ input:focus {
 .allComments {
     padding-bottom: 1px;
 }
+
+.favorite-recipes {
+    box-shadow: 0 0 10px #683ed1;
+}
+
+.recipes__header {
+    border-bottom: 1px solid black;
+    background-color: #eee;
+}

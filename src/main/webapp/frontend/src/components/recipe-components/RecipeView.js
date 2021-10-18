@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { TextField } from "@material-ui/core";
 import { getRecipeById } from "../../services/recipe-services/recipeService";
@@ -312,22 +312,22 @@ export const RecipeView = () => {
                             </div>
                         ) : (
                             <div className="userInfo col-sm-12 col-lg-6 col-xl-6">
-                                <a href={`/profile/${creator.username}`}>
+                                <Link to={`/profile/${creator.username}`}>
                                     <img
                                         id="recipeUserPicture"
                                         src={creatorPicture}
                                         alt=""
                                         className="img-fluid mt-4"
                                     />
-                                </a>
+                                </Link>
                                 <p className="mt-2">
                                     By{" "}
-                                    <a
+                                    <Link
                                         id="creatorName"
-                                        href={`/profile/${creator.username}`}
+                                        to={`/profile/${creator.username}`}
                                     >
                                         {creator.username}
-                                    </a>
+                                    </Link>
                                 </p>
                             </div>
                         )}
@@ -449,7 +449,7 @@ export const RecipeView = () => {
                                 ) : (
                                     <div className="container loginPrompt">
                                         <p>
-                                            <a href="/login">Log in</a> to
+                                            <Link to="/login">Log in</Link> to
                                             create a comment!
                                         </p>
                                     </div>

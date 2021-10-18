@@ -60,7 +60,6 @@ const Login = () => {
                     setMessage("Login successful!");
                     setTimeout(() => {
                         history.push("/");
-                        window.location.reload();
                     }, 500);
                 },
                 (error) => {

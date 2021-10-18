@@ -11,6 +11,7 @@ import { useParams } from "react-router";
 import { CommentSection } from "./CommentSection";
 import { base64toBlob } from "../../services/file-services/base64ToBlob";
 import { getUserData } from "../../services/user-services/userService";
+import { Link } from "react-router-dom";
 
 export const Comment = ({ comment, setReloadComments, userImage }) => {
     const { id } = useParams();
@@ -120,23 +121,23 @@ export const Comment = ({ comment, setReloadComments, userImage }) => {
         <div className="comment-wrapper  my-5">
             <div key={comment.id} className="comment">
                 <div className="image">
-                    <a href={"/profile/" + comment.username}>
+                    <Link to={"/profile/" + comment.username}>
                         <img
                             id="recipeUserPicture"
                             alt=""
                             src={comment.image}
                         />
-                    </a>
+                    </Link>
                 </div>
                 <div className="text">
                     <div className="commentMeta">
                         <p id="name">
-                            <a
+                            <Link
                                 id="creatorName"
-                                href={"/profile/" + comment.username}
+                                to={"/profile/" + comment.username}
                             >
                                 {comment.username}
-                            </a>
+                            </Link>
                         </p>
                         <p id="date">{formattedDate}</p>
                     </div>

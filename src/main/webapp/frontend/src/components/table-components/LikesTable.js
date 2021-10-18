@@ -19,7 +19,6 @@ export const LikesTable = ({ likes }) => {
             .then((res) => {
                 if (res.ok) {
                     history.push("/adminpanel");
-                    window.location.reload();
                 }
             })
             .catch((err) => {

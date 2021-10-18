@@ -46,7 +46,6 @@ const RecipeCreator = () => {
     useEffect(() => {
         if (!isLoggedIn()) {
             history.push("/login");
-            window.location.reload();
         }
     }, [history]);
 
@@ -126,7 +125,6 @@ const RecipeCreator = () => {
                     setMessage("Successfully added the recipe!");
                     setTimeout(() => {
                         history.push("/");
-                        window.location.reload();
                     }, 500);
                 })
                 .catch((err) => {

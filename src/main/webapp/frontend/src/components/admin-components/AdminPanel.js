@@ -27,7 +27,6 @@ export const AdminPanel = () => {
         let user = JSON.parse(localStorage.getItem("user"));
         if (hasAdminAuthority(user) === false) {
             history.push("/");
-            window.location.reload();
         }
     }, [history]);
 
