@@ -215,7 +215,7 @@ export const RecipeView = () => {
     const handleLikeClicked = () => {
         if (!loggedIn) {
             history.push("/login");
-            window.location.reload();
+            return;
         }
 
         if (processingLike === false) {

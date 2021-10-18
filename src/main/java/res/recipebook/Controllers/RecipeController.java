@@ -13,17 +13,23 @@ import res.recipebook.Payload.Requests.UpdateRecipeRequest;
 import res.recipebook.Payload.Responses.RecipeResponse;
 import res.recipebook.Repositories.UserRepository;
 import res.recipebook.Security.Services.UserDetailsImpl;
+import res.recipebook.Services.IngredientService;
 import res.recipebook.Services.RecipeService;
+import res.recipebook.Services.TagService;
 
 @CrossOrigin(origins="*")
 @RestController
 @RequestMapping(path="/api/recipes")
 public class RecipeController {
     private final RecipeService recipeService;
+    private final TagService tagService;
+    private final IngredientService ingredientService;
     private final UserRepository userRepository;
 
-    public RecipeController(RecipeService recipeService, UserRepository userRepository) {
+    public RecipeController(RecipeService recipeService, TagService tagService, IngredientService ingredientService, UserRepository userRepository) {
         this.recipeService = recipeService;
+        this.tagService = tagService;
+        this.ingredientService = ingredientService;
         this.userRepository = userRepository;
     }
 
@@ -63,6 +69,8 @@ public class RecipeController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value="/deleteRecipeById")
     public ResponseEntity<?> deleteRecipeById(@RequestBody RecipeRequest request) {
+        tagService.deleteTagsWithRecipeId(request.getId());
+        ingredientService.deleteIngredientsWithRecipeId(request.getId());
         recipeService.deleteRecipeById(request.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -30,4 +30,8 @@ public class TagService {
             this.tagRepository.save(newTag);
         }
     }
+
+    public void deleteTagsWithRecipeId(int id) {
+        this.tagRepository.deleteByRecipe_id(id);
+    }
 }

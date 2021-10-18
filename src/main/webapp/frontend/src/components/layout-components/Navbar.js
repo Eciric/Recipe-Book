@@ -5,13 +5,14 @@ import {
     logout,
     hasAdminAuthority,
 } from "../../services/auth-services/authService";
+import { validateSession } from "../../services/auth-services/sessionService";
 
 const Navbar = ({ user }) => {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         let user = JSON.parse(localStorage.getItem("user"));
-        setIsAdmin(hasAdminAuthority(user));
+        setIsAdmin(hasAdminAuthority(user) && validateSession());
     }, []);
 
     return (
