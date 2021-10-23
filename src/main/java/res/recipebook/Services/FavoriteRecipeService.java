@@ -1,12 +1,9 @@
 package res.recipebook.Services;
 
 import org.springframework.stereotype.Service;
-import res.recipebook.Models.Comment;
 import res.recipebook.Models.FavoriteRecipe;
 import res.recipebook.Repositories.FavoriteRecipeRepository;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 

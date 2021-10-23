@@ -8,7 +8,12 @@ const API_GET_USER_RECIPES_URL =
     "http://localhost:8080/api/recipes/getAllUserRecipes";
 const API_DELETE_RECIPE_BY_ID_URL =
     "http://localhost:8080/api/recipes/deleteRecipeById";
-
+const API_GET_USER_FAVORITES_URL =
+    "http://localhost:8080/api/recipes/getAllFavoriteRecipesByUserId";
+const API_ADD_USER_FAVORITE_URL =
+    "http://localhost:8080/api/recipes/addFavoriteRecipe";
+const API_DELETE_USER_FAVORITE_URL =
+    "http://localhost:8080/api/recipes/deleteFavoriteRecipe";
 export const storeRecipe = async (title, contents, image) => {
     let header = authHeader();
     const formData = new FormData();
@@ -82,4 +87,35 @@ export const updateRecipe = async (id, title, user_id) => {
         }),
         headers: header,
     });
+};
+
+export const getAllUserFavorites = async (user_id) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    return fetch(`${API_GET_USER_FAVORITES_URL}?id=${user_id}`, {
+        method: "get",
+        headers: header,
+    }).then((response) => response.json());
+};
+
+export const addUserFavoriteRecipe = async (user_id, recipe_id) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    return fetch(API_ADD_USER_FAVORITE_URL, {
+        method: "put",
+        body: JSON.stringify({
+            user_id,
+            recipe_id,
+        }),
+        headers: header,
+    }).then((response) => response.json());
+};
+
+export const deleteUserFavoriteRecipe = async (favorite_id) => {
+    let header = authHeader();
+    header["Content-Type"] = "application/json";
+    return fetch(`${API_DELETE_USER_FAVORITE_URL}?id=${favorite_id}`, {
+        method: "delete",
+        headers: header,
+    }).then((response) => response.json());
 };

@@ -591,6 +591,17 @@ th {
     transform: scale(1.1);
 }
 
+#favoriteImage {
+    width: 100px;
+    height: 100px;
+    transition: 0.5s;
+}
+
+#favoriteImage:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
 .createComment {
     display: flex;
     justify-content: left;

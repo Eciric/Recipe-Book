@@ -7,15 +7,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import res.recipebook.Models.FavoriteRecipe;
 import res.recipebook.Models.Recipe;
+import res.recipebook.Models.Tag;
+import res.recipebook.Payload.Requests.FavoriteRecipeRequest;
 import res.recipebook.Payload.Requests.RecipeRequest;
+import res.recipebook.Payload.Requests.TagRequest;
 import res.recipebook.Payload.Requests.UpdateRecipeRequest;
 import res.recipebook.Payload.Responses.RecipeResponse;
 import res.recipebook.Repositories.UserRepository;
 import res.recipebook.Security.Services.UserDetailsImpl;
+import res.recipebook.Services.FavoriteRecipeService;
 import res.recipebook.Services.IngredientService;
 import res.recipebook.Services.RecipeService;
 import res.recipebook.Services.TagService;
+
+import java.util.List;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -23,16 +30,19 @@ import res.recipebook.Services.TagService;
 public class RecipeController {
     private final RecipeService recipeService;
     private final TagService tagService;
+    private final FavoriteRecipeService favoriteRecipeService;
     private final IngredientService ingredientService;
     private final UserRepository userRepository;
 
-    public RecipeController(RecipeService recipeService, TagService tagService, IngredientService ingredientService, UserRepository userRepository) {
+    public RecipeController(RecipeService recipeService, TagService tagService, FavoriteRecipeService favoriteRecipeService, IngredientService ingredientService, UserRepository userRepository) {
         this.recipeService = recipeService;
         this.tagService = tagService;
+        this.favoriteRecipeService = favoriteRecipeService;
         this.ingredientService = ingredientService;
         this.userRepository = userRepository;
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/storeRecipe", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> storeRecipe(@RequestParam(value = "file") MultipartFile file,
                                          @RequestParam(value="title") String title,
@@ -79,6 +89,26 @@ public class RecipeController {
     @PostMapping(value="/updateRecipe")
     public ResponseEntity<?> updateRecipe(@RequestBody UpdateRecipeRequest request) {
         recipeService.updateRecipe(request.getRecipe_id(), request.getTitle(), request.getUser_id());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping(path="/getAllFavoriteRecipesByUserId", params="id")
+    public List<FavoriteRecipe> getAllFavoriteRecipesByUserId(@RequestParam("id") long id) {
+        return this.favoriteRecipeService.getFavoriteRecipesByUser_id((int)id);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PutMapping(value="/addFavoriteRecipe")
+    public ResponseEntity<?> addFavoriteRecipe(@RequestBody FavoriteRecipeRequest request) {
+        favoriteRecipeService.addFavoriteRecipe(request.getRecipe_id(), request.getUser_id());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping(value="/deleteFavoriteRecipe", params="id")
+    public ResponseEntity<?> deleteFavoriteRecipe(@RequestParam("id") long id) {
+        favoriteRecipeService.deleteFavoriteRecipe((int)id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

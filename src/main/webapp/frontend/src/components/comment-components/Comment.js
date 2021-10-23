@@ -206,11 +206,9 @@ export const Comment = ({ comment, setReloadComments, userImage }) => {
                 <div className="reply">
                     <button
                         onClick={() => {
-                            {
-                                toggleReply
-                                    ? setToggleReply(false)
-                                    : setToggleReply(true);
-                            }
+                            toggleReply
+                                ? setToggleReply(false)
+                                : setToggleReply(true);
                         }}
                         className="btn btn-secondary btn-sm"
                     >

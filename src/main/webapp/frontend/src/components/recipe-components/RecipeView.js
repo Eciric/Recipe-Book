@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { TextField } from "@material-ui/core";
-import { getRecipeById } from "../../services/recipe-services/recipeService";
+import {
+    addUserFavoriteRecipe,
+    deleteUserFavoriteRecipe,
+    getAllUserFavorites,
+    getRecipeById,
+} from "../../services/recipe-services/recipeService";
 import { getUserData } from "../../services/user-services/userService";
 import { base64toBlob } from "../../services/file-services/base64ToBlob";
 import {
@@ -17,7 +22,9 @@ import {
 } from "../../services/user-services/likeService";
 import { CommentSection } from "../comment-components/CommentSection";
 import likesImage from "../../images/like.png";
+import heartImage from "../../images/heart.png";
 import likesClickedImage from "../../images/likeClicked.png";
+import heartClickedImage from "../../images/heartClicked.png";
 import defaultImage from "../../images/user.png";
 
 export const RecipeView = () => {
@@ -29,6 +36,11 @@ export const RecipeView = () => {
     const [recipe, setRecipe] = useState({});
     const [loadingRecipe, setLoadingRecipe] = useState(false);
     const [recipePicture, setRecipePicture] = useState("");
+    const [favoriteRecipe, setFavoriteRecipe] = useState(false);
+    const [processingFav, setProcessingFav] = useState(false);
+    const [favoriteImage, setFavoriteImage] = useState("");
+    const [favoriteRecipeMessage, setFavoriteRecipeMessage] = useState("");
+    const [loadingFavorite, setLoadingFavorite] = useState(false);
 
     // Creator and User hooks
     const [creator, setCreator] = useState({});
@@ -160,16 +172,13 @@ export const RecipeView = () => {
                     let result = json.find(
                         (row) => row.recipe_id === Number(id)
                     );
-                    if (result) setLikeId(result.like_id);
-                    if (result === undefined) result = false;
-                    else result = true;
-
-                    setAlreadyLiked(result);
-
-                    if (result === true) {
+                    if (result) {
+                        setLikeId(result.like_id);
                         setLikePic(likesClickedImage);
+                        setAlreadyLiked(true);
                     } else {
                         setLikePic(likesImage);
+                        setAlreadyLiked(false);
                     }
                 })
                 .catch((err) => {
@@ -177,6 +186,34 @@ export const RecipeView = () => {
                 });
         }
     }, [id, processingLike]);
+
+    //Checks if user already favourites this recipe
+    useEffect(() => {
+        setLoadingFavorite(true);
+        let userObject = JSON.parse(localStorage.getItem("user"));
+        if (userObject) {
+            let user_id = userObject.id;
+            getAllUserFavorites(user_id)
+                .then((json) => {
+                    setLoadingFavorite(false);
+                    let result = json.find(
+                        (row) => row.recipe_id === Number(id)
+                    );
+                    if (result) {
+                        setFavoriteRecipe(result);
+                        setFavoriteImage(heartClickedImage);
+                        setFavoriteRecipeMessage("Remove from favorites");
+                    } else {
+                        setFavoriteImage(heartImage);
+                        setFavoriteRecipeMessage("Add to favorites");
+                    }
+                })
+                .catch((err) => {
+                    setLoadingFavorite(false);
+                    console.log(err);
+                });
+        }
+    }, [id, processingFav]);
 
     const getParsedComments = async (json) => {
         let newComments = [];
@@ -249,6 +286,40 @@ export const RecipeView = () => {
         }
     };
 
+    const handleFavClicked = () => {
+        if (!loggedIn) {
+            history.push("/login");
+            return;
+        }
+
+        if (processingFav === false) {
+            setProcessingFav(true);
+            let user_id = JSON.parse(localStorage.getItem("user")).id;
+            if (favoriteRecipe) {
+                deleteUserFavoriteRecipe(favoriteRecipe.favorite_id)
+                    .then((res) => {
+                        if (res.ok) {
+                            setProcessingFav(false);
+                        }
+                    })
+                    .catch((err) => {
+                        setProcessingFav(false);
+                    });
+            } else {
+                // Add user like and change the image accordingly
+                addUserFavoriteRecipe(user_id, id)
+                    .then((res) => {
+                        if (res.ok) {
+                            setProcessingFav(false);
+                        }
+                    })
+                    .catch((err) => {
+                        setProcessingFav(false);
+                    });
+            }
+        }
+    };
+
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
@@ -299,63 +370,92 @@ export const RecipeView = () => {
                     )}
                 </div>
                 <div className="card-body">
-                    <div className="row">
-                        {loadingCreator ? (
-                            <div className="spinnerContainer">
-                                <Loader
-                                    type="MutatingDots"
-                                    color="#683ED1"
-                                    secondaryColor="#9b6dff"
-                                    height={100}
-                                    width={100}
-                                />
-                            </div>
-                        ) : (
-                            <div className="userInfo col-sm-12 col-lg-6 col-xl-6">
-                                <Link to={`/profile/${creator.username}`}>
-                                    <img
-                                        id="recipeUserPicture"
-                                        src={creatorPicture}
-                                        alt=""
-                                        className="img-fluid mt-4"
+                    <div className="row p-2 mt-4">
+                        <div className="col-4">
+                            {loadingCreator ? (
+                                <div className="spinnerContainer">
+                                    <Loader
+                                        type="MutatingDots"
+                                        color="#683ED1"
+                                        secondaryColor="#9b6dff"
+                                        height={100}
+                                        width={100}
                                     />
-                                </Link>
-                                <p className="mt-2">
-                                    By{" "}
-                                    <Link
-                                        id="creatorName"
-                                        to={`/profile/${creator.username}`}
-                                    >
-                                        {creator.username}
+                                </div>
+                            ) : (
+                                <div className="userInfo ">
+                                    <Link to={`/profile/${creator.username}`}>
+                                        <img
+                                            id="recipeUserPicture"
+                                            src={creatorPicture}
+                                            alt=""
+                                            className="img-fluid"
+                                        />
                                     </Link>
-                                </p>
-                            </div>
-                        )}
-
-                        {loadingLikes ? (
-                            <div className="spinnerContainer">
-                                <Loader
-                                    type="MutatingDots"
-                                    color="#683ED1"
-                                    secondaryColor="#9b6dff"
-                                    height={100}
-                                    width={100}
-                                />
-                            </div>
-                        ) : (
-                            <div className="recipeLikes col-sm-12 col-lg-6 col-xl-6">
-                                <img
-                                    id="likesImage"
-                                    src={likePic}
-                                    onClick={handleLikeClicked}
-                                    alt=""
-                                    className="img-fluid mt-4"
-                                />
-                                <p className="mt-2">
-                                    Total likes: {recipeLikes}
-                                </p>
-                            </div>
-                        )}
+                                    <p className="mt-2">
+                                        By{" "}
+                                        <Link
+                                            id="creatorName"
+                                            to={`/profile/${creator.username}`}
+                                        >
+                                            {creator.username}
+                                        </Link>
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="col-4">
+                            {loadingLikes ? (
+                                <div className="spinnerContainer">
+                                    <Loader
+                                        type="MutatingDots"
+                                        color="#683ED1"
+                                        secondaryColor="#9b6dff"
+                                        height={100}
+                                        width={100}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="recipeLikes">
+                                    <img
+                                        id="likesImage"
+                                        src={likePic}
+                                        onClick={handleLikeClicked}
+                                        alt=""
+                                        className="img-fluid"
+                                    />
+                                    <p className="mt-2">
+                                        Total likes: {recipeLikes}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="col-4">
+                            {loadingFavorite ? (
+                                <div className="spinnerContainer">
+                                    <Loader
+                                        type="MutatingDots"
+                                        color="#683ED1"
+                                        secondaryColor="#9b6dff"
+                                        height={100}
+                                        width={100}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="recipe-favorite">
+                                    <img
+                                        id="favoriteImage"
+                                        src={favoriteImage}
+                                        onClick={handleFavClicked}
+                                        alt=""
+                                        className="img-fluid"
+                                    />
+                                    <p className="mt-2">
+                                        {favoriteRecipeMessage}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <hr className="my-1" style={{ color: "#683ed1" }}></hr>
                     <div className="recipeInfo">
