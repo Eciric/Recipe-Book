@@ -888,9 +888,36 @@ input:focus {
 
 .favorite-recipes {
     box-shadow: 0 0 10px #683ed1;
+    margin: 3.2rem 10rem 0 10rem;
 }
 
 .recipes__header {
     border-bottom: 1px solid black;
     background-color: #eee;
+}
+
+#favorite-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.favorite__item {
+    transition: 0.5s;
+}
+
+.favorite__item:hover {
+    background-color: #fff4fc;
+    transform: scale(1.01);
+    cursor: pointer;
+}
+
+.item__image {
+    width: 200px;
+}
+
+.item__name {
+    color: #683ed1;
+    padding-left: 15px;
+    font-size: 1.25rem;
 }
