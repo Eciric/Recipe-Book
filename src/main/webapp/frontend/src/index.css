@@ -906,6 +906,12 @@ input:focus {
     transition: 0.5s;
 }
 
+.favorite__item > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .favorite__item:hover {
     background-color: #fff4fc;
     transform: scale(1.01);

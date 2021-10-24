@@ -295,27 +295,17 @@ export const RecipeView = () => {
         if (processingFav === false) {
             setProcessingFav(true);
             let user_id = JSON.parse(localStorage.getItem("user")).id;
+            console.log(user_id);
             if (favoriteRecipe) {
-                deleteUserFavoriteRecipe(favoriteRecipe.favorite_id)
-                    .then((res) => {
-                        if (res.ok) {
-                            setProcessingFav(false);
-                        }
-                    })
-                    .catch((err) => {
+                deleteUserFavoriteRecipe(favoriteRecipe.favorite_id).finally(
+                    () => {
                         setProcessingFav(false);
-                    });
+                    }
+                );
             } else {
-                // Add user like and change the image accordingly
-                addUserFavoriteRecipe(user_id, id)
-                    .then((res) => {
-                        if (res.ok) {
-                            setProcessingFav(false);
-                        }
-                    })
-                    .catch((err) => {
-                        setProcessingFav(false);
-                    });
+                addUserFavoriteRecipe(user_id, id).finally(() => {
+                    setProcessingFav(false);
+                });
             }
         }
     };
