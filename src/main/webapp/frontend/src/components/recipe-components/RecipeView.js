@@ -26,6 +26,8 @@ import heartImage from "../../images/heart.png";
 import likesClickedImage from "../../images/likeClicked.png";
 import heartClickedImage from "../../images/heartClicked.png";
 import defaultImage from "../../images/user.png";
+import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 
 export const RecipeView = () => {
     // History for redirecting
@@ -481,102 +483,138 @@ export const RecipeView = () => {
                                     alt=""
                                     className="img-fluid"
                                 />
-                                <hr className="mt-5"></hr>
-                                <div className="my-5 recipeContents">
-                                    <h1
-                                        className="display-5 mb-5"
-                                        style={{ color: "#683ed1" }}
-                                    >
-                                        Recipe instructions
-                                    </h1>
-                                    {recipe.contents}
-                                </div>
-                            </div>
-                        )}
-                        <hr className="mt-5"></hr>
-                        {loadingComments ? (
-                            <div className="spinnerContainer">
-                                <Loader
-                                    type="MutatingDots"
-                                    color="#683ED1"
-                                    secondaryColor="#9b6dff"
-                                    height={100}
-                                    width={100}
-                                />
-                            </div>
-                        ) : (
-                            <div className="my-5 recipeComments">
-                                <div className="commentsCount">
-                                    <p>{comments.length} Comments</p>
-                                </div>
-                                {loggedIn ? (
-                                    <div className="container createComment">
-                                        <div className="image">
-                                            <img
-                                                id="recipeUserPicture"
-                                                alt=""
-                                                src={userImage}
-                                            />
-                                        </div>
-                                        <div className="text">
-                                            <TextField
-                                                id="standard-basic"
-                                                className="recipeComment"
-                                                multiline={true}
-                                                label="Add a comment..."
-                                                value={comment}
-                                                onChange={handleCommentChange}
-                                            />
-                                            <button
-                                                className="btn btn-submit mt-3"
-                                                onClick={handleSubmitComment}
-                                                disabled={addingComment}
+                                <Tabs className="mt-5 mb-2">
+                                    <TabList>
+                                        <Tab>Instructions</Tab>
+                                        <Tab>Ingredients</Tab>
+                                        <Tab>Comments</Tab>
+                                    </TabList>
+                                    <TabPanel>
+                                        <div className="my-5 recipeContents">
+                                            <h1
+                                                className="display-5 mb-5"
+                                                style={{ color: "#683ed1" }}
                                             >
-                                                Submit
-                                            </button>
+                                                Recipe instructions
+                                            </h1>
+                                            {recipe.contents}
                                         </div>
-                                    </div>
-                                ) : (
-                                    <div className="container loginPrompt">
-                                        <p>
-                                            <Link to="/login">Log in</Link> to
-                                            create a comment!
-                                        </p>
-                                    </div>
-                                )}
-                                {addCommentResponse.length > 0 &&
-                                    (addCommentSuccessful ? (
-                                        <div
-                                            className="alert alert-success my-3"
-                                            role="alert"
-                                        >
-                                            <p>{addCommentResponse}</p>
-                                        </div>
-                                    ) : (
-                                        <div
-                                            className="alert alert-danger my-3"
-                                            role="alert"
-                                        >
-                                            <p>{addCommentResponse}</p>
-                                        </div>
-                                    ))}
-                                {loadingComments ? (
-                                    <div className="spinnerContainer">
-                                        <Loader
-                                            type="MutatingDots"
-                                            color="#683ED1"
-                                            secondaryColor="#9b6dff"
-                                            height={100}
-                                            width={100}
-                                        />
-                                    </div>
-                                ) : (
-                                    <CommentSection
-                                        comments={comments}
-                                        userImage={userImage}
-                                        setReloadComments={setReloadComments}
-                                    />
-                                )}
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <h1 className="display-5">
+                                            Ingredients
+                                        </h1>
+                                    </TabPanel>
+                                    <TabPanel>
+                                        {loadingComments ? (
+                                            <div className="spinnerContainer">
+                                                <Loader
+                                                    type="MutatingDots"
+                                                    color="#683ED1"
+                                                    secondaryColor="#9b6dff"
+                                                    height={100}
+                                                    width={100}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="my-5 recipeComments">
+                                                <div className="commentsCount">
+                                                    <p>
+                                                        {comments.length}{" "}
+                                                        Comments
+                                                    </p>
+                                                </div>
+                                                {loggedIn ? (
+                                                    <div className="container createComment">
+                                                        <div className="image">
+                                                            <img
+                                                                id="recipeUserPicture"
+                                                                alt=""
+                                                                src={userImage}
+                                                            />
+                                                        </div>
+                                                        <div className="text">
+                                                            <TextField
+                                                                id="standard-basic"
+                                                                className="recipeComment"
+                                                                multiline={true}
+                                                                label="Add a comment..."
+                                                                value={comment}
+                                                                onChange={
+                                                                    handleCommentChange
+                                                                }
+                                                            />
+                                                            <button
+                                                                className="btn btn-submit mt-3"
+                                                                onClick={
+                                                                    handleSubmitComment
+                                                                }
+                                                                disabled={
+                                                                    addingComment
+                                                                }
+                                                            >
+                                                                Submit
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="container loginPrompt">
+                                                        <p>
+                                                            <Link to="/login">
+                                                                Log in
+                                                            </Link>{" "}
+                                                            to create a comment!
+                                                        </p>
+                                                    </div>
+                                                )}
+                                                {addCommentResponse.length >
+                                                    0 &&
+                                                    (addCommentSuccessful ? (
+                                                        <div
+                                                            className="alert alert-success my-3"
+                                                            role="alert"
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    addCommentResponse
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    ) : (
+                                                        <div
+                                                            className="alert alert-danger my-3"
+                                                            role="alert"
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    addCommentResponse
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    ))}
+                                                {loadingComments ? (
+                                                    <div className="spinnerContainer">
+                                                        <Loader
+                                                            type="MutatingDots"
+                                                            color="#683ED1"
+                                                            secondaryColor="#9b6dff"
+                                                            height={100}
+                                                            width={100}
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    <CommentSection
+                                                        comments={comments}
+                                                        userImage={userImage}
+                                                        setReloadComments={
+                                                            setReloadComments
+                                                        }
+                                                    />
+                                                )}
+                                            </div>
+                                        )}
+                                    </TabPanel>
+                                </Tabs>
                             </div>
                         )}
                     </div>

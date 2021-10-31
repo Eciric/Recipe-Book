@@ -522,7 +522,8 @@ label {
 
 #recipeImage {
     padding: 0 50px;
-    border-radius: 15px;
+    width: 75%;
+    aspect-ratio: 1.5 / 1;
     object-fit: cover;
 }
 
@@ -926,4 +927,12 @@ input:focus {
     color: #683ed1;
     padding-left: 15px;
     font-size: 1.25rem;
+}
+
+.react-tabs__tab {
+    color: #683ed1;
+}
+
+.react-tabs__tab.react-tabs__tab--selected {
+    color: hotpink;
 }
