@@ -136,6 +136,13 @@ const Profile = () => {
 
     return (
         <div id="profileContainer" className="container my-5">
+            {!otherUser && (
+                <div className="editProfile">
+                    <button className="btn btn-primary">
+                        Edit profile <i class="bi bi-pen"></i>
+                    </button>
+                </div>
+            )}
             <div className="profilePictureContainer ">
                 {loadingProfile ? (
                     <Loader

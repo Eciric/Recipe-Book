@@ -182,9 +182,19 @@ code {
 }
 
 #profileContainer {
+    position: relative;
+
     background-color: white;
     box-shadow: 5px 5px 15px #683ed1;
     text-align: center;
+}
+
+.editProfile {
+    position: absolute;
+    margin-top: 15px;
+    margin-right: 15px;
+    right: 0;
+    top: 0;
 }
 
 #profilePicture {
@@ -935,4 +945,26 @@ input:focus {
 
 .react-tabs__tab.react-tabs__tab--selected {
     color: hotpink;
+}
+
+.ingredients-list {
+    padding: 10px;
+}
+
+.ingredient {
+    display: inline-block;
+
+    padding: 8px 16px;
+    margin: 10px;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    background-color: #a17ef8;
+    color: white;
+}
+
+.ingredient:hover {
+    color: #a17ef8;
+    background-color: white;
+
+    border: 1px solid #a17ef8;
 }

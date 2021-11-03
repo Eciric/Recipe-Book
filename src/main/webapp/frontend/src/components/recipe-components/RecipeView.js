@@ -28,6 +28,7 @@ import heartClickedImage from "../../images/heartClicked.png";
 import defaultImage from "../../images/user.png";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import { getRecipeIngredients } from "../../services/recipe-services/ingredientsService";
 
 export const RecipeView = () => {
     // History for redirecting
@@ -43,6 +44,9 @@ export const RecipeView = () => {
     const [favoriteImage, setFavoriteImage] = useState("");
     const [favoriteRecipeMessage, setFavoriteRecipeMessage] = useState("");
     const [loadingFavorite, setLoadingFavorite] = useState(false);
+
+    const [loadingIngredients, setLoadingIngredients] = useState(false);
+    const [ingredients, setIngredients] = useState([]);
 
     // Creator and User hooks
     const [creator, setCreator] = useState({});
@@ -214,6 +218,10 @@ export const RecipeView = () => {
                     setLoadingFavorite(false);
                     console.log(err);
                 });
+        } else {
+            setLoadingFavorite(false);
+            setFavoriteImage(heartImage);
+            setFavoriteRecipeMessage("Add to favorites");
         }
     }, [id, processingFav]);
 
@@ -250,6 +258,21 @@ export const RecipeView = () => {
                 console.log(err);
             });
     }, [id, addingComment, reloadComments]);
+
+    // Fetches recipe ingredients
+    useEffect(() => {
+        setLoadingIngredients(true);
+        getRecipeIngredients(Number(id))
+            .then((res) => {
+                setIngredients(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => {
+                setLoadingIngredients(false);
+            });
+    }, [id]);
 
     const handleLikeClicked = () => {
         if (!loggedIn) {
@@ -490,7 +513,7 @@ export const RecipeView = () => {
                                         <Tab>Comments</Tab>
                                     </TabList>
                                     <TabPanel>
-                                        <div className="my-5 recipeContents">
+                                        <div className="my-5 px-5 recipeContents">
                                             <h1
                                                 className="display-5 mb-5"
                                                 style={{ color: "#683ed1" }}
@@ -501,9 +524,31 @@ export const RecipeView = () => {
                                         </div>
                                     </TabPanel>
                                     <TabPanel>
-                                        <h1 className="display-5">
-                                            Ingredients
-                                        </h1>
+                                        {loadingIngredients ? (
+                                            <div>
+                                                <h1 className="display-5">
+                                                    Loading Ingredients...
+                                                </h1>
+                                            </div>
+                                        ) : (
+                                            <div className="ingredient-list">
+                                                <h1 className="display-5">
+                                                    List of ingredients:
+                                                </h1>
+                                                {ingredients.map(
+                                                    (ingredient) => {
+                                                        console.log(ingredient);
+                                                        return (
+                                                            <span className="ingredient">
+                                                                {
+                                                                    ingredient.ingredient
+                                                                }
+                                                            </span>
+                                                        );
+                                                    }
+                                                )}
+                                            </div>
+                                        )}
                                     </TabPanel>
                                     <TabPanel>
                                         {loadingComments ? (
