@@ -532,7 +532,10 @@ export const RecipeView = () => {
                                             </div>
                                         ) : (
                                             <div className="ingredient-list">
-                                                <h1 className="display-5">
+                                                <h1
+                                                    className="display-5 mt-5 mb-3"
+                                                    style={{ color: "#683ed1" }}
+                                                >
                                                     List of ingredients:
                                                 </h1>
                                                 {ingredients.map(

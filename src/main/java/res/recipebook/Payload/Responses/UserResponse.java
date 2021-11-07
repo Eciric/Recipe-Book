@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public class UserResponse {
     private String username;
+    private String email;
     private int user_id;
     private byte[] profile_picture;
 }

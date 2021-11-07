@@ -122,21 +122,21 @@ code {
     background-image: url(./images/envelope.png);
     background-repeat: no-repeat;
     background-size: 21px 21px;
-    background-position: 2% 55%;
+    background-position: 10px 55%;
 }
 
 #inputUsername {
     background-image: url(./images/usericon.png);
     background-repeat: no-repeat;
     background-size: 21px 21px;
-    background-position: 2% 55%;
+    background-position: 10px 55%;
 }
 
 #inputPassword {
     background-image: url(./images/password.png);
     background-repeat: no-repeat;
     background-size: 21px 21px;
-    background-position: 2% 55%;
+    background-position: 10px 55%;
 }
 
 #searchBar {
@@ -967,4 +967,11 @@ input:focus {
     background-color: white;
 
     border: 1px solid #a17ef8;
+}
+
+#edit-profile {
+    position: relative;
+
+    background-color: white;
+    box-shadow: 5px 5px 15px #683ed1;
 }

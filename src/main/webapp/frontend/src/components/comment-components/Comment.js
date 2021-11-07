@@ -19,7 +19,6 @@ export const Comment = ({ comment, setReloadComments, userImage }) => {
     const [formattedDate, setFormattedDate] = useState("");
     const [toggleEdit, setToggleEdit] = useState(false);
     const [newMessage, setNewMessage] = useState("");
-    const [loading, setLoading] = useState(false);
 
     const [reply, setReply] = useState("");
     const [replies, setReplies] = useState("");
@@ -77,17 +76,14 @@ export const Comment = ({ comment, setReloadComments, userImage }) => {
     };
 
     const updateCommentMessage = () => {
-        setLoading(true);
         changeCommentMessage(comment.id, newMessage)
             .then((res) => res.json)
             .then(
                 () => {
                     comment.message = newMessage;
-                    setLoading(false);
                     setToggleEdit(false);
                 },
                 () => {
-                    setLoading(false);
                     setToggleEdit(false);
                 }
             );

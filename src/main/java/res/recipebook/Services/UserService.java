@@ -56,6 +56,7 @@ public class UserService {
         }
         userResponse.setUser_id(user.getUser_id());
         userResponse.setUsername(user.getUsername());
+        userResponse.setEmail(user.getEmail());
         return userResponse;
     }
 
