@@ -29,6 +29,8 @@ import defaultImage from "../../images/user.png";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { getRecipeIngredients } from "../../services/recipe-services/ingredientsService";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export const RecipeView = () => {
     // History for redirecting
@@ -500,13 +502,22 @@ export const RecipeView = () => {
                                         }
                                     )}
                                 </p>
-                                <img
-                                    id="recipeImage"
-                                    src={recipePicture}
-                                    alt=""
-                                    className="img-fluid"
-                                />
-                                <Tabs className="mt-5 mb-2">
+                                <Carousel
+                                    className="px-5 py-3"
+                                    autoPlay="true"
+                                    infiniteLoop="true"
+                                    emulateTouch="true"
+                                >
+                                    <div>
+                                        <img src={recipePicture} alt="" />
+                                        <p className="legend">Image 1</p>
+                                    </div>
+                                    <div>
+                                        <img src={recipePicture} alt="" />
+                                        <p className="legend">Image 2</p>
+                                    </div>
+                                </Carousel>
+                                <Tabs className="mb-2">
                                     <TabList>
                                         <Tab>Instructions</Tab>
                                         <Tab>Ingredients</Tab>

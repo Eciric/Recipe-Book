@@ -975,3 +975,40 @@ input:focus {
     background-color: white;
     box-shadow: 5px 5px 15px #683ed1;
 }
+
+.dropzone-section {
+    background-color: #dde;
+    border: 2px dashed black;
+}
+
+.dropzone-uploader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.dropzone-section:hover {
+    cursor: pointer;
+}
+
+.files-list {
+    width: 100%;
+    padding: 10px;
+    z-index: 100;
+}
+
+.files-list__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px;
+    margin: 10px 0 10px 0;
+    background-color: white;
+    border: 1px solid #683ed1;
+}
+
+.files-list__item > * {
+    word-wrap: break-word;
+}
