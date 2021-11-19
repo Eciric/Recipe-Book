@@ -26,7 +26,6 @@ const Home = () => {
             })
             .then((json) => {
                 const recipes = json.recipes;
-                console.log(recipes);
                 let newRecipes = [];
                 recipes.forEach((recipe, index) => {
                     newRecipes.push({
@@ -80,7 +79,6 @@ const Home = () => {
     const updateSearch = (filteredRecipes) => {
         setCurrentPage(1);
         setDisplayRecipes(filteredRecipes);
-        console.log(filteredRecipes);
         const indexOfLastRecipe = currentPage * recipesPerPage;
         const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
         setCurrentRecipes(

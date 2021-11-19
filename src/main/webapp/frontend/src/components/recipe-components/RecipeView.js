@@ -40,7 +40,6 @@ export const RecipeView = () => {
     const { id } = useParams();
     const [recipe, setRecipe] = useState({});
     const [loadingRecipe, setLoadingRecipe] = useState(false);
-    const [recipePicture, setRecipePicture] = useState("");
     const [favoriteRecipe, setFavoriteRecipe] = useState(false);
     const [processingFav, setProcessingFav] = useState(false);
     const [favoriteImage, setFavoriteImage] = useState("");
@@ -95,7 +94,7 @@ export const RecipeView = () => {
                 recipe.files.forEach((file) => {
                     let blob = base64toBlob(file.image, "image/png");
                     const objectURL = URL.createObjectURL(blob);
-                    images.push(objectURL);
+                    setImages((previousState) => [...previousState, objectURL]);
                 });
             })
             .catch((err) => {
@@ -513,7 +512,7 @@ export const RecipeView = () => {
                                             <div key={index}>
                                                 <img src={image} alt="" />
                                                 <p className="legend">
-                                                    Image {index}
+                                                    Image {index + 1}
                                                 </p>
                                             </div>
                                         );

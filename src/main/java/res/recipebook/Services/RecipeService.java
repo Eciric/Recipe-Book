@@ -97,7 +97,6 @@ public class RecipeService {
     private Recipes initializeRecipesObject(Recipe recipe) {
         Recipes recipes = new Recipes();
         recipes.setRecipeData(recipe);
-        recipes.getRecipeData().setRecipe_text("");
         RecipeImage[] recipeImages = recipeImageRepository.findAllByRecipe_id(recipe.getRecipe_id());
         recipes.setFiles(new RecipeFile[recipeImages.length]);
 
@@ -123,6 +122,7 @@ public class RecipeService {
         Recipes[] allUserRecipesWithImages = new Recipes[recipeList.size()];
         for (int i = 0; i < recipeList.size(); i++) {
             Recipes newRecipes = initializeRecipesObject(recipeList.get(i));
+            newRecipes.getRecipeData().setRecipe_text("");
             allUserRecipesWithImages[i] = newRecipes;
         }
         RecipeResponse recipeResponse = new RecipeResponse();
