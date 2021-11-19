@@ -42,13 +42,13 @@ public class RecipeController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/storeRecipe", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> storeRecipe(@RequestParam(value = "file") MultipartFile file,
+    public ResponseEntity<?> storeRecipe(@RequestParam(value = "files") MultipartFile[] files,
                                          @RequestParam(value="title") String title,
                                          @RequestParam(value="contents") String contents) {
         try {
             UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (userRepository.existsByUsername(userDetails.getUsername()) && userRepository.existsById(userDetails.getId().intValue())) {
-                Recipe recipe = recipeService.storeRecipe(userDetails.getId().intValue(), file, title, contents);
+                Recipe recipe = recipeService.storeRecipe(userDetails.getId().intValue(), files, title, contents);
                 if (recipe != null) return ResponseEntity.ok(recipe);
                 return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
             } else {

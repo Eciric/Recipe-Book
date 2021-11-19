@@ -14,10 +14,10 @@ const API_ADD_USER_FAVORITE_URL =
     "http://localhost:8080/api/recipes/addFavoriteRecipe";
 const API_DELETE_USER_FAVORITE_URL =
     "http://localhost:8080/api/recipes/deleteFavoriteRecipe";
-export const storeRecipe = async (title, contents, image) => {
+export const storeRecipe = async (title, contents, files) => {
     let header = authHeader();
     const formData = new FormData();
-    formData.append("file", image);
+    formData.append("files", files);
     formData.append("title", title);
     formData.append("contents", contents);
 

@@ -26,6 +26,7 @@ const Home = () => {
             })
             .then((json) => {
                 const recipes = json.recipes;
+                console.log(recipes);
                 let newRecipes = [];
                 recipes.forEach((recipe, index) => {
                     newRecipes.push({
@@ -35,7 +36,7 @@ const Home = () => {
                         likes: recipe.recipeData.likes,
                         date: recipe.recipeData.date_created,
                         img: URL.createObjectURL(
-                            base64toBlob(recipe.image, "image/png")
+                            base64toBlob(recipe.files[0].image, "image/png")
                         ),
                     });
                     getAllRecipeLikes(recipe.recipeData.recipe_id)

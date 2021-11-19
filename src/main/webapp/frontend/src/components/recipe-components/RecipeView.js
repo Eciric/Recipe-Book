@@ -46,6 +46,7 @@ export const RecipeView = () => {
     const [favoriteImage, setFavoriteImage] = useState("");
     const [favoriteRecipeMessage, setFavoriteRecipeMessage] = useState("");
     const [loadingFavorite, setLoadingFavorite] = useState(false);
+    const [images, setImages] = useState([]);
 
     const [loadingIngredients, setLoadingIngredients] = useState(false);
     const [ingredients, setIngredients] = useState([]);
@@ -87,16 +88,15 @@ export const RecipeView = () => {
                     id: recipe.recipeData.recipe_id,
                     title: recipe.recipeData.title,
                     likes: recipe.recipeData.likes,
-                    img: recipe.image,
                     contents: recipe.recipeData.recipe_text,
                     date: recipe.recipeData.date_created,
                     user_id: recipe.recipeData.user_id,
                 });
-                if (recipe.image) {
-                    let blob = base64toBlob(recipe.image, "image/png");
+                recipe.files.forEach((file) => {
+                    let blob = base64toBlob(file.image, "image/png");
                     const objectURL = URL.createObjectURL(blob);
-                    setRecipePicture(objectURL);
-                }
+                    images.push(objectURL);
+                });
             })
             .catch((err) => {
                 setLoadingRecipe(false);
@@ -508,14 +508,16 @@ export const RecipeView = () => {
                                     infiniteLoop="true"
                                     emulateTouch="true"
                                 >
-                                    <div>
-                                        <img src={recipePicture} alt="" />
-                                        <p className="legend">Image 1</p>
-                                    </div>
-                                    <div>
-                                        <img src={recipePicture} alt="" />
-                                        <p className="legend">Image 2</p>
-                                    </div>
+                                    {images.map((image, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <img src={image} alt="" />
+                                                <p className="legend">
+                                                    Image {index}
+                                                </p>
+                                            </div>
+                                        );
+                                    })}
                                 </Carousel>
                                 <Tabs className="mb-2">
                                     <TabList>
